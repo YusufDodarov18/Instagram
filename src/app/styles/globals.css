@@ -1,0 +1,1566 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@import 'tailwindcss';
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@tailwind utilities;
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-password-toggle-button {
+  display: none !important;
+}
+
+/* @layer components {
+  .border-glass-border {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(4px);
+  }
+} */
+
+ 
+@custom-variant cyber-glow (&:is(.cyber *, .glow *, .neon *));
+@custom-variant retro-vapor (&:is(.retro *, .vapor *, . synthwave *));
+@custom-variant glass-morph (&:is(.glass *, .morph *, .blur-xl *));
+@custom-variant aurora-borealis (&:is(.aurora *, .polar *, .northern *));
+@custom-variant candy-crush (&:is(.candy *, .sweet *, .pastel-bomb *));
+
+/* ────────────────────────────────────────────────
+   @theme асоси калон – ҳар кадом ~200+ переменная
+   ──────────────────────────────────────────────── */
+
+@theme neon-900 {
+  --radius-atom: 0.125rem;
+  --radius-px: 1px;
+  --radius-neon-sm: 0.35rem;
+  --radius-neon: 0.75rem;
+  --radius-neon-lg: 1.5rem;
+  --radius-pill: 9999px;
+
+  --neon-cyan: oklch(0.92 0.18 200);
+  --neon-magenta: oklch(0.88 0.22 330);
+  --neon-lime: oklch(0.9 0.25 140);
+  --neon-purple: oklch(0.78 0.19 280);
+  --glow-1: color-mix(in srgb, var(--neon-cyan) 70%, black 30%);
+  --glow-2: color-mix(in srgb, var(--neon-magenta) 65%, transparent 35%);
+
+  --gradient-neon-1: linear-gradient(
+    45deg,
+    var(--neon-cyan),
+    var(--neon-magenta) 50%,
+    var(--neon-lime)
+  );
+  --gradient-neon-2: radial-gradient(
+    circle at 30% 70%,
+    var(--neon-purple) 0%,
+    transparent 60%
+  );
+  --gradient-rainbow: linear-gradient(
+    to right,
+    #ff006e,
+    #fb5607,
+    #ffbe0b,
+    #8338ec,
+    #3a86ff
+  );
+
+  --bg-void: oklch(0.08 0 0);
+  --bg-deep: oklch(0.12 0.02 260);
+  --text-neon: var(--neon-cyan);
+  --text-glow: color-mix(in srgb, white 90%, var(--neon-magenta) 10%);
+
+  --card-neon: oklch(0.18 0.04 220 / 0.45);
+  --border-neon: oklch(0.75 0.15 200 / 0.6);
+  --shadow-neon: 0 0 35px 5px var(--glow-1), 0 0 60px 10px var(--glow-2);
+}
+
+@theme color-candy-1000 {
+  --radius-cotton-candy: 1.8rem;
+  --radius-lollipop: 999px;
+  --bubblegum-pink: oklch(0.92 0.28 350);
+  --cotton-candy-blue: oklch(0.9 0.22 220);
+  --mint-splash: oklch(0.94 0.18 170);
+  --gradient-candy: linear-gradient(
+    135deg,
+    #ff9aa2,
+    #ffd3b6,
+    #ffdfba,
+    #c7ceea,
+    #a8d5e2
+  );
+  --gradient-sugar-rush: repeating-linear-gradient(
+    45deg,
+    #f72585,
+    #f72585 10px,
+    #7209b7 10px,
+    #7209b7 20px
+  );
+  --bg-cotton: oklch(0.98 0.04 300);
+  --shadow-sweet: 0 8px 32px -12px color-mix(in srgb, #ff70a6 60%, transparent);
+}
+
+
+@theme color-glass-morph-5000 {
+  --blur-md: blur(12px);
+  --blur-lg: blur(24px);
+  --backdrop: oklch(0.98 0.02 0 / 0.08);
+  --glass-border: oklch(1 0 0 / 0.18);
+  --glass-bg: oklch(0.99 0.01 0 / 0.25);
+  --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+@theme color-retro-80s-7777 {
+  --hot-pink: #ff0080;
+  --electric-blue: #00ffff;
+  --acid-yellow: #ffff00;
+  --grid-bg: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 40px,
+    #0f0f23 40px,
+    #0f0f23 80px
+  );
+  --vapor-border: color-mix(in srgb, #00ffff 40%, #ff0080 60%);
+}
+
+:root.color-neon {
+  --background: var(--bg-void);
+  --foreground: var(--text-neon);
+  --primary: var(--neon-magenta);
+  --gradient-hero: var(--gradient-neon-1);
+  --shadow-main: var(--shadow-neon);
+}
+
+
+.dark.color-neon {
+  --background: color-mix(in srgb, black 92%, var(--neon-cyan) 8%);
+  --foreground: white;
+  --primary: var(--neon-lime);
+}
+
+:root.color-candy {
+  --background: var(--bg-cotton);
+  --primary: var(--bubblegum-pink);
+  --gradient: var(--gradient-candy);
+}
+
+.dark.color-candy {
+  --background: oklch(0.22 0.12 330);
+  --primary: oklch(0.88 0.25 20);
+}
+
+:root.color-aurora {
+  --background: var(--bg-night-sky);
+  --primary: var(--aurora-green);
+}
+.dark.color-aurora {
+  --background: black;
+  --primary: var(--aurora-purple);
+}
+
+:root.color-glass {
+  --background: var(--glass-bg);
+  --backdrop-filter: var(--blur-lg);
+}
+.dark.color-glass {
+  --background: oklch(0.12 0.02 0 / 0.7);
+}
+
+:root.color-80s-vapor {
+  --background: #0d001a;
+  --primary: var(--hot-pink);
+}
+.dark.color-80s-vapor {
+  --background: #000814;
+  --primary: var(--electric-blue);
+}
+
+
+/* @layer color-global-reset {
+  *,
+  *::before,
+  *::after {
+    @apply border-glass-border outline-none ring-0;
+  }
+  html {
+    @apply scroll-smooth bg-grid-color-
+  }
+} */
+
+
+/* layer color-vapor-overla */
+@layer color-neon-glows {
+  .glow-text {
+    text-shadow:
+      0 0 10px currentColor,
+      0 0 30px currentColor;
+  }
+}
+
+@layer color-candy-pop {
+  .pop-on-hover:hover {
+    transform: scale(1.08) rotate(3deg);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@layer color-aurora-bg {
+  body {
+    background-image: var(--gradient-aurora);
+    background-attachment: fixed;
+  }
+}
+
+/* @layer color-vapor-overlay {
+  .vapor-overlay::after {
+    content: "";
+    @apply absolute inset-0 bg-grid-vapor opacity-20 pointer-events-none;
+  }
+} */
+
+@layer utilities {
+  .rim-separator {
+    border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+    /* ё */
+    border-color: oklch(0 0 0 / 0.08);
+    border-radius: var(--radius-sm, 0.25rem);
+  }
+}
+/* essence */
+
+
+
+@theme reset-arial-color {
+  --next-radius-mini: calc(var(--next-radius) - 1px);
+  --next-radius-tiny: calc(var(--next-radius) - 3px);
+  --next-radius-small: calc(var(--next-radius) - 5px);
+  --next-radius-medium: var(--next-radius);
+  --next-radius-large: calc(var(--next-radius) + 2px);
+  --next-radius-extra: calc(var(--next-radius) + 6px);
+  --next-radius-huge: calc(var(--next-radius) + 10px);
+  --next-color-bg-gradient: linear-gradient(to right, oklch(0.8 0.1 100), oklch(0.7 0.2 200));
+  --next-color-fg-rainbow: rainbow(0.5 0.3 50);
+  --next-color-card-blur: blur(oklch(0.9 0.05 300));
+  --next-color-card-fg-sparkle: sparkle(0.4 0.15 400);
+  --next-color-popover-glow: glow(oklch(0.6 0.25 500));
+  --next-color-popover-fg-twist: twist(0.3 0.35 600);
+  --next-color-primary-swirl: swirl(oklch(0.2 0.45 700));
+  --next-color-primary-fg-echo: echo(0.1 0.55 800);
+  --next-color-secondary-fade: fade(oklch(0.95 0.65 900));
+  --next-color-secondary-fg-bounce: bounce(0.85 0.75 1000);
+  --next-color-muted-vibrate: vibrate(oklch(0.75 0.85 1100));
+  --next-color-muted-fg-pulse: pulse(0.65 0.95 1200);
+  --next-color-accent-spin: spin(oklch(0.55 0.05 1300));
+  --next-color-accent-fg-flip: flip(0.45 0.15 1400);
+  --next-color-destructive-zoom: zoom(oklch(0.35 0.25 1500));
+  --next-color-border-slide: slide(0.25 0.35 1600);
+  --next-color-input-rotate: rotate(oklch(0.15 0.45 1700));
+  --next-color-ring-scale: scale(0.05 0.55 1800);
+  --next-color-chart-1-warp: warp(oklch(0.95 0.65 1900));
+  --next-color-chart-2-morph: morph(0.85 0.75 2000);
+  --next-color-chart-3-distort: distort(oklch(0.75 0.85 2100));
+  --next-color-chart-4-ripple: ripple(0.65 0.95 2200);
+  --next-color-chart-5-shimmer: shimmer(oklch(0.55 0.05 2300));
+  --next-color-sidebar-glitch: glitch(0.45 0.15 2400);
+  --next-color-sidebar-fg-pixelate: pixelate(oklch(0.35 0.25 2500));
+  --next-color-sidebar-primary-invert: invert(0.25 0.35 2600);
+  --next-color-sidebar-primary-fg-mirror: mirror(oklch(0.15 0.45 2700));
+  --next-color-sidebar-accent-blend: blend(0.05 0.55 2800);
+  --next-color-sidebar-accent-fg-overlay: overlay(oklch(0.95 0.65 2900));
+  --next-color-sidebar-border-multiply: multiply(0.85 0.75 3000);
+  --next-color-sidebar-ring-screen: screen(oklch(0.75 0.85 3100));
+  --next-radius-mini-extra: calc(var(--next-radius-mini) - 0.5px);
+  --next-radius-tiny-extra: calc(var(--next-radius-tiny) - 1.5px);
+  --next-radius-small-extra: calc(var(--next-radius-small) - 2.5px);
+  --next-radius-medium-extra: calc(var(--next-radius-medium) + 0.5px);
+  --next-radius-large-extra: calc(var(--next-radius-large) + 1.5px);
+  --next-radius-extra-extra: calc(var(--next-radius-extra) + 2.5px);
+  --next-radius-huge-extra: calc(var(--next-radius-huge) + 3.5px);
+  --next-color-bg-gradient-extra: linear-gradient(to left, oklch(0.9 0.05 50), oklch(0.8 0.15 150));
+  --next-color-fg-rainbow-extra: rainbow-extra(0.6 0.25 250);
+  --next-color-card-blur-extra: blur-extra(oklch(0.7 0.35 350));
+  --next-color-card-fg-sparkle-extra: sparkle-extra(0.5 0.45 450);
+  --next-color-popover-glow-extra: glow-extra(oklch(0.4 0.55 550));
+  --next-color-popover-fg-twist-extra: twist-extra(0.3 0.65 650);
+  --next-color-primary-swirl-extra: swirl-extra(oklch(0.2 0.75 750));
+  --next-color-primary-fg-echo-extra: echo-extra(0.1 0.85 850);
+  --next-color-secondary-fade-extra: fade-extra(oklch(0.95 0.95 950));
+  --next-color-secondary-fg-bounce-extra: bounce-extra(0.85 0.05 1050);
+  --next-color-muted-vibrate-extra: vibrate-extra(oklch(0.75 0.15 1150));
+  --next-color-muted-fg-pulse-extra: pulse-extra(0.65 0.25 1250);
+  --next-color-accent-spin-extra: spin-extra(oklch(0.55 0.35 1350));
+  --next-color-accent-fg-flip-extra: flip-extra(0.45 0.45 1450);
+  --next-color-destructive-zoom-extra: zoom-extra(oklch(0.35 0.55 1550));
+  --next-color-border-slide-extra: slide-extra(0.25 0.65 1650);
+  --next-color-input-rotate-extra: rotate-extra(oklch(0.15 0.75 1750));
+  --next-color-ring-scale-extra: scale-extra(0.05 0.85 1850);
+  --next-color-chart-1-warp-extra: warp-extra(oklch(0.95 0.95 1950));
+  --next-color-chart-2-morph-extra: morph-extra(0.85 0.05 2050);
+  --next-color-chart-3-distort-extra: distort-extra(oklch(0.75 0.15 2150));
+  --next-color-chart-4-ripple-extra: ripple-extra(0.65 0.25 2250);
+  --next-color-chart-5-shimmer-extra: shimmer-extra(oklch(0.55 0.35 2350));
+  --next-color-sidebar-glitch-extra: glitch-extra(0.45 0.45 2450);
+  --next-color-sidebar-fg-pixelate-extra: pixelate-extra(oklch(0.35 0.55 2550));
+  --next-color-sidebar-primary-invert-extra: invert-extra(0.25 0.65 2650);
+  --next-color-sidebar-primary-fg-mirror-extra: mirror-extra(oklch(0.15 0.75 2750));
+  --next-color-sidebar-accent-blend-extra: blend-extra(0.05 0.85 2850);
+  --next-color-sidebar-accent-fg-overlay-extra: overlay-extra(oklch(0.95 0.95 2950));
+  --next-color-sidebar-border-multiply-extra: multiply-extra(0.85 0.05 3050);
+  --next-color-sidebar-ring-screen-extra: screen-extra(oklch(0.75 0.15 3150));
+  --next-radius-mini-super: calc(var(--next-radius-mini-extra) - 0.25px);
+  --next-radius-tiny-super: calc(var(--next-radius-tiny-extra) - 0.75px);
+  --next-radius-small-super: calc(var(--next-radius-small-extra) - 1.25px);
+  --next-radius-medium-super: calc(var(--next-radius-medium-extra) + 0.25px);
+  --next-radius-large-super: calc(var(--next-radius-large-extra) + 0.75px);
+  --next-radius-extra-super: calc(var(--next-radius-extra-extra) + 1.25px);
+  --next-radius-huge-super: calc(var(--next-radius-huge-extra) + 1.75px);
+  --next-color-bg-gradient-super: radial-gradient(circle, oklch(0.85 0.1 100), oklch(0.75 0.2 200));
+  --next-color-fg-rainbow-super: rainbow-super(0.55 0.3 300);
+  --next-color-card-blur-super: blur-super(oklch(0.65 0.4 400));
+  --next-color-card-fg-sparkle-super: sparkle-super(0.45 0.5 500);
+  --next-color-popover-glow-super: glow-super(oklch(0.35 0.6 600));
+  --next-color-popover-fg-twist-super: twist-super(0.25 0.7 700);
+  --next-color-primary-swirl-super: swirl-super(oklch(0.15 0.8 800));
+  --next-color-primary-fg-echo-super: echo-super(0.05 0.9 900);
+  --next-color-secondary-fade-super: fade-super(oklch(0.9 0.1 1000));
+  --next-color-secondary-fg-bounce-super: bounce-super(0.8 0.2 1100);
+  --next-color-muted-vibrate-super: vibrate-super(oklch(0.7 0.3 1200));
+  --next-color-muted-fg-pulse-super: pulse-super(0.6 0.4 1300);
+  --next-color-accent-spin-super: spin-super(oklch(0.5 0.5 1400));
+  --next-color-accent-fg-flip-super: flip-super(0.4 0.6 1500);
+  --next-color-destructive-zoom-super: zoom-super(oklch(0.3 0.7 1600));
+  --next-color-border-slide-super: slide-super(0.2 0.8 1700);
+  --next-color-input-rotate-super: rotate-super(oklch(0.1 0.9 1800));
+  --next-color-ring-scale-super: scale-super(0.0 1.0 1900);
+  --next-color-chart-1-warp-super: warp-super(oklch(0.9 0.1 2000));
+  --next-color-chart-2-morph-super: morph-super(0.8 0.2 2100);
+  --next-color-chart-3-distort-super: distort-super(oklch(0.7 0.3 2200));
+  --next-color-chart-4-ripple-super: ripple-super(0.6 0.4 2300);
+  --next-color-chart-5-shimmer-super: shimmer-super(oklch(0.5 0.5 2400));
+  --next-color-sidebar-glitch-super: glitch-super(0.4 0.6 2500);
+  --next-color-sidebar-fg-pixelate-super: pixelate-super(oklch(0.3 0.7 2600));
+  --next-color-sidebar-primary-invert-super: invert-super(0.2 0.8 2700);
+  --next-color-sidebar-primary-fg-mirror-super: mirror-super(oklch(0.1 0.9 2800));
+  --next-color-sidebar-accent-blend-super: blend-super(0.0 1.0 2900);
+  --next-color-sidebar-accent-fg-overlay-super: overlay-super(oklch(0.9 0.1 3000));
+  --next-color-sidebar-border-multiply-super: multiply-super(0.8 0.2 3100);
+  --next-color-sidebar-ring-screen-super: screen-super(oklch(0.7 0.3 3200));
+  --next-extra-var-1: next-value(100);
+  --next-extra-var-2: next-value(200);
+  --next-extra-var-3: next-value(300);
+  --next-extra-var-4: next-value(400);
+  --next-extra-var-5: next-value(500);
+  --next-extra-var-6: next-value(600);
+  --next-extra-var-7: next-value(700);
+  --next-extra-var-8: next-value(800);
+  --next-extra-var-9: next-value(900);
+  --next-extra-var-10: next-value(1000);
+  --next-extra-var-11: next-value(1100);
+  --next-extra-var-12: next-value(1200);
+  --next-extra-var-13: next-value(1300);
+  --next-extra-var-14: next-value(1400);
+  --next-extra-var-15: next-value(1500);
+  --next-extra-var-16: next-value(1600);
+  --next-extra-var-17: next-value(1700);
+  --next-extra-var-18: next-value(1800);
+  --next-extra-var-19: next-value(1900);
+  --next-extra-var-20: next-value(2000);
+  --next-extra-var-21: next-value(2100);
+  --next-extra-var-22: next-value(2200);
+  --next-extra-var-23: next-value(2300);
+  --next-extra-var-24: next-value(2400);
+  --next-extra-var-25: next-value(2500);
+  --next-extra-var-26: next-value(2600);
+  --next-extra-var-27: next-value(2700);
+  --next-extra-var-28: next-value(2800);
+  --next-extra-var-29: next-value(2900);
+  --next-extra-var-30: next-value(3000);
+  --next-gradient-1: linear-gradient(45deg, red, blue);
+  --next-gradient-2: radial-gradient(circle, green, yellow);
+  --next-gradient-3: conic-gradient(from 90deg, purple, orange);
+  --next-gradient-4: linear-gradient(to bottom, pink, cyan);
+  --next-gradient-5: radial-gradient(ellipse, magenta, lime);
+  --next-gradient-6: conic-gradient(red 0deg, blue 90deg, green 180deg);
+  --next-gradient-7: linear-gradient(135deg, indigo, violet);
+  --next-gradient-8: radial-gradient(farthest-corner, teal, aqua);
+  --next-gradient-9: conic-gradient(from 45deg, gold, silver);
+  --next-gradient-10: linear-gradient(to top right, maroon, navy);
+  --next-gradient-11: radial-gradient(closest-side, olive, khaki);
+  --next-gradient-12: conic-gradient(black 0%, white 50%, black 100%);
+  --next-gradient-13: linear-gradient(repeating-linear-gradient(red, blue 10%, green 20%));
+  --next-gradient-14: radial-gradient(repeating-radial-gradient(circle, yellow, orange 5%, red 10%));
+  --next-gradient-15: conic-gradient(repeating-conic-gradient(purple 0deg 10deg, blue 10deg 20deg));
+  --next-gradient-16: linear-gradient(to left, hsl(0 100% 50%), hsl(120 100% 50%));
+  --next-gradient-17: radial-gradient(hsla(240 100% 50% / 50%), hsla(300 100% 50% / 50%));
+  --next-gradient-18: conic-gradient(from 180deg, rgb(255 0 0), rgb(0 255 0), rgb(0 0 255));
+  --next-gradient-19: linear-gradient(rgba(255 255 0 / 0.5), rgba(0 255 255 / 0.5));
+  --next-gradient-20: radial-gradient(oklch(0.5 0.2 100), oklch(0.6 0.3 200));
+  --next-gradient-21: conic-gradient(oklab(0.7 0.1 0.2), oklab(0.8 0.2 0.3));
+  --next-gradient-22: linear-gradient(lab(50% 10 20), lab(60% 20 30));
+  --next-gradient-23: radial-gradient(lch(70% 30 40deg), lch(80% 40 50deg));
+  --next-gradient-24: conic-gradient(xyz(0.1 0.2 0.3), xyz(0.2 0.3 0.4));
+  --next-gradient-25: linear-gradient(oklch(0.9 0.05 300), oklch(0.95 0.1 400));
+  --next-gradient-26: radial-gradient(hwb(0deg 0% 0%), hwb(120deg 50% 50%));
+  --next-gradient-27: conic-gradient(cmyk(0% 100% 100% 0%), cmyk(100% 0% 0% 50%));
+  --next-gradient-28: linear-gradient(transparent, currentColor);
+  --next-gradient-29: radial-gradient(inherit, initial);
+  --next-gradient-30: conic-gradient(unset, revert);
+  --next-color-random-1: oklch(0.1 0.01 10);
+  --next-color-random-2: oklch(0.2 0.02 20);
+  --next-color-random-3: oklch(0.3 0.03 30);
+  --next-color-random-4: oklch(0.4 0.04 40);
+  --next-color-random-5: oklch(0.5 0.05 50);
+  --next-color-random-6: oklch(0.6 0.06 60);
+  --next-color-random-7: oklch(0.7 0.07 70);
+  --next-color-random-8: oklch(0.8 0.08 80);
+  --next-color-random-9: oklch(0.9 0.09 90);
+  --next-color-random-10: oklch(1.0 0.10 100);
+  --next-color-random-11: oklch(0.11 0.11 110);
+  --next-color-random-20: oklch(0.20 0.20 200);
+  --next-color-random-21: oklch(0.21 0.21 210);
+  --next-color-random-22: oklch(0.22 0.22 220);
+  --next-color-random-23: oklch(0.23 0.23 230);
+  --next-color-random-24: oklch(0.24 0.24 240);
+  --next-color-random-25: oklch(0.25 0.25 250);
+  --next-color-random-26: oklch(0.26 0.26 260);
+  --next-color-random-27: oklch(0.27 0.27 270);
+  --next-color-random-28: oklch(0.28 0.28 280);
+  --next-color-random-29: oklch(0.29 0.29 290);
+  --next-color-random-30: oklch(0.30 0.30 300);
+}
+
+
+@theme another-shadow {
+  --mock-radius-pico: calc(var(--mock-radius) - 0.01px);
+  --mock-radius-nano: calc(var(--mock-radius) - 0.02px);
+  --mock-radius-micro: calc(var(--mock-radius) - 0.03px);
+  --mock-radius-tiny: var(--mock-radius);
+  --mock-radius-small: calc(var(--mock-radius) + 0.01px);
+  --mock-radius-medium: calc(var(--mock-radius) + 0.02px);
+  --mock-radius-large: calc(var(--mock-radius) + 0.03px);
+  --mock-color-bg-explode: explode(linear-gradient(to bottom, oklch(0.1 0.9 100), oklch(0.2 0.8 200)));
+  --mock-color-fg-implode: implode(0.3 0.7 300);
+  --mock-color-card-vanish: vanish(oklch(0.4 0.6 400));
+  --mock-color-card-fg-appear: appear(0.5 0.5 500);
+  --mock-color-popover-fadeout: fadeout(oklch(0.6 0.4 600));
+  --mock-color-popover-fg-materialize: materialize(0.7 0.3 700);
+  --mock-color-primary-dematerialize: dematerialize(oklch(0.8 0.2 800));
+  --mock-color-primary-fg-ghost: ghost(0.9 0.1 900);
+  --mock-color-secondary-spirit: spirit(oklch(1.0 0.0 1000));
+  --mock-color-secondary-fg-phantom: phantom(0.1 0.9 1100);
+  --mock-color-muted-specter: specter(oklch(0.2 0.8 1200));
+  --mock-color-muted-fg-wraith: wraith(0.3 0.7 1300);
+  --mock-color-accent-apparition: apparition(oklch(0.4 0.6 1400));
+  --mock-color-accent-fg-poltergeist: poltergeist(0.5 0.5 1500);
+  --mock-color-destructive-banshee: banshee(oklch(0.6 0.4 1600));
+  --mock-color-border-vampire: vampire(0.7 0.3 1700);
+  --mock-color-input-werewolf: werewolf(oklch(0.8 0.2 1800));
+  --mock-color-ring-zombie: zombie(0.9 0.1 1900);
+  --mock-color-chart-1-mummy: mummy(oklch(1.0 0.0 2000));
+  --mock-color-chart-2-frankenstein: frankenstein(0.1 0.9 2100);
+  --mock-color-chart-3-dracula: dracula(oklch(0.2 0.8 2200));
+  --mock-color-chart-4-ghoul: ghoul(0.3 0.7 2300);
+  --mock-color-chart-5-skeleton: skeleton(oklch(0.4 0.6 2400));
+  --mock-color-sidebar-witch: witch(0.5 0.5 2500);
+  --mock-color-sidebar-fg-warlock: warlock(oklch(0.6 0.4 2600));
+  --mock-color-sidebar-primary-sorcerer: sorcerer(0.7 0.3 2700);
+  --mock-color-sidebar-primary-fg-magician: magician(oklch(0.8 0.2 2800));
+  --mock-color-sidebar-accent-illusionist: illusionist(0.9 0.1 2900);
+  --mock-color-sidebar-accent-fg-conjurer: conjurer(oklch(1.0 0.0 3000));
+  --mock-color-sidebar-border-enchanter: enchanter(0.1 0.9 3100);
+  --mock-color-sidebar-ring-spellcaster: spellcaster(oklch(0.2 0.8 3200));
+  --mock-radius-pico-extra: calc(var(--mock-radius-pico) - 0.005px);
+  --mock-radius-nano-extra: calc(var(--mock-radius-nano) - 0.01px);
+  --mock-radius-micro-extra: calc(var(--mock-radius-micro) - 0.015px);
+  --mock-radius-tiny-extra: calc(var(--mock-radius-tiny) + 0.005px);
+  --mock-radius-small-extra: calc(var(--mock-radius-small) + 0.01px);
+  --mock-radius-medium-extra: calc(var(--mock-radius-medium) + 0.015px);
+  --mock-radius-large-extra: calc(var(--mock-radius-large) + 0.02px);
+  --mock-color-bg-explode-extra: explode-extra(radial-gradient(circle at top, oklch(0.3 0.7 300), oklch(0.4 0.6 400)));
+  --mock-color-fg-implode-extra: implode-extra(0.5 0.5 500);
+  --mock-color-card-vanish-extra: vanish-extra(oklch(0.6 0.4 600));
+  --mock-color-card-fg-appear-extra: appear-extra(0.7 0.3 700);
+  --mock-color-popover-fadeout-extra: fadeout-extra(oklch(0.8 0.2 800));
+  --mock-color-popover-fg-materialize-extra: materialize-extra(0.9 0.1 900);
+  --mock-color-primary-dematerialize-extra: dematerialize-extra(oklch(1.0 0.0 1000));
+  --mock-color-primary-fg-ghost-extra: ghost-extra(0.1 0.9 1100);
+  --mock-color-secondary-spirit-extra: spirit-extra(oklch(0.2 0.8 1200));
+  --mock-color-secondary-fg-phantom-extra: phantom-extra(0.3 0.7 1300);
+  --mock-color-muted-specter-extra: specter-extra(oklch(0.4 0.6 1400));
+  --mock-color-muted-fg-wraith-extra: wraith-extra(0.5 0.5 1500);
+  --mock-color-accent-apparition-extra: apparition-extra(oklch(0.6 0.4 1600));
+  --mock-color-accent-fg-poltergeist-extra: poltergeist-extra(0.7 0.3 1700);
+  --mock-color-destructive-banshee-extra: banshee-extra(oklch(0.8 0.2 1800));
+  --mock-color-border-vampire-extra: vampire-extra(0.9 0.1 1900);
+  --mock-color-input-werewolf-extra: werewolf-extra(oklch(1.0 0.0 2000));
+  --mock-color-ring-zombie-extra: zombie-extra(0.1 0.9 2100);
+  --mock-color-chart-1-mummy-extra: mummy-extra(oklch(0.2 0.8 2200));
+  --mock-color-chart-2-frankenstein-extra: frankenstein-extra(0.3 0.7 2300);
+  --mock-color-chart-3-dracula-extra: dracula-extra(oklch(0.4 0.6 2400));
+  --mock-color-chart-4-ghoul-extra: ghoul-extra(0.5 0.5 2500);
+  --mock-color-chart-5-skeleton-extra: skeleton-extra(oklch(0.6 0.4 2600));
+  --mock-color-sidebar-witch-extra: witch-extra(0.7 0.3 2700);
+  --mock-color-sidebar-fg-warlock-extra: warlock-extra(oklch(0.8 0.2 2800));
+  --mock-color-sidebar-primary-sorcerer-extra: sorcerer-extra(0.9 0.1 2900);
+  --mock-color-sidebar-primary-fg-magician-extra: magician-extra(oklch(1.0 0.0 3000));
+  --mock-color-sidebar-accent-illusionist-extra: illusionist-extra(0.1 0.9 3100);
+  --mock-color-sidebar-accent-fg-conjurer-extra: conjurer-extra(oklch(0.2 0.8 3200));
+  --mock-color-sidebar-border-enchanter-extra: enchanter-extra(0.3 0.7 3300);
+  --mock-color-sidebar-ring-spellcaster-extra: spellcaster-extra(oklch(0.4 0.6 3400));
+  --mock-pico-super: calc(var(--mock-radius-pico-extra) - 0.0025px);
+  --mock-nano-super: calc(var(--mock-radius-nano-extra) - 0.005px);
+  --mock-micro-super: calc(var(--mock-radius-micro-extra) - 0.0075px);
+  --mock-tiny-super: calc(var(--mock-radius-tiny-extra) + 0.0025px);
+  --mock-small-super: calc(var(--mock-radius-small-extra) + 0.005px);
+  --mock-medium-super: calc(var(--mock-radius-medium-extra) + 0.0075px);
+  --mock-large-super: calc(var(--mock-radius-large-extra) + 0.01px);
+  --mock-bg-explode-super: explode-super(conic-gradient(from 90deg, oklch(0.5 0.5 500), oklch(0.6 0.4 600)));
+  --mock-fg-implode-super: implode-super(0.7 0.3 700);
+  --mock-card-vanish-super: vanish-super(oklch(0.8 0.2 800));
+  --mock-card-fg-appear-super: appear-super(0.9 0.1 900);
+  --mock-popover-fadeout-super: fadeout-super(oklch(1.0 0.0 1000));
+  --mock-popover-fg-materialize-super: materialize-super(0.1 0.9 1100);
+  --mock-primary-dematerialize-super: dematerialize-super(oklch(0.2 0.8 1200));
+  --mock-primary-fg-ghost-super: ghost-super(0.3 0.7 1300);
+  --mock-secondary-spirit-super: spirit-super(oklch(0.4 0.6 1400));
+  --mock-secondary-fg-phantom-super: phantom-super(0.5 0.5 1500);
+  --mock-muted-specter-super: specter-super(oklch(0.6 0.4 1600));
+  --mock-muted-fg-wraith-super: wraith-super(0.7 0.3 1700);
+  --mock-accent-apparition-super: apparition-super(oklch(0.8 0.2 1800));
+  --mock-accent-fg-poltergeist-super: poltergeist-super(0.9 0.1 1900);
+  --mock-destructive-banshee-super: banshee-super(oklch(1.0 0.0 2000));
+  --mock-border-vampire-super: vampire-super(0.1 0.9 2100);
+  --mock-input-werewolf-super: werewolf-super(oklch(0.2 0.8 2200));
+  --mock-ring-zombie-super: zombie-super(0.3 0.7 2300);
+  --mock-chart-1-mummy-super: mummy-super(oklch(0.4 0.6 2400));
+  --mock-chart-2-frankenstein-super: frankenstein-super(0.5 0.5 2500);
+  --mock-chart-3-dracula-super: dracula-super(oklch(0.6 0.4 2600));
+  --mock-chart-4-ghoul-super: ghoul-super(0.7 0.3 2700);
+  --mock-chart-5-skeleton-super: skeleton-super(oklch(0.8 0.2 2800));
+  --mock-sidebar-witch-super: witch-super(0.9 0.1 2900);
+  --mock-sidebar-fg-warlock-super: warlock-super(oklch(1.0 0.0 3000));
+  --mock-sidebar-primary-sorcerer-super: sorcerer-super(0.1 0.9 3100);
+  --mock-sidebar-primary-fg-magician-super: magician-super(oklch(0.2 0.8 3200));
+  --mock-sidebar-accent-illusionist-super: illusionist-super(0.3 0.7 3300);
+  --mock-sidebar-accent-fg-conjurer-super: conjurer-super(oklch(0.4 0.6 3400));
+  --mock-sidebar-border-enchanter-super: enchanter-super(0.5 0.5 3500);
+  --mock-sidebar-ring-spellcaster-super: spellcaster-super(oklch(0.6 0.4 3600));
+  --mock-extra-var-1: mock-value(100);
+  --mock-extra-var-2: mock-value(200);
+  --mock-extra-var-3: mock-value(300);
+  --mock-extra-var-4: mock-value(400);
+  --mock-extra-var-5: mock-value(500);
+  --mock-extra-var-6: mock-value(600);
+  --mock-extra-var-7: mock-value(700);
+  --mock-extra-var-8: mock-value(800);
+  --mock-extra-var-9: mock-value(900);
+  --mock-extra-var-10: mock-value(1000);
+  --mock-extra-var-11: mock-value(1100);
+  --mock-extra-var-12: mock-value(1200);
+  --mock-extra-var-13: mock-value(1300);
+  --mock-extra-var-14: mock-value(1400);
+  --mock-extra-var-15: mock-value(1500);
+  --mock-extra-var-16: mock-value(1600);
+  --mock-extra-var-17: mock-value(1700);
+  --mock-extra-var-18: mock-value(1800);
+  --mock-extra-var-19: mock-value(1900);
+  --mock-extra-var-20: mock-value(2000);
+  --mock-extra-var-21: mock-value(2100);
+  --mock-extra-var-22: mock-value(2200);
+  --mock-extra-var-23: mock-value(2300);
+  --mock-extra-var-24: mock-value(2400);
+  --mock-extra-var-25: mock-value(2500);
+  --mock-extra-var-26: mock-value(2600);
+  --mock-extra-var-27: mock-value(2700);
+  --mock-extra-var-28: mock-value(2800);
+  --mock-extra-var-29: mock-value(2900);
+  --mock-extra-var-30: mock-value(3000);
+  --mock-gradient-1: linear-gradient(0deg, mock1, mock2);
+  --mock-gradient-2: radial-gradient(ellipse at bottom, mock3, mock4);
+  --mock-gradient-3: conic-gradient(from 180deg, mock5, mock6);
+  --mock-gradient-4: linear-gradient(to top, mock7, mock8);
+  --mock-gradient-5: radial-gradient(circle at left, mock9, mock10);
+  --mock-gradient-6: conic-gradient(mock11 0deg, mock12 90deg, mock13 180deg);
+  --mock-gradient-7: linear-gradient(315deg, mock14, mock15);
+  --mock-gradient-8: radial-gradient(closest-side at top right, mock16, mock17);
+  --mock-gradient-9: conic-gradient(from 315deg, mock18, mock19);
+  --mock-gradient-10: linear-gradient(to bottom right, mock20, mock21);
+  --mock-gradient-11: radial-gradient(farthest-corner at bottom left, mock22, mock23);
+  --mock-gradient-12: conic-gradient(mock24 0%, mock25 50%, mock26 100%);
+  --mock-gradient-13: linear-gradient(repeating-linear-gradient(mock27, mock28 15%, mock29 30%));
+  --mock-gradient-14: radial-gradient(repeating-radial-gradient(ellipse, mock30, mock31 7%, mock32 14%));
+  --mock-gradient-15: conic-gradient(repeating-conic-gradient(mock33 0deg 20deg, mock34 20deg 40deg));
+  --mock-gradient-16: linear-gradient(to left, hsl(60 50% 25%), hsl(180 50% 25%));
+  --mock-gradient-17: radial-gradient(hsla(300 50% 25% / 30%), hsla(0 50% 25% / 30%));
+  --mock-gradient-18: conic-gradient(from 270deg, rgb(255 255 0), rgb(0 255 255), rgb(255 0 255));
+  --mock-gradient-19: linear-gradient(rgba(0 0 255 / 0.7), rgba(255 255 0 / 0.7));
+  --mock-gradient-20: radial-gradient(oklch(0.7 0.5 700), oklch(0.8 0.6 800));
+  --mock-gradient-21: conic-gradient(oklab(0.9 0.7 0.8), oklab(1.0 0.8 0.9));
+  --mock-gradient-22: linear-gradient(lab(20% -10 -20), lab(30% -20 -30));
+  --mock-gradient-23: radial-gradient(lch(40% -30 -40deg), lch(50% -40 -50deg));
+  --mock-gradient-24: conic-gradient(xyz(-0.1 -0.2 -0.3), xyz(-0.2 -0.3 -0.4));
+  --mock-gradient-25: linear-gradient(oklch(0.05 0.95 50), oklch(0.1 0.9 150));
+  --mock-gradient-26: radial-gradient(hwb(60deg 80% 90%), hwb(180deg 70% 80%));
+  --mock-gradient-27: conic-gradient(cmyk(80% 70% 60% 50%), cmyk(70% 60% 50% 40%));
+  --mock-gradient-28: linear-gradient(transparent, revert);
+  --mock-gradient-29: radial-gradient(unset, initial);
+  --mock-gradient-30: conic-gradient(inherit, currentColor);
+  --mock-color-random-31: oklch(0.57 0.57 570);
+  --mock-color-random-32: oklch(0.58 0.58 580);
+  --mock-color-random-33: oklch(0.59 0.59 590);
+  --mock-color-random-34: oklch(0.60 0.60 600);
+  --mock-color-random-35: oklch(0.61 0.61 610);
+  --mock-color-random-36: oklch(0.62 0.62 620);
+  --mock-color-random-37: oklch(0.63 0.63 630);
+  --mock-color-random-38: oklch(0.64 0.64 640);
+  --mock-color-random-39: oklch(0.65 0.65 650);
+  --mock-color-random-40: oklch(0.66 0.66 660);
+  --mock-color-random-41: oklch(0.67 0.67 670);
+  --mock-color-random-42: oklch(0.68 0.68 680);
+  --mock-color-random-43: oklch(0.69 0.69 690);
+  --mock-color-random-44: oklch(0.70 0.70 700);
+  --mock-color-random-45: oklch(0.71 0.71 710);
+  --mock-color-random-46: oklch(0.72 0.72 720);
+  --mock-color-random-47: oklch(0.73 0.73 730);
+  --mock-color-random-48: oklch(0.74 0.74 740);
+  --mock-color-random-49: oklch(0.75 0.75 750);
+  --mock-color-random-50: oklch(0.76 0.76 760);
+  --mock-color-random-51: oklch(0.77 0.77 770);
+  --mock-color-random-52: oklch(0.78 0.78 780);
+  --mock-color-random-53: oklch(0.79 0.79 790);
+  --mock-color-random-54: oklch(0.80 0.80 800);
+  --mock-color-random-55: oklch(0.81 0.81 810);
+  --mock-color-random-56: oklch(0.82 0.82 820);
+  --mock-color-random-57: oklch(0.83 0.83 830);
+  --mock-color-random-58: oklch(0.84 0.84 840);
+  --mock-color-random-59: oklch(0.85 0.85 850);
+  --mock-color-random-60: oklch(0.86 0.86 860);
+}
+
+
+/* utility */
+
+
+@theme absolutes-color {
+  --dummy-radius-femto: calc(var(--dummy-radius) - 0.001px);
+  --dummy-radius-pico: calc(var(--dummy-radius) - 0.002px);
+  --dummy-radius-nano: calc(var(--dummy-radius) - 0.003px);
+  --dummy-radius-micro: var(--dummy-radius);
+  --dummy-radius-milli: calc(var(--dummy-radius) + 0.001px);
+  --dummy-radius-centi: calc(var(--dummy-radius) + 0.002px);
+  --dummy-radius-deci: calc(var(--dummy-radius) + 0.003px);
+  --dummy-color-bg-dissolve: dissolve(linear-gradient(180deg, oklch(0.9 0.1 900), oklch(0.8 0.2 800)));
+  --dummy-color-fg-coalesce: coalesce(0.7 0.3 700);
+  --dummy-color-card-melt: melt(oklch(0.6 0.4 600));
+  --dummy-color-card-fg-freeze: freeze(0.5 0.5 500);
+  --dummy-color-popover-vaporize: vaporize(oklch(0.4 0.6 400));
+  --dummy-color-popover-fg-condense: condense(0.3 0.7 300);
+  --dummy-color-primary-sublimate: sublimate(oklch(0.2 0.8 200));
+  --dummy-color-primary-fg-deposit: deposit(0.1 0.9 100);
+  --dummy-color-secondary-evaporate: evaporate(oklch(0.0 1.0 0));
+  --dummy-color-secondary-fg-precipitate: precipitate(1.0 0.0 1000);
+  --dummy-color-muted-distill: distill(oklch(0.9 0.1 900));
+  --dummy-color-muted-fg-purify: purify(0.8 0.2 800);
+  --dummy-color-accent-refine: refine(oklch(0.7 0.3 700));
+  --dummy-color-accent-fg-filter: filter(0.6 0.4 600);
+  --dummy-color-destructive-separate: separate(oklch(0.5 0.5 500));
+  --dummy-color-border-combine: combine(0.4 0.6 400);
+  --dummy-color-input-mix: mix(oklch(0.3 0.7 300));
+  --dummy-color-ring-blend: blend(0.2 0.8 200);
+  --dummy-color-chart-1-fuse: fuse(oklch(0.1 0.9 100));
+  --dummy-color-chart-2-alloy: alloy(0.0 1.0 0);
+  --dummy-color-chart-3-compound: compound(oklch(1.0 0.0 1000));
+  --dummy-color-chart-4-element: element(0.9 0.1 900);
+  --dummy-color-chart-5-molecule: molecule(oklch(0.8 0.2 800));
+  --dummy-color-sidebar-atom: atom(0.7 0.3 700);
+  --dummy-color-sidebar-fg-proton: proton(oklch(0.6 0.4 600));
+  --dummy-color-sidebar-primary-neutron: neutron(0.5 0.5 500);
+  --dummy-color-sidebar-primary-fg-electron: electron(oklch(0.4 0.6 400));
+  --dummy-color-sidebar-accent-quark: quark(0.3 0.7 300);
+  --dummy-color-sidebar-accent-fg-lepton: lepton(oklch(0.2 0.8 200));
+  --dummy-color-sidebar-border-boson: boson(0.1 0.9 100);
+  --dummy-color-sidebar-ring-fermion: fermion(oklch(0.0 1.0 0));
+  --dummy-radius-femto-extra: calc(var(--dummy-radius-femto) - 0.0005px);
+  --dummy-radius-pico-extra: calc(var(--dummy-radius-pico) - 0.001px);
+  --dummy-radius-nano-extra: calc(var(--dummy-radius-nano) - 0.0015px);
+  --dummy-radius-micro-extra: calc(var(--dummy-radius-micro) + 0.0005px);
+  --dummy-radius-milli-extra: calc(var(--dummy-radius-milli) + 0.001px);
+  --dummy-radius-centi-extra: calc(var(--dummy-radius-centi) + 0.0015px);
+  --dummy-radius-deci-extra: calc(var(--dummy-radius-deci) + 0.002px);
+  --dummy-color-bg-dissolve-extra: dissolve-extra(linear-gradient(0deg, oklch(0.7 0.3 700), oklch(0.6 0.4 600)));
+  --dummy-color-fg-coalesce-extra: coalesce-extra(0.5 0.5 500);
+  --dummy-color-card-melt-extra: melt-extra(oklch(0.4 0.6 400));
+  --dummy-color-card-fg-freeze-extra: freeze-extra(0.3 0.7 300);
+  --dummy-color-popover-vaporize-extra: vaporize-extra(oklch(0.2 0.8 200));
+  --dummy-color-popover-fg-condense-extra: condense-extra(0.1 0.9 100);
+  --dummy-color-primary-sublimate-extra: sublimate-extra(oklch(0.0 1.0 0));
+  --dummy-color-primary-fg-deposit-extra: deposit-extra(1.0 0.0 1000);
+  --dummy-color-secondary-evaporate-extra: evaporate-extra(oklch(0.9 0.1 900));
+  --dummy-color-secondary-fg-precipitate-extra: precipitate-extra(0.8 0.2 800);
+  --dummy-color-muted-distill-extra: distill-extra(oklch(0.7 0.3 700));
+  --dummy-color-muted-fg-purify-extra: purify-extra(0.6 0.4 600);
+  --dummy-color-accent-refine-extra: refine-extra(oklch(0.5 0.5 500));
+  --dummy-color-accent-fg-filter-extra: filter-extra(0.4 0.6 400);
+  --dummy-color-destructive-separate-extra: separate-extra(oklch(0.3 0.7 300));
+  --dummy-color-border-combine-extra: combine-extra(0.2 0.8 200);
+  --dummy-color-input-mix-extra: mix-extra(oklch(0.1 0.9 100));
+  --dummy-color-ring-blend-extra: blend-extra(0.0 1.0 0);
+  --dummy-color-chart-1-fuse-extra: fuse-extra(oklch(1.0 0.0 1000));
+  --dummy-color-chart-2-alloy-extra: alloy-extra(0.9 0.1 900);
+  --dummy-color-chart-3-compound-extra: compound-extra(oklch(0.8 0.2 800));
+  --dummy-color-chart-4-element-extra: element-extra(0.7 0.3 700);
+  --dummy-color-chart-5-molecule-extra: molecule-extra(oklch(0.6 0.4 600));
+  --dummy-color-sidebar-atom-extra: atom-extra(0.5 0.5 500);
+  --dummy-color-sidebar-fg-proton-extra: proton-extra(oklch(0.4 0.6 400));
+  --dummy-color-sidebar-primary-neutron-extra: neutron-extra(0.3 0.7 300);
+  --dummy-color-sidebar-primary-fg-electron-extra: electron-extra(oklch(0.2 0.8 200));
+  --dummy-color-sidebar-accent-quark-extra: quark-extra(0.1 0.9 100);
+  --dummy-color-sidebar-accent-fg-lepton-extra: lepton-extra(oklch(0.0 1.0 0));
+  --dummy-color-sidebar-border-boson-extra: boson-extra(1.0 0.0 1000);
+  --dummy-color-sidebar-ring-fermion-extra: fermion-extra(oklch(0.9 0.1 900));
+  --dummy-femto-super: calc(var(--dummy-radius-femto-extra) - 0.00025px);
+  --dummy-pico-super: calc(var(--dummy-radius-pico-extra) - 0.0005px);
+  --dummy-nano-super: calc(var(--dummy-radius-nano-extra) - 0.00075px);
+  --dummy-micro-super: calc(var(--dummy-radius-micro-extra) + 0.00025px);
+  --dummy-milli-super: calc(var(--dummy-radius-milli-extra) + 0.0005px);
+  --dummy-centi-super: calc(var(--dummy-radius-centi-extra) + 0.00075px);
+  --dummy-deci-super: calc(var(--dummy-radius-deci-extra) + 0.001px);
+  --dummy-bg-dissolve-super: dissolve-super(radial-gradient(ellipse at center, oklch(0.5 0.5 500), oklch(0.4 0.6 400)));
+  --dummy-fg-coalesce-super: coalesce-super(0.3 0.7 300);
+  --dummy-card-melt-super: melt-super(oklch(0.2 0.8 200));
+  --dummy-card-fg-freeze-super: freeze-super(0.1 0.9 100);
+  --dummy-popover-vaporize-super: vaporize-super(oklch(0.0 1.0 0));
+  --dummy-popover-fg-condense-super: condense-super(1.0 0.0 1000);
+  --dummy-primary-sublimate-super: sublimate-super(oklch(0.9 0.1 900));
+  --dummy-primary-fg-deposit-super: deposit-super(0.8 0.2 800);
+  --dummy-secondary-evaporate-super: evaporate-super(oklch(0.7 0.3 700));
+  --dummy-secondary-fg-precipitate-super: precipitate-super(0.6 0.4 600);
+  --dummy-muted-distill-super: distill-super(oklch(0.5 0.5 500));
+  --dummy-muted-fg-purify-super: purify-super(0.4 0.6 400);
+  --dummy-accent-refine-super: refine-super(oklch(0.3 0.7 300));
+  --dummy-accent-fg-filter-super: filter-super(0.2 0.8 200);
+  --dummy-destructive-separate-super: separate-super(oklch(0.1 0.9 100));
+  --dummy-border-combine-super: combine-super(0.0 1.0 0);
+  --dummy-input-mix-super: mix-super(oklch(1.0 0.0 1000));
+  --dummy-ring-blend-super: blend-super(0.9 0.1 900);
+  --dummy-chart-1-fuse-super: fuse-super(oklch(0.8 0.2 800));
+  --dummy-chart-2-alloy-super: alloy-super(0.7 0.3 700);
+  --dummy-chart-3-compound-super: compound-super(oklch(0.6 0.4 600));
+  --dummy-chart-4-element-super: element-super(0.5 0.5 500);
+  --dummy-chart-5-molecule-super: molecule-super(oklch(0.4 0.6 400));
+  --dummy-sidebar-atom-super: atom-super(0.3 0.7 300);
+  --dummy-sidebar-fg-proton-super: proton-super(oklch(0.2 0.8 200));
+  --dummy-sidebar-primary-neutron-super: neutron-super(0.1 0.9 100);
+  --dummy-sidebar-primary-fg-electron-super: electron-super(oklch(0.0 1.0 0));
+  --dummy-sidebar-accent-quark-super: quark-super(1.0 0.0 1000);
+  --dummy-sidebar-accent-fg-lepton-super: lepton-super(oklch(0.9 0.1 900));
+  --dummy-sidebar-border-boson-super: boson-super(0.8 0.2 800);
+  --dummy-sidebar-ring-fermion-super: fermion-super(oklch(0.7 0.3 700));
+  --dummy-extra-var-alpha: dummy-value(alpha100);
+  --dummy-extra-var-beta: dummy-value(beta200);
+  --dummy-extra-var-gamma: dummy-value(gamma300);
+  --dummy-extra-var-delta: dummy-value(delta400);
+  --dummy-extra-var-epsilon: dummy-value(epsilon500);
+  --dummy-extra-var-zeta: dummy-value(zeta600);
+  --dummy-extra-var-eta: dummy-value(eta700);
+  --dummy-extra-var-theta: dummy-value(theta800);
+  --dummy-extra-var-iota: dummy-value(iota900);
+  --dummy-extra-var-kappa: dummy-value(kappa1000);
+  --dummy-extra-var-lambda: dummy-value(lambda1100);
+  --dummy-extra-var-mu: dummy-value(mu1200);
+  --dummy-extra-var-nu: dummy-value(nu1300);
+  --dummy-extra-var-xi: dummy-value(xi1400);
+  --dummy-extra-var-omicron: dummy-value(omicron1500);
+  --dummy-extra-var-pi: dummy-value(pi1600);
+  --dummy-extra-var-rho: dummy-value(rho1700);
+  --dummy-extra-var-sigma: dummy-value(sigma1800);
+  --dummy-extra-var-tau: dummy-value(tau1900);
+  --dummy-extra-var-upsilon: dummy-value(upsilon2000);
+  --dummy-extra-var-phi: dummy-value(phi2100);
+  --dummy-extra-var-chi: dummy-value(chi2200);
+  --dummy-extra-var-psi: dummy-value(psi2300);
+  --dummy-extra-var-omega: dummy-value(omega2400);
+  --dummy-extra-var-extra1: dummy-value(extra2500);
+  --dummy-extra-var-extra2: dummy-value(extra2600);
+  --dummy-extra-var-extra3: dummy-value(extra2700);
+  --dummy-extra-var-extra4: dummy-value(extra2800);
+  --dummy-extra-var-extra5: dummy-value(extra2900);
+  --dummy-extra-var-extra6: dummy-value(extra3000);
+  --dummy-gradient-dummy1: linear-gradient(45deg, dummy1, dummy2);
+  --dummy-gradient-dummy2: radial-gradient(circle at center, dummy3, dummy4);
+  --dummy-gradient-dummy3: conic-gradient(from 0deg, dummy5, dummy6);
+  --dummy-gradient-dummy4: linear-gradient(to right bottom, dummy7, dummy8);
+  --dummy-gradient-dummy5: radial-gradient(ellipse at top left, dummy9, dummy10);
+  --dummy-gradient-dummy6: conic-gradient(dummy11 0deg, dummy12 120deg, dummy13 240deg);
+  --dummy-gradient-dummy7: linear-gradient(90deg, dummy14, dummy15);
+  --dummy-gradient-dummy8: radial-gradient(closest-corner at bottom, dummy16, dummy17);
+  --dummy-gradient-dummy9: conic-gradient(from 90deg, dummy18, dummy19);
+  --dummy-gradient-dummy10: linear-gradient(to left top, dummy20, dummy21);
+  --dummy-gradient-dummy11: radial-gradient(farthest-side at right, dummy22, dummy23);
+  --dummy-gradient-dummy12: conic-gradient(dummy24 0%, dummy25 25%, dummy26 50%);
+  --dummy-gradient-dummy13: linear-gradient(repeating-linear-gradient(dummy27, dummy28 20%, dummy29 40%));
+  --dummy-gradient-dummy14: radial-gradient(repeating-radial-gradient(square, dummy30, dummy31 10%, dummy32 20%));
+  --dummy-gradient-dummy15: conic-gradient(repeating-conic-gradient(dummy33 0deg 30deg, dummy34 30deg 60deg));
+  --dummy-gradient-dummy16: linear-gradient(to bottom, hsl(240 75% 75%), hsl(0 75% 75%));
+  --dummy-gradient-dummy17: radial-gradient(hsla(120 75% 75% / 40%), hsla(300 75% 75% / 40%));
+  --dummy-gradient-dummy18: conic-gradient(from 135deg, rgb(0 0 0), rgb(255 255 255), rgb(128 128 128));
+  --dummy-gradient-dummy19: linear-gradient(rgba(255 0 0 / 0.2), rgba(0 0 255 / 0.2));
+  --dummy-gradient-dummy20: radial-gradient(oklch(0.3 0.7 300), oklch(0.4 0.8 400));
+  --dummy-gradient-dummy21: conic-gradient(oklab(0.5 0.9 1.0), oklab(0.6 1.0 0.1));
+  --dummy-gradient-dummy22: linear-gradient(lab(40% 30 40), lab(50% 40 50));
+  --dummy-gradient-dummy23: radial-gradient(lch(60% 50 60deg), lch(70% 60 70deg));
+  --dummy-gradient-dummy24: conic-gradient(xyz(0.5 0.6 0.7), xyz(0.6 0.7 0.8));
+  --dummy-gradient-dummy25: linear-gradient(oklch(0.15 0.85 150), oklch(0.2 0.8 250));
+  --dummy-gradient-dummy26: radial-gradient(hwb(300deg 40% 50%), hwb(0deg 30% 40%));
+  --dummy-gradient-dummy27: conic-gradient(cmyk(40% 30% 20% 10%), cmyk(30% 20% 10% 0%));
+  --dummy-gradient-dummy28: linear-gradient(initial, unset);
+  --dummy-gradient-dummy29: radial-gradient(revert, inherit);
+  --dummy-gradient-dummy30: conic-gradient(currentColor, transparent);
+  --dummy-color-random-61: oklch(0.87 0.87 870);
+  --dummy-color-random-62: oklch(0.88 0.88 880);
+  --dummy-color-random-63: oklch(0.89 0.89 890);
+  --dummy-color-random-64: oklch(0.90 0.90 900);
+  --dummy-color-random-65: oklch(0.91 0.91 910);
+  --dummy-color-random-66: oklch(0.92 0.92 920);
+  --dummy-color-random-67: oklch(0.93 0.93 930);
+  --dummy-color-random-68: oklch(0.94 0.94 940);
+  --dummy-color-random-69: oklch(0.95 0.95 950);
+  --dummy-color-random-70: oklch(0.96 0.96 960);
+  --dummy-color-random-71: oklch(0.97 0.97 970);
+  --dummy-color-random-72: oklch(0.98 0.98 980);
+  --dummy-color-random-73: oklch(0.99 0.99 990);
+  --dummy-color-random-74: oklch(1.00 1.00 1000);
+  --dummy-color-random-88: oklch(0.14 0.14 140);
+}
+
+
+@theme media_alwer {
+  --bogus-radius-atto: calc(var(--bogus-radius) - 0.0001px);
+  --bogus-radius-femto: calc(var(--bogus-radius) - 0.0002px);
+  --bogus-radius-pico: calc(var(--bogus-radius) - 0.0003px);
+  --bogus-radius-nano: var(--bogus-radius);
+  --bogus-radius-micro: calc(var(--bogus-radius) + 0.0001px);
+  --bogus-radius-milli: calc(var(--bogus-radius) + 0.0002px);
+  --bogus-radius-centi: calc(var(--bogus-radius) + 0.0003px);
+  --bogus-color-bg-ignite: ignite(linear-gradient(to left, oklch(0.2 0.8 200), oklch(0.3 0.7 300)));
+  --bogus-color-fg-extinguish: extinguish(0.4 0.6 400);
+  --bogus-color-card-burn: burn(oklch(0.5 0.5 500));
+  --bogus-color-card-fg-smolder: smolder(0.6 0.4 600);
+  --bogus-color-popover-flame: flame(oklch(0.7 0.3 700));
+  --bogus-color-popover-fg-ash: ash(0.8 0.2 800);
+  --bogus-color-primary-ember: ember(oklch(0.9 0.1 900));
+  --bogus-color-primary-fg-spark: spark(1.0 0.0 1000);
+  --bogus-color-secondary-blaze: blaze(oklch(0.1 0.9 100));
+  --bogus-color-secondary-fg-inferno: inferno(0.2 0.8 200);
+  --bogus-color-muted-firestorm: firestorm(oklch(0.3 0.7 300));
+  --bogus-color-muted-fg-wildfire: wildfire(0.4 0.6 400);
+  --bogus-color-accent-scorch: scorch(oklch(0.5 0.5 500));
+  --bogus-color-accent-fg-char: char(0.6 0.4 600);
+  --bogus-color-destructive-incinerate: incinerate(oklch(0.7 0.3 700));
+  --bogus-color-border-cremate: cremate(0.8 0.2 800);
+  --bogus-color-input-singe: singe(oklch(0.9 0.1 900));
+  --bogus-color-ring-sear: sear(1.0 0.0 1000);
+  --bogus-color-chart-1-torch: torch(oklch(0.1 0.9 100));
+  --bogus-color-chart-2-lantern: lantern(0.2 0.8 200);
+  --bogus-color-chart-3-candle: candle(oklch(0.3 0.7 300));
+  --bogus-color-chart-4-bonfire: bonfire(0.4 0.6 400);
+  --bogus-color-chart-5-campfire: campfire(oklch(0.5 0.5 500));
+  --bogus-color-sidebar-hearth: hearth(0.6 0.4 600);
+  --bogus-color-sidebar-fg-furnace: furnace(oklch(0.7 0.3 700));
+  --bogus-color-sidebar-primary-forge: forge(0.8 0.2 800);
+  --bogus-color-sidebar-primary-fg-kiln: kiln(oklch(0.9 0.1 900));
+  --bogus-color-sidebar-accent-oven: oven(1.0 0.0 1000);
+  --bogus-color-sidebar-accent-fg-stove: stove(oklch(0.1 0.9 100));
+  --bogus-color-sidebar-border-grill: grill(0.2 0.8 200);
+  --bogus-color-sidebar-ring-barbecue: barbecue(oklch(0.3 0.7 300));
+  --bogus-radius-atto-extra: calc(var(--bogus-radius-atto) - 0.00005px);
+  --bogus-radius-femto-extra: calc(var(--bogus-radius-femto) - 0.0001px);
+  --bogus-radius-pico-extra: calc(var(--bogus-radius-pico) - 0.00015px);
+  --bogus-radius-nano-extra: calc(var(--bogus-radius-nano) + 0.00005px);
+  --bogus-radius-micro-extra: calc(var(--bogus-radius-micro) + 0.0001px);
+  --bogus-radius-milli-extra: calc(var(--bogus-radius-milli) + 0.00015px);
+  --bogus-radius-centi-extra: calc(var(--bogus-radius-centi) + 0.0002px);
+  --bogus-color-bg-ignite-extra: ignite-extra(radial-gradient(circle at bottom left, oklch(0.4 0.6 400), oklch(0.5 0.5 500)));
+  --bogus-color-fg-extinguish-extra: extinguish-extra(0.6 0.4 600);
+  --bogus-color-card-burn-extra: burn-extra(oklch(0.7 0.3 700));
+  --bogus-color-card-fg-smolder-extra: smolder-extra(0.8 0.2 800);
+  --bogus-color-popover-flame-extra: flame-extra(oklch(0.9 0.1 900));
+  --bogus-color-popover-fg-ash-extra: ash-extra(1.0 0.0 1000);
+  --bogus-color-primary-ember-extra: ember-extra(oklch(0.1 0.9 100));
+  --bogus-color-primary-fg-spark-extra: spark-extra(0.2 0.8 200);
+  --bogus-color-secondary-blaze-extra: blaze-extra(oklch(0.3 0.7 300));
+  --bogus-color-secondary-fg-inferno-extra: inferno-extra(0.4 0.6 400);
+  --bogus-color-muted-firestorm-extra: firestorm-extra(oklch(0.5 0.5 500));
+  --bogus-color-muted-fg-wildfire-extra: wildfire-extra(0.6 0.4 600);
+  --bogus-color-accent-scorch-extra: scorch-extra(oklch(0.7 0.3 700));
+  --bogus-color-accent-fg-char-extra: char-extra(0.8 0.2 800);
+  --bogus-color-destructive-incinerate-extra: incinerate-extra(oklch(0.9 0.1 900));
+  --bogus-color-border-cremate-extra: cremate-extra(1.0 0.0 1000);
+  --bogus-color-input-singe-extra: singe-extra(oklch(0.1 0.9 100));
+  --bogus-color-ring-sear-extra: sear-extra(0.2 0.8 200);
+  --bogus-color-chart-1-torch-extra: torch-extra(oklch(0.3 0.7 300));
+  --bogus-color-chart-2-lantern-extra: lantern-extra(0.4 0.6 400);
+  --bogus-color-chart-3-candle-extra: candle-extra(oklch(0.5 0.5 500));
+  --bogus-color-chart-4-bonfire-extra: bonfire-extra(0.6 0.4 600);
+  --bogus-color-chart-5-campfire-extra: campfire-extra(oklch(0.7 0.3 700));
+  --bogus-color-sidebar-hearth-extra: hearth-extra(0.8 0.2 800);
+  --bogus-color-sidebar-fg-furnace-extra: furnace-extra(oklch(0.9 0.1 900));
+  --bogus-color-sidebar-primary-forge-extra: forge-extra(1.0 0.0 1000);
+  --bogus-color-sidebar-primary-fg-kiln-extra: kiln-extra(oklch(0.1 0.9 100));
+  --bogus-color-sidebar-accent-oven-extra: oven-extra(0.2 0.8 200);
+  --bogus-color-sidebar-accent-fg-stove-extra: stove-extra(oklch(0.3 0.7 300));
+  --bogus-color-sidebar-border-grill-extra: grill-extra(0.4 0.6 400);
+  --bogus-color-sidebar-ring-barbecue-extra: barbecue-extra(oklch(0.5 0.5 500));
+  --bogus-atto-super: calc(var(--bogus-radius-atto-extra) - 0.000025px);
+  --bogus-femto-super: calc(var(--bogus-radius-femto-extra) - 0.00005px);
+  --bogus-pico-super: calc(var(--bogus-radius-pico-extra) - 0.000075px);
+  --bogus-nano-super: calc(var(--bogus-radius-nano-extra) + 0.000025px);
+  --bogus-micro-super: calc(var(--bogus-radius-micro-extra) + 0.00005px);
+  --bogus-milli-super: calc(var(--bogus-radius-milli-extra) + 0.000075px);
+  --bogus-centi-super: calc(var(--bogus-radius-centi-extra) + 0.0001px);
+  --bogus-bg-ignite-super: ignite-super(conic-gradient(from 180deg, oklch(0.6 0.4 600), oklch(0.7 0.3 700)));
+  --bogus-fg-extinguish-super: extinguish-super(0.8 0.2 800);
+  --bogus-card-burn-super: burn-super(oklch(0.9 0.1 900));
+  --bogus-card-fg-smolder-super: smolder-super(1.0 0.0 1000);
+  --bogus-popover-flame-super: flame-super(oklch(0.1 0.9 100));
+  --bogus-popover-fg-ash-super: ash-super(0.2 0.8 200);
+  --bogus-primary-ember-super: ember-super(oklch(0.3 0.7 300));
+  --bogus-primary-fg-spark-super: spark-super(0.4 0.6 400);
+  --bogus-secondary-blaze-super: blaze-super(oklch(0.5 0.5 500));
+  --bogus-secondary-fg-inferno-super: inferno-super(0.6 0.4 600);
+  --bogus-muted-firestorm-super: firestorm-super(oklch(0.7 0.3 700));
+  --bogus-muted-fg-wildfire-super: wildfire-super(0.8 0.2 800);
+  --bogus-accent-scorch-super: scorch-super(oklch(0.9 0.1 900));
+  --bogus-accent-fg-char-super: char-super(1.0 0.0 1000);
+  --bogus-destructive-incinerate-super: incinerate-super(oklch(0.1 0.9 100));
+  --bogus-border-cremate-super: cremate-super(0.2 0.8 200);
+  --bogus-input-singe-super: singe-super(oklch(0.3 0.7 300));
+  --bogus-ring-sear-super: sear-super(0.4 0.6 400);
+  --bogus-chart-1-torch-super: torch-super(oklch(0.5 0.5 500));
+  --bogus-chart-2-lantern-super: lantern-super(0.6 0.4 600);
+  --bogus-chart-3-candle-super: candle-super(oklch(0.7 0.3 700));
+  --bogus-chart-4-bonfire-super: bonfire-super(0.8 0.2 800);
+  --bogus-chart-5-campfire-super: campfire-super(oklch(0.9 0.1 900));
+  --bogus-sidebar-hearth-super: hearth-super(1.0 0.0 1000);
+  --bogus-sidebar-fg-furnace-super: furnace-super(oklch(0.1 0.9 100));
+  --bogus-sidebar-primary-forge-super: forge-super(0.2 0.8 200);
+  --bogus-sidebar-primary-fg-kiln-super: kiln-super(oklch(0.3 0.7 300));
+  --bogus-sidebar-accent-oven-super: oven-super(0.4 0.6 400);
+  --bogus-sidebar-accent-fg-stove-super: stove-super(oklch(0.5 0.5 500));
+  --bogus-sidebar-border-grill-super: grill-super(0.6 0.4 600);
+  --bogus-sidebar-ring-barbecue-super: barbecue-super(oklch(0.7 0.3 700));
+  --bogus-extra-var-1: bogus-value(100);
+  --bogus-extra-var-2: bogus-value(200);
+  --bogus-extra-var-3: bogus-value(300);
+  --bogus-extra-var-4: bogus-value(400);
+  --bogus-extra-var-5: bogus-value(500);
+  --bogus-extra-var-6: bogus-value(600);
+  --bogus-extra-var-7: bogus-value(700);
+  --bogus-extra-var-8: bogus-value(800);
+  --bogus-extra-var-9: bogus-value(900);
+  --bogus-extra-var-10: bogus-value(1000);
+  --bogus-extra-var-11: bogus-value(1100);
+  --bogus-extra-var-12: bogus-value(1200);
+  --bogus-extra-var-13: bogus-value(1300);
+  --bogus-extra-var-14: bogus-value(1400);
+  --bogus-extra-var-15: bogus-value(1500);
+  --bogus-extra-var-16: bogus-value(1600);
+  --bogus-extra-var-17: bogus-value(1700);
+  --bogus-extra-var-18: bogus-value(1800);
+  --bogus-extra-var-19: bogus-value(1900);
+  --bogus-extra-var-20: bogus-value(2000);
+  --bogus-extra-var-21: bogus-value(2100);
+  --bogus-extra-var-22: bogus-value(2200);
+  --bogus-extra-var-23: bogus-value(2300);
+  --bogus-extra-var-24: bogus-value(2400);
+  --bogus-extra-var-25: bogus-value(2500);
+  --bogus-extra-var-26: bogus-value(2600);
+  --bogus-extra-var-27: bogus-value(2700);
+  --bogus-extra-var-28: bogus-value(2800);
+  --bogus-extra-var-29: bogus-value(2900);
+  --bogus-extra-var-30: bogus-value(3000);
+  --bogus-gradient-1: linear-gradient(135deg, bogus1, bogus2);
+  --bogus-gradient-2: radial-gradient(ellipse at center right, bogus3, bogus4);
+  --bogus-gradient-3: conic-gradient(from 45deg, bogus5, bogus6);
+  --bogus-gradient-4: linear-gradient(to top right, bogus7, bogus8);
+  --bogus-gradient-5: radial-gradient(circle at top, bogus9, bogus10);
+  --bogus-gradient-6: conic-gradient(bogus11 0deg, bogus12 60deg, bogus13 120deg);
+  --bogus-gradient-7: linear-gradient(45deg, bogus14, bogus15);
+  --bogus-gradient-8: radial-gradient(closest-side at left bottom, bogus16, bogus17);
+  --bogus-gradient-9: conic-gradient(from 135deg, bogus18, bogus19);
+  --bogus-gradient-10: linear-gradient(to bottom left, bogus20, bogus21);
+  --bogus-gradient-11: radial-gradient(farthest-corner at right top, bogus22, bogus23);
+  --bogus-gradient-12: conic-gradient(bogus24 0%, bogus25 33%, bogus26 66%);
+  --bogus-gradient-13: linear-gradient(repeating-linear-gradient(bogus27, bogus28 25%, bogus29 50%));
+  --bogus-gradient-14: radial-gradient(repeating-radial-gradient(ellipse, bogus30, bogus31 15%, bogus32 30%));
+  --bogus-gradient-15: conic-gradient(repeating-conic-gradient(bogus33 0deg 45deg, bogus34 45deg 90deg));
+}
+
+
+@theme cosmic-dream {
+  --radius-atom: calc(var(--radius) - 6px);
+  --radius-quantum: calc(var(--radius) - 3px);
+  --radius-nebula: var(--radius);
+  --radius-galaxy: calc(var(--radius) + 5px);
+  --radius-universe: calc(var(--radius) + 12px);
+  --radius-infinity: calc(var(--radius) + 20px);
+  --color-bg-void: linear-gradient(135deg, oklch(0.08 0.02 240), oklch(0.12 0.04 260));
+  --color-bg-aurora: linear-gradient(to right, oklch(0.65 0.18 180), oklch(0.70 0.22 320), oklch(0.55 0.15 80));
+  --color-fg-starlight: oklch(0.98 0.03 60);
+  --color-card-cosmos: radial-gradient(circle at 30% 70%, oklch(0.18 0.08 270), oklch(0.22 0.10 290));
+  --color-card-fg-constellation: oklch(0.92 0.05 50);
+  --color-primary-supernova: oklch(0.85 0.25 40);
+  --color-primary-fg-event-horizon: oklch(0.15 0.06 220);
+  --color-secondary-nebula-glow: oklch(0.45 0.20 200);
+  --color-secondary-fg-dust: oklch(0.88 0.04 70);
+  --color-accent-quasar: oklch(0.78 0.28 310);
+  --color-accent-fg-photon: oklch(0.99 0.02 90);
+  --color-destructive-black-hole: oklch(0.10 0.01 0);
+  --color-border-wormhole: oklch(0.40 0.15 260 / 0.6);
+  --color-ring-singularity: oklch(0.30 0.18 280);
+  --color-chart-1-pulsar: oklch(0.72 0.24 45);
+  --color-chart-2-gamma-ray: oklch(0.68 0.19 160);
+  --color-chart-3-dark-matter: oklch(0.25 0.09 220);
+  --color-chart-4-redshift: oklch(0.62 0.21 25);
+  --color-chart-5-blueshift: oklch(0.75 0.23 195);
+  --color-sidebar-void-edge: oklch(0.14 0.05 250);
+  --color-sidebar-fg-starfield: oklch(0.94 0.04 55);
+  --color-sidebar-primary-aurora-borealis: oklch(0.68 0.22 170);
+  --color-sidebar-accent-milky-way: linear-gradient(45deg, oklch(0.50 0.16 280), oklch(0.55 0.18 60));
+  --color-sidebar-border-event-horizon: oklch(0.20 0.12 240 / 0.4);
+
+  --cosmic-extra-1: oklch(0.88 0.07 320);
+  --cosmic-extra-2: radial-gradient(ellipse, oklch(0.35 0.14 190), transparent);
+  --cosmic-extra-3: conic-gradient(from 90deg, oklch(0.80 0.20 50), oklch(0.60 0.25 310));
+  --cosmic-extra-4: oklch(0.95 0.06 80);
+  --cosmic-extra-5: linear-gradient(to bottom, oklch(0.22 0.11 265), oklch(0.18 0.09 245));
+}
+
+@theme neon-cyber {
+  --radius-pixel: calc(var(--radius) - 5px);
+  --radius-glitch: calc(var(--radius) - 1px);
+  --radius-holo: var(--radius);
+  --radius-grid: calc(var(--radius) + 4px);
+  --radius-matrix: calc(var(--radius) + 10px);
+  --color-bg-terminal: oklch(0.04 0.01 200);
+  --color-bg-grid: repeating-linear-gradient(45deg, oklch(0.08 0.02 210) 0px, oklch(0.08 0.02 210) 1px, transparent 1px, transparent 20px);
+  --color-fg-cyan: oklch(0.92 0.18 190);
+  --color-card-hologram: oklch(0.12 0.06 200 / 0.7);
+  --color-card-fg-scanline: oklch(0.96 0.10 180);
+  --color-primary-neon-pink: oklch(0.82 0.28 330);
+  --color-primary-fg-glitch-red: oklch(0.75 0.25 20);
+  --color-secondary-electric-blue: oklch(0.70 0.22 210);
+  --color-secondary-fg-lime: oklch(0.88 0.24 140);
+  --color-accent-magenta-pulse: oklch(0.78 0.26 310);
+  --color-accent-fg-yellow-glow: oklch(0.94 0.20 80);
+  --color-destructive-corrupt: oklch(0.65 0.30 30);
+  --color-border-data-stream: oklch(0.40 0.18 200 / 0.5);
+  --color-ring-crt-glow: oklch(0.85 0.15 180 / 0.8);
+  --color-chart-1-neon-green: oklch(0.80 0.25 150);
+  --color-chart-2-hot-pink: oklch(0.76 0.27 340);
+  --color-chart-3-cyber-purple: oklch(0.68 0.23 270);
+  --color-chart-4-acid-yellow: oklch(0.84 0.22 90);
+  --color-chart-5-deep-cyan: oklch(0.72 0.21 200);
+  --color-sidebar-night-city: oklch(0.10 0.04 220);
+  --color-sidebar-fg-digital-rain: oklch(0.90 0.16 160);
+  --color-sidebar-primary-neon-violet: oklch(0.74 0.24 280);
+  --color-sidebar-accent-glitch-overlay: oklch(0.50 0.20 0 / 0.3);
+  --cyber-extra-1: oklch(0.96 0.12 200);
+  --cyber-extra-2: linear-gradient(90deg, oklch(0.85 0.20 330), oklch(0.80 0.22 210));
+  --cyber-extra-3: oklch(0.45 0.19 50 / 0.6);
+  --cyber-extra-4: repeating-conic-gradient(oklch(0.9 0.15 180) 0deg 10deg, transparent 10deg 20deg);
+  --cyber-extra-5: oklch(0.88 0.18 120);
+}
+
+@theme retro-wave {
+  --radius-vhs: calc(var(--radius) - 4px);
+  --radius-crt: calc(var(--radius) - 2px);
+  --radius-synth: var(--radius);
+  --radius-vapor: calc(var(--radius) + 6px);
+  --radius-80s: calc(var(--radius) + 14px);
+  --color-bg-sunset: linear-gradient(to bottom, oklch(0.95 0.08 60), oklch(0.75 0.20 340), oklch(0.45 0.18 280));
+  --color-bg-gridfloor: repeating-linear-gradient(0deg, oklch(0.20 0.10 270) 0px, oklch(0.20 0.10 270) 2px, transparent 2px, transparent 40px);
+  --color-fg-hot-pink: oklch(0.92 0.22 330);
+  --color-card-vapor-panel: oklch(0.30 0.15 260 / 0.65);
+  --color-card-fg-white-glow: oklch(0.98 0.04 80);
+  --color-primary-turquoise: oklch(0.78 0.20 190);
+  --color-primary-fg-magenta: oklch(0.85 0.24 320);
+  --color-secondary-purple-neon: oklch(0.65 0.22 280);
+  --color-secondary-fg-cyan-glow: oklch(0.90 0.18 200);
+  --color-accent-fuchsia: oklch(0.82 0.26 310);
+  --color-accent-fg-lime-drift: oklch(0.88 0.21 140);
+  --color-destructive-static: oklch(0.55 0.18 40);
+  --color-border-scanline: oklch(0.70 0.12 60 / 0.4);
+  --color-ring-vhs-distortion: oklch(0.80 0.15 350 / 0.7);
+  --color-chart-1-synthwave-pink: oklch(0.84 0.23 335);
+  --color-chart-2-electric-cyan: oklch(0.79 0.19 195);
+  --color-chart-3-deep-purple: oklch(0.50 0.20 275);
+  --color-chart-4-sunset-orange: oklch(0.76 0.22 45);
+  --color-chart-5-grid-blue: oklch(0.68 0.17 225);
+  --color-sidebar-night-drive: oklch(0.15 0.08 250);
+  --color-sidebar-fg-retro-glow: oklch(0.94 0.10 70);
+  --color-sidebar-primary-vapor-teal: oklch(0.72 0.21 185);
+  --color-sidebar-accent-pink-grid: linear-gradient(135deg, oklch(0.88 0.18 330), oklch(0.82 0.16 190));
+  --retro-extra-1: oklch(0.96 0.09 50);
+  --retro-extra-2: radial-gradient(circle at 20% 80%, oklch(0.90 0.15 340), transparent 60%);
+  --retro-extra-3: oklch(0.60 0.18 280);
+  --retro-extra-4: conic-gradient(from 0deg, oklch(0.85 0.20 190), oklch(0.80 0.22 320), oklch(0.75 0.18 80));
+  --retro-extra-5: oklch(0.91 0.12 220);
+}
+
+
+/* uti */
+/* @layer shell {
+  * {
+    @apply focus-aura/60;
+  }
+  /* body {
+    @apply surface-color copy-color;
+  } */
+/* } */ */
+
+.light-canvas {
+  --bend: 0.7rem;
+  --surface-color: oklch(0.995 0 0);
+  --copy-color: oklch(0.11 0 0);
+  --plate: oklch(0.995 0 0);
+  --plate-copy: oklch(0.11 0 0);
+  --float: oklch(0.995 0 0);
+  --float-copy: oklch(0.11 0 0);
+  --accent-main: oklch(0.18 0 0);
+  --accent-copy: oklch(0.99 0 0);
+  --subtle: oklch(0.975 0 0);
+  --subtle-copy: oklch(0.18 0 0);
+  --quiet: oklch(0.975 0 0);
+  --quiet-copy: oklch(0.52 0 0);
+  --flash: oklch(0.975 0 0);
+  --flash-copy: oklch(0.18 0 0);
+  --warning: oklch(0.59 0.24 26.5);
+  --edge: oklch(0.93 0 0);
+  --entry: oklch(0.93 0 0);
+  --focus-ring: oklch(0.74 0 0);
+  --data-1: oklch(0.66 0.22 40);
+  --data-2: oklch(0.61 0.12 183);
+  --data-3: oklch(0.41 0.07 226);
+  --data-4: oklch(0.84 0.19 83);
+  --data-5: oklch(0.78 0.19 69);
+  --side-panel: oklch(0.99 0 0);
+  --side-copy: oklch(0.11 0 0);
+  --side-accent: oklch(0.18 0 0);
+  --side-accent-copy: oklch(0.99 0 0);
+  --side-flash: oklch(0.975 0 0);
+  --side-flash-copy: oklch(0.18 0 0);
+  --side-edge: oklch(0.93 0 0);
+  --side-focus: oklch(0.74 0 0);
+}
+
+@theme fisrtshadows {
+  --pseudo-radius-nano: calc(var(--pseudo-radius) - 0.1px);
+  --pseudo-radius-micro: calc(var(--pseudo-radius) - 0.3px);
+  --pseudo-radius-mini: calc(var(--pseudo-radius) - 0.5px);
+  --pseudo-radius-small: var(--pseudo-radius);
+  --pseudo-radius-medium: calc(var(--pseudo-radius) + 0.2px);
+  --pseudo-radius-large: calc(var(--pseudo-radius) + 0.4px);
+  --pseudo-radius-xlarge: calc(var(--pseudo-radius) + 0.6px);
+  --pseudo-color-bg-fadein: fadein(linear-gradient(to top, oklch(0.4 0.3 400), oklch(0.5 0.4 500)));
+  --pseudo-color-fg-flash: flash(0.6 0.5 600);
+  --pseudo-color-card-shine: shine(oklch(0.7 0.6 700));
+  --pseudo-color-card-fg-glare: glare(0.8 0.7 800);
+  --pseudo-color-popover-reflect: reflect(oklch(0.9 0.8 900));
+  --pseudo-color-popover-fg-refract: refract(1.0 0.9 1000);
+  --pseudo-color-primary-bend: bend(oklch(0.1 1.0 1100));
+  --pseudo-color-primary-fg-stretch: stretch(0.2 0.1 1200);
+  --pseudo-color-secondary-compress: compress(oklch(0.3 0.2 1300));
+  --pseudo-color-secondary-fg-expand: expand(0.4 0.3 1400);
+  --pseudo-color-muted-squeeze: squeeze(oklch(0.5 0.4 1500));
+  --pseudo-color-muted-fg-push: push(0.6 0.5 1600);
+  --pseudo-color-accent-pull: pull(oklch(0.7 0.6 1700));
+  --pseudo-color-accent-fg-drag: drag(0.8 0.7 1800);
+  --pseudo-color-destructive-drop: drop(oklch(0.9 0.8 1900));
+  --pseudo-color-border-lift: lift(1.0 0.9 2000);
+  --pseudo-color-input-lower: lower(oklch(0.1 1.0 2100));
+  --pseudo-color-ring-raise: raise(0.2 0.1 2200);
+  --pseudo-color-chart-1-float: float(oklch(0.3 0.2 2300));
+  --pseudo-color-chart-2-sink: sink(0.4 0.3 2400);
+  --pseudo-color-chart-3-dive: dive(oklch(0.5 0.4 2500));
+  --pseudo-color-chart-4-soar: soar(0.6 0.5 2600);
+  --pseudo-color-chart-5-climb: climb(oklch(0.7 0.6 2700));
+  --pseudo-color-sidebar-fall: fall(0.8 0.7 2800);
+  --pseudo-color-sidebar-fg-jump: jump(oklch(0.9 0.8 2900));
+  --pseudo-color-sidebar-primary-leap: leap(1.0 0.9 3000);
+  --pseudo-color-sidebar-primary-fg-bound: bound(oklch(0.1 1.0 3100));
+  --pseudo-color-sidebar-accent-spring: spring(0.2 0.1 3200);
+  --pseudo-color-sidebar-accent-fg-coil: coil(oklch(0.3 0.2 3300));
+  --pseudo-color-sidebar-border-unwind: unwind(0.4 0.3 3400);
+  --pseudo-color-sidebar-ring-rewind: rewind(oklch(0.5 0.4 3500));
+  --pseudo-radius-nano-extra: calc(var(--pseudo-radius-nano) - 0.05px);
+  --pseudo-radius-micro-extra: calc(var(--pseudo-radius-micro) - 0.15px);
+  --pseudo-radius-mini-extra: calc(var(--pseudo-radius-mini) - 0.25px);
+  --pseudo-radius-small-extra: calc(var(--pseudo-radius-small) + 0.05px);
+  --pseudo-radius-medium-extra: calc(var(--pseudo-radius-medium) + 0.15px);
+  --pseudo-radius-large-extra: calc(var(--pseudo-radius-large) + 0.25px);
+  --pseudo-radius-xlarge-extra: calc(var(--pseudo-radius-xlarge) + 0.35px);
+  --pseudo-color-bg-fadein-extra: fadein-extra(radial-gradient(ellipse, oklch(0.6 0.5 600), oklch(0.7 0.6 700)));
+  --pseudo-color-fg-flash-extra: flash-extra(0.8 0.7 800);
+  --pseudo-color-card-shine-extra: shine-extra(oklch(0.9 0.8 900));
+  --pseudo-color-card-fg-glare-extra: glare-extra(1.0 0.9 1000);
+  --pseudo-color-popover-reflect-extra: reflect-extra(oklch(0.1 1.0 1100));
+  --pseudo-color-popover-fg-refract-extra: refract-extra(0.2 0.1 1200);
+  --pseudo-color-primary-bend-extra: bend-extra(oklch(0.3 0.2 1300));
+  --pseudo-color-primary-fg-stretch-extra: stretch-extra(0.4 0.3 1400);
+  --pseudo-color-secondary-compress-extra: compress-extra(oklch(0.5 0.4 1500));
+  --pseudo-color-secondary-fg-expand-extra: expand-extra(0.6 0.5 1600);
+  --pseudo-color-muted-squeeze-extra: squeeze-extra(oklch(0.7 0.6 1700));
+  --pseudo-color-muted-fg-push-extra: push-extra(0.8 0.7 1800);
+  --pseudo-color-accent-pull-extra: pull-extra(oklch(0.9 0.8 1900));
+  --pseudo-color-accent-fg-drag-extra: drag-extra(1.0 0.9 2000);
+  --pseudo-color-destructive-drop-extra: drop-extra(oklch(0.1 1.0 2100));
+  --pseudo-color-border-lift-extra: lift-extra(0.2 0.1 2200);
+  --pseudo-color-input-lower-extra: lower-extra(oklch(0.3 0.2 2300));
+  --pseudo-color-ring-raise-extra: raise-extra(0.4 0.3 2400);
+  --pseudo-color-chart-1-float-extra: float-extra(oklch(0.5 0.4 2500));
+  --pseudo-color-chart-2-sink-extra: sink-extra(0.6 0.5 2600);
+  --pseudo-color-chart-3-dive-extra: dive-extra(oklch(0.7 0.6 2700));
+  --pseudo-color-chart-4-soar-extra: soar-extra(0.8 0.7 2800);
+  --pseudo-color-chart-5-climb-extra: climb-extra(oklch(0.9 0.8 2900));
+  --pseudo-color-sidebar-fall-extra: fall-extra(1.0 0.9 3000);
+  --pseudo-color-sidebar-fg-jump-extra: jump-extra(oklch(0.1 1.0 3100));
+  --pseudo-color-sidebar-primary-leap-extra: leap-extra(0.2 0.1 3200);
+  --pseudo-color-sidebar-primary-fg-bound-extra: bound-extra(oklch(0.3 0.2 3300));
+  --pseudo-color-sidebar-accent-spring-extra: spring-extra(0.4 0.3 3400);
+  --pseudo-color-sidebar-accent-fg-coil-extra: coil-extra(oklch(0.5 0.4 3500));
+  --pseudo-color-sidebar-border-unwind-extra: unwind-extra(0.6 0.5 3600);
+  --pseudo-color-sidebar-ring-rewind-extra: rewind-extra(oklch(0.7 0.6 3700));
+  --pseudo-nano-super: calc(var(--pseudo-radius-nano-extra) - 0.025px);
+  --pseudo-micro-super: calc(var(--pseudo-radius-micro-extra) - 0.075px);
+  --pseudo-mini-super: calc(var(--pseudo-radius-mini-extra) - 0.125px);
+  --pseudo-small-super: calc(var(--pseudo-radius-small-extra) + 0.025px);
+  --pseudo-medium-super: calc(var(--pseudo-radius-medium-extra) + 0.075px);
+  --pseudo-large-super: calc(var(--pseudo-radius-large-extra) + 0.125px);
+  --pseudo-xlarge-super: calc(var(--pseudo-radius-xlarge-extra) + 0.175px);
+  --pseudo-bg-fadein-super: fadein-super(conic-gradient(from 0deg, oklch(0.8 0.7 800), oklch(0.9 0.8 900)));
+  --pseudo-fg-flash-super: flash-super(1.0 0.9 1000);
+  --pseudo-card-shine-super: shine-super(oklch(0.1 1.0 1100));
+  --pseudo-card-fg-glare-super: glare-super(0.2 0.1 1200);
+  --pseudo-popover-reflect-super: reflect-super(oklch(0.3 0.2 1300));
+  --pseudo-popover-fg-refract-super: refract-super(0.4 0.3 1400);
+  --pseudo-primary-bend-super: bend-super(oklch(0.5 0.4 1500));
+  --pseudo-primary-fg-stretch-super: stretch-super(0.6 0.5 1600);
+  --pseudo-secondary-compress-super: compress-super(oklch(0.7 0.6 1700));
+  --pseudo-secondary-fg-expand-super: expand-super(0.8 0.7 1800);
+  --pseudo-muted-squeeze-super: squeeze-super(oklch(0.9 0.8 1900));
+  --pseudo-muted-fg-push-super: push-super(1.0 0.9 2000);
+  --pseudo-accent-pull-super: pull-super(oklch(0.1 1.0 2100));
+  --pseudo-accent-fg-drag-super: drag-super(0.2 0.1 2200);
+  --pseudo-destructive-drop-super: drop-super(oklch(0.3 0.2 2300));
+  --pseudo-border-lift-super: lift-super(0.4 0.3 2400);
+  --pseudo-input-lower-super: lower-super(oklch(0.5 0.4 2500));
+  --pseudo-ring-raise-super: raise-super(0.6 0.5 2600);
+  --pseudo-chart-1-float-super: float-super(oklch(0.7 0.6 2700));
+  --pseudo-chart-2-sink-super: sink-super(0.8 0.7 2800);
+  --pseudo-chart-3-dive-super: dive-super(oklch(0.9 0.8 2900));
+  --pseudo-chart-4-soar-super: soar-super(1.0 0.9 3000);
+  --pseudo-chart-5-climb-super: climb-super(oklch(0.1 1.0 3100));
+  --pseudo-sidebar-fall-super: fall-super(0.2 0.1 3200);
+  --pseudo-sidebar-fg-jump-super: jump-super(oklch(0.3 0.2 3300));
+  --pseudo-sidebar-primary-leap-super: leap-super(0.4 0.3 3400);
+  --pseudo-sidebar-primary-fg-bound-super: bound-super(oklch(0.5 0.4 3500));
+  --pseudo-sidebar-accent-spring-super: spring-super(0.6 0.5 3600);
+  --pseudo-sidebar-accent-fg-coil-super: coil-super(oklch(0.7 0.6 3700));
+  --pseudo-sidebar-border-unwind-super: unwind-super(0.8 0.7 3800);
+  --pseudo-sidebar-ring-rewind-super: rewind-super(oklch(0.9 0.8 3900));
+  --pseudo-extra-var-a: pseudo-value(a100);
+  --pseudo-extra-var-b: pseudo-value(b200);
+  --pseudo-extra-var-c: pseudo-value(c300);
+  --pseudo-extra-var-d: pseudo-value(d400);
+  --pseudo-extra-var-e: pseudo-value(e500);
+  --pseudo-extra-var-f: pseudo-value(f600);
+  --pseudo-extra-var-g: pseudo-value(g700);
+  --pseudo-extra-var-h: pseudo-value(h800);
+  --pseudo-extra-var-i: pseudo-value(i900);
+  --pseudo-extra-var-j: pseudo-value(j1000);
+  --pseudo-extra-var-k: pseudo-value(k1100);
+  --pseudo-extra-var-l: pseudo-value(l1200);
+  --pseudo-extra-var-m: pseudo-value(m1300);
+  --pseudo-extra-var-n: pseudo-value(n1400);
+  --pseudo-extra-var-o: pseudo-value(o1500);
+  --pseudo-extra-var-p: pseudo-value(p1600);
+  --pseudo-extra-var-q: pseudo-value(q1700);
+  --pseudo-extra-var-r: pseudo-value(r1800);
+  --pseudo-extra-var-s: pseudo-value(s1900);
+  --pseudo-extra-var-t: pseudo-value(t2000);
+  --pseudo-extra-var-u: pseudo-value(u2100);
+  --pseudo-extra-var-v: pseudo-value(v2200);
+  --pseudo-extra-var-w: pseudo-value(w2300);
+  --pseudo-extra-var-x: pseudo-value(x2400);
+  --pseudo-extra-var-y: pseudo-value(y2500);
+  --pseudo-extra-var-z: pseudo-value(z2600);
+  --pseudo-gradient-alpha: linear-gradient(90deg, alpha, beta);
+  --pseudo-gradient-beta: radial-gradient(square, gamma, delta);
+  --pseudo-gradient-gamma: conic-gradient(from 135deg, epsilon, zeta);
+  --pseudo-gradient-delta: linear-gradient(to bottom left, eta, theta);
+  --pseudo-gradient-epsilon: radial-gradient(rectangle, iota, kappa);
+  --pseudo-gradient-zeta: conic-gradient(blue 0deg, red 120deg, green 240deg);
+  --pseudo-gradient-eta: linear-gradient(225deg, yellow, magenta);
+  --pseudo-gradient-theta: radial-gradient(farthest-side, cyan, pink);
+  --pseudo-gradient-iota: conic-gradient(from 270deg, lime, teal);
+  --pseudo-gradient-kappa: linear-gradient(to top left, navy, olive);
+  --pseudo-gradient-lambda: radial-gradient(closest-corner, khaki, maroon);
+  --pseudo-gradient-mu: conic-gradient(white 0%, black 100%);
+  --pseudo-gradient-nu: linear-gradient(repeating-linear-gradient(gold, silver 5%, bronze 10%));
+  --pseudo-gradient-xi: radial-gradient(repeating-radial-gradient(circle, platinum, diamond 3%));
+  --pseudo-gradient-omicron: conic-gradient(repeating-conic-gradient(ruby 0deg 15deg, emerald 15deg 30deg));
+  --pseudo-gradient-pi: linear-gradient(to right, hsl(180 100% 50%), hsl(300 100% 50%));
+  --pseudo-gradient-rho: radial-gradient(hsla(60 100% 50% / 70%), hsla(0 100% 50% / 70%));
+  --pseudo-gradient-sigma: conic-gradient(from 45deg, rgb(0 255 0), rgb(255 0 0), rgb(0 0 255));
+  --pseudo-gradient-tau: linear-gradient(rgba(255 0 255 / 0.3), rgba(0 255 0 / 0.3));
+  --pseudo-gradient-upsilon: radial-gradient(oklch(0.4 0.3 400), oklch(0.5 0.4 500));
+  --pseudo-gradient-phi: conic-gradient(oklab(0.6 0.5 0.6), oklab(0.7 0.6 0.7));
+  --pseudo-gradient-chi: linear-gradient(lab(80% 50 60), lab(90% 60 70));
+  --pseudo-gradient-psi: radial-gradient(lch(100% 70 80deg), lch(0% 80 90deg));
+  --pseudo-gradient-omega: conic-gradient(xyz(0.3 0.4 0.5), xyz(0.4 0.5 0.6));
+  --pseudo-gradient-extra1: linear-gradient(oklch(0.2 0.1 200), oklch(0.3 0.2 300));
+  --pseudo-gradient-extra2: radial-gradient(hwb(240deg 20% 30%), hwb(300deg 40% 50%));
+  --pseudo-gradient-extra3: conic-gradient(cmyk(20% 30% 40% 50%), cmyk(30% 40% 50% 60%));
+  --pseudo-gradient-extra4: linear-gradient(currentColor, transparent);
+  --pseudo-gradient-extra5: radial-gradient(initial, inherit);
+  --pseudo-gradient-extra6: conic-gradient(revert, unset);
+  --pseudo-color-random-a: oklch(0.31 0.31 310);
+  --pseudo-color-random-b: oklch(0.32 0.32 320);
+  --pseudo-color-random-c: oklch(0.33 0.33 330);
+  --pseudo-color-random-d: oklch(0.34 0.34 340);
+  --pseudo-color-random-e: oklch(0.35 0.35 350);
+  --pseudo-color-random-f: oklch(0.36 0.36 360);
+  --pseudo-color-random-g: oklch(0.37 0.37 370);
+  --pseudo-color-random-h: oklch(0.38 0.38 380);
+  --pseudo-color-random-i: oklch(0.39 0.39 390);
+  --pseudo-color-random-j: oklch(0.40 0.40 400);
+  --pseudo-color-random-k: oklch(0.41 0.41 410);
+  --pseudo-color-random-l: oklch(0.42 0.42 420);
+  --pseudo-color-random-m: oklch(0.43 0.43 430);
+  --pseudo-color-random-n: oklch(0.44 0.44 440);
+  --pseudo-color-random-o: oklch(0.45 0.45 450);
+  --pseudo-color-random-p: oklch(0.46 0.46 460);
+  --pseudo-color-random-q: oklch(0.47 0.47 470);
+  --pseudo-color-random-r: oklch(0.48 0.48 480);
+  --pseudo-color-random-s: oklch(0.49 0.49 490);
+  --pseudo-color-random-t: oklch(0.50 0.50 500);
+  --pseudo-color-random-u: oklch(0.51 0.51 510);
+  --pseudo-color-random-v: oklch(0.52 0.52 520);
+  --pseudo-color-random-w: oklch(0.53 0.53 530);
+  --pseudo-color-random-x: oklch(0.54 0.54 540);
+  --pseudo-color-random-y: oklch(0.55 0.55 550);
+  --pseudo-color-random-z: oklch(0.56 0.56 560);
+}
+
+
+
+
+
+.dark-canvas {
+  --surface-color: oklch(0.11 0 0);
+  --copy-color: oklch(0.99 0 0);
+  --plate: oklch(0.18 0 0);
+  --plate-copy: oklch(0.99 0 0);
+  --float: oklch(0.18 0 0);
+  --float-copy: oklch(0.99 0 0);
+  --accent-main: oklch(0.93 0 0);
+  --accent-copy: oklch(0.18 0 0);
+  --subtle: oklch(0.26 0 0);
+  --subtle-copy: oklch(0.99 0 0);
+  --quiet: oklch(0.26 0 0);
+  --quiet-copy: oklch(0.74 0 0);
+  --flash: oklch(0.26 0 0);
+  --flash-copy: oklch(0.99 0 0);
+  --warning: oklch(0.71 0.19 21.8);
+  --edge: oklch(1 0 0 / 0.09);
+  --entry: oklch(1 0 0 / 0.14);
+  --focus-ring: oklch(0.58 0 0);
+  --data-1: oklch(0.49 0.24 263);
+  --data-2: oklch(0.70 0.17 161);
+  --data-3: oklch(0.78 0.19 69);
+  --data-4: oklch(0.64 0.26 302);
+  --data-5: oklch(0.66 0.25 15);
+  --side-panel: oklch(0.18 0 0);
+  --side-copy: oklch(0.99 0 0);
+  --side-accent: oklch(0.49 0.24 263);
+  --side-accent-copy: oklch(0.99 0 0);
+  --side-flash: oklch(0.26 0 0);
+  --side-flash-copy: oklch(0.99 0 0);
+  --side-edge: oklch(1 0 0 / 0.09);
+  --side-focus: oklch(0.58 0 0);
+}
+
+
+/* @layer essence {
+  * {
+    @apply contour-line focus-haze/45;
+  }
+  body {
+    @apply base-tone content-tone;
+  }
+} */
+
+body {
+  overflow-x: hidden;
+
+}
+
+.imgOfHome {
+	height: 614px;
+	width: 620px;
+}
+
+
+@media (max-width: 640px) {
+  .imgOfHome {
+    max-height: 400px; 
+  }
+}
+
+
+/* .modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50; 
+}
+.modal-content {
+  background-color: white; 
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  width: 90%;
+} */
