@@ -30,7 +30,7 @@ import {
 } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
-import defaultProfile from "../../../../app/provider/images/profil-removebg-preview.png";
+import defaultProfile from "../profile/profil-removebg-preview.png";
 import { API } from "@/shared/utils/config";
 import { comment } from "@/app/provider/svg/svg";
 import { useTheme as useNextTheme } from "next-themes";

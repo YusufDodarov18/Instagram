@@ -14,7 +14,7 @@ export const usePosts = create<PostsStore>((set,get) => ({
     getPosts: async ()=>{
         try {
             set({loading:true})
-            const { data }=await axiosRequest.get(`/Post/get-posts?PageSize=4`)
+            const { data }=await axiosRequest.get(`/Post/get-posts?PageSize=80`)
             set({
                 posts:data?.data,
                 loading:false
@@ -51,7 +51,7 @@ export const usePosts = create<PostsStore>((set,get) => ({
     }));
   },
 
-  addComment: async ({ postId, commentText }) => {
+  addComment: async ({postId, commentText }) => {
     await axiosRequest.post(`/Post/add-comment`, {
       comment: commentText,
       postId,

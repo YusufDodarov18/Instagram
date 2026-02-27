@@ -34,8 +34,6 @@ export default function Notification() {
     }
   }, [notificationDrawer]);
 
-  console.log(users);
-
   const DrawerList = (
     <Box sx={{ width: 400 }} role="presentation">
       <Box sx={{ p: 2 }}>

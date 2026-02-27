@@ -177,5 +177,16 @@
   "Go to post": "Перейти к публикации",
   "not Interesed": "Не интересное",
   "Copy link": "Копировать ссылку",
-  "Embed on website": "Вставить на сайт"
+  "Embed on website": "Вставить на сайт",
+  "less":"меньше",
+  "like":"Нравится",
+  "time": {
+    "seconds": "{{count}} сек назад",
+    "minutes": "{{count}} мин назад",
+    "hours": "{{count}} ч назад",
+    "days": "{{count}} дн назад",
+    "weeks": "{{count}} нед назад",
+    "months": "{{count}} мес назад",
+    "years": "{{count}} г назад"
+  }
 }

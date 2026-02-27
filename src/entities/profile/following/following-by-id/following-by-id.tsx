@@ -11,7 +11,7 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import profileDefault from "../../../../app/provider/images/profil-removebg-preview.png";
+import profileDefault from "../../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
 import { API } from "@/shared/utils/config";
 import { useProfileById } from "@/app/store/profile/profile-by-id/profile-by-id";
 import { useProfile } from "@/app/store/profile/myProfile/profile";

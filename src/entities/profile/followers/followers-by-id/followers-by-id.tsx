@@ -12,7 +12,7 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import profileDefault from "../../../../app/provider/images/profil-removebg-preview.png";
+import profileDefault from "../../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
 import { useProfileById } from "@/app/store/profile/profile-by-id/profile-by-id";
 
 function FollowersById({

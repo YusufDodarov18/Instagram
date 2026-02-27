@@ -1,38 +1,55 @@
 "use client";
 
+import './page.css'
 import getToken from "@/api/token";
 import { usePosts } from "@/app/store/posts/posts";
 import PostSkeleton from "@/entities/home/post-actions/post-skeleton/post-skeleton";
 import { useEffect, useState } from "react";
-import profile from '../../../../app/provider/images/profil-removebg-preview.png'
+import profile from '../profile/profil-removebg-preview.png'
 import Link from "next/link";
-import PostAction from "@/entities/home/post-actions/post-actions";
+// import PostAction from "@/entities/home/post-actions/post-actions";
 import { useTranslation } from "react-i18next";
 import { Recommendation } from "@/entities/home/recommendation/recommendation";
 import { API } from "@/shared/utils/config";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { menu } from "@/app/provider/svg/svg";
 import InstaSlider from "@/entities/home/images/imageSlider";
 import Menu from "@/entities/home/menu/menu";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
-import { useTheme } from "next-themes";
+import { comment, messageActive } from '@/app/provider/svg/svg'
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useTheme } from 'next-themes';
+import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import CommentModal from "@/entities/home/comments/comment";
+import { post } from "../../types";
 
 
 function page() {
   const {addComment,addFavoritePost,addFollowingRelationship,subscribtions,getSubscribtions,formatShortTime,deleteFollowingRelationship, getPosts,likePosts, loading, posts}=usePosts()
   const [openModal,setOpenModal]=useState<boolean>(false)
+  const [openModalComment,setOpenModalComment]=useState<boolean>(false)
+  const [expandedPostId,setExpandedPostId]=useState<number|null>(null)
+  const [idx,setIdx]=useState<null|post>(null)
   const {t,i18n}=useTranslation()
   const {resolvedTheme}=useTheme()
   const myId=getToken()?.sid
+  let CHARACTER_LIMIT=50
 
   useEffect(()=>{
     if(!myId) return
     getSubscribtions(myId)
-  },[getSubscribtions,myId])
+  },[myId])
 
   useEffect(()=>{
     getPosts()
-  },[getPosts])
+  },[])
+
+ const truncateText=(text:string,postId:number)=>{
+    if(expandedPostId===postId)return text
+    if(text.length<=CHARACTER_LIMIT)return text
+    return text.slice(0,CHARACTER_LIMIT)+"..."
+}
 
  const handleFollow=async(userId:string)=>await addFollowingRelationship(userId)
   return (
@@ -52,7 +69,7 @@ function page() {
                           )
                           :posts.map((el)=>{
                               const isFollowing=subscribtions?.includes(el?.userId)
-                             return <div className="w-[100%] sm:w-[450px] ">
+                             return <div className="w-[100%] sm:w-[450px]">
                                   <header className="flex justify-between gap-1">
                                       <div>
                                         <div className="flex gap-2 items-center">
@@ -87,18 +104,67 @@ function page() {
                                   </main>
 
                                   <main className="pt-2">
-                                        <PostAction
-                                          commentCount={el.commentCount}
-                                          datePublished={el.datePublished}
-                                          userName={el.userName}
-                                          postId={el.postId}
-                                          comments={el.comments}
-                                          title={el.title}
-                                          content={el.content}
-                                          likeCount={el.postLikeCount}
-                                          isLiked={el.postLike}
-                                          isPostFavorited={el.postFavorite}
-                                        />
+                                        <div className='flex flex-col'>
+                                              <div className='flex justify-between px-1 text-lg font-bold'>
+                                                {/* *  <div className='flex gap-4 text-black font-bold dark:text-white'>
+                                                                    <div className='cursor-pointer flex gap-1 items-start'>
+                                                                        {isLiked?
+                                                                            <FavoriteIcon color='error' onClick={()=>likePosts(postId)}/>:
+                                                                            <FavoriteBorderIcon onClick={()=>likePosts(postId)}/>
+                                                                        }
+                                                                        <Typography>{likeCount}</Typography>
+                                                                    </div>
+                                                                    <div className='cursor-pointer flex gap-1 items-start'>
+                                                                        <Typography>{comment}</Typography>
+                                                                        <Typography>{commentCount}</Typography>
+                                                                        <Typography>{messageActive}</Typography>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <Typography onClick={()=>addFavoritePost(postId)}>
+                                                                        {isPostFavorited?
+                                                                            <BookmarkIcon fontSize="small" />
+                                                                        :
+                                                                    <TurnedInNotIcon fontSize="small" />
+                                                                        }
+                                                                    </Typography>
+                                                    </div> */}
+                                                  <div className='flex gap-2 items-center'>
+                                                       <div className='cursor-pointer'>
+                                                           {
+                                                               el.postLike?
+                                                                   <FavoriteIcon color='error' onClick={()=>likePosts(el.postId)}/>:
+                                                                   <FavoriteBorderIcon onClick={()=>likePosts(el.postId)}/>
+                                                           }
+                                                       </div>
+                                                       <div>{el.postLikeCount}</div>
+                                                       <div className='cursor-pointer' onClick={()=>{setOpenModalComment(true),setIdx(el)}}>{comment}</div>
+                                                       <div>{el.commentCount}</div>
+                                                       <div className='cursor-pointer'>{messageActive}</div>
+                                                  </div>
+                                                  <div className='cursor-pointer' onClick={()=>addFavoritePost(el.postId)}>
+                                                       {
+                                                           el.postFavorite ?<BookmarkIcon />:<TurnedInNotIcon />
+                                                       }
+                                                  </div>
+                                             </div>
+                                             <div className='px-2 py-3'>
+                                                <Typography>{el?.title}</Typography>
+                                                <p className='mt-[3px] text-gray-400 break-words whitespace-pre-wrap'>{truncateText(el?.content||"",el.postId)}</p>
+                                                    {el?.content?.length>CHARACTER_LIMIT&&(
+                                                      <button
+                                                        onClick={()=>
+                                                          setExpandedPostId(
+                                                            expandedPostId===el.postId?null:el.postId
+                                                          )
+                                                        } 
+                                                        className="text-[#737373] text-sm font-medium ml-1 cursor-pointer hover:underline"
+                                                      >
+                                                        {expandedPostId===el.postId ? t("less") : t("layout.more")}
+                                                      </button>
+                                                    )}
+                                             </div>
+                                        </div>
                                   </main>
                               </div>
                         })}
@@ -111,6 +177,12 @@ function page() {
              </section>
              
             <Menu open={ openModal} onClose={()=>setOpenModal(false)} />
+
+            <CommentModal
+              open={openModalComment}
+              handleClose={()=>setOpenModalComment(false)}
+              post={idx}
+            />
         </>
     )
 }

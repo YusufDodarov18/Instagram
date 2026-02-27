@@ -12,7 +12,7 @@ import { API } from "@/shared/utils/config";
 import ClearIcon from "@mui/icons-material/Clear";
 import avatar from "../../app/provider/images/ava.jpeg";
 import CloseIcon from "@mui/icons-material/Close";
-import { DecodedToken, history, searchUser } from "@/app/(router)/types";
+import { DecodedToken } from "@/app/(router)/types";
 import { jwtDecode } from "jwt-decode";
 
 function Search() {

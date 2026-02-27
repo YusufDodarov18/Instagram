@@ -1,7 +1,7 @@
 import { Box, Dialog } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import profileImg from "../../../../app/provider/images/instagramDefaultProfile-removebg-preview.png";
+import profileImg from "../../../../app/(router)/(protected)/profile/instagramDefaultProfile-removebg-preview.png";
 import { API } from "@/shared/utils/config";
 
 export type infoByid = {

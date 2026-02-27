@@ -16,7 +16,7 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useEffect, useRef, useState } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Link from "next/link";
-import profile from "../../../provider/images/profil-removebg-preview.png";
+import profile from "../profile/profil-removebg-preview.png";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import {
   comment,

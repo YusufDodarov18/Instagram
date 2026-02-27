@@ -89,19 +89,13 @@ function page() {
         <div className="flex flex-col gap-5 mt-2">
          <div className="w-full max-w-[370px] sm:w-[370px] border border-solid border-[#cacaca] mx-auto pb-2 px-4 sm:px-0">
               <span>{instagram}</span>
-                <p className="text-[16px] font-bold text-[gray] text-center mt-[10px] w-[280px] m-auto">
-                  {t("authentication.register.headerInfo")}
-                </p>
+                <p className="text-[16px] font-bold text-[gray] text-center mt-[10px] w-[280px] m-auto">{t("authentication.register.headerInfo")}</p>
                 <div className="flex justify-center items-center ">
                   <Link href={"https://www.facebook.com"}>
-                      <button className="bg-blue-500 text-[white] cursor-pointer w-50 h-10 md:w-[280px] md:h-[38px] rounded-[5px] font-bold text-[16px] mt-[20px] ">
-                        {t("authentication.register.facebookLogin")}
-                      </button>
+                      <button className="bg-blue-500 text-[white] cursor-pointer w-50 h-10 md:w-[280px] md:h-[38px] rounded-[5px] font-bold text-[16px] mt-[20px] ">{t("authentication.register.facebookLogin")}</button>
                   </Link>
                 </div>
-                <p className="text-gray-500 text-center mt-[23px] text-[18px]">
-                  {t("authentication.register.or")}
-                </p>
+                <p className="text-gray-500 text-center mt-[23px] text-[18px]">{t("authentication.register.or")}</p>
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

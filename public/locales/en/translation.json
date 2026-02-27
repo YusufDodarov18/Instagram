@@ -152,5 +152,16 @@
   "Go to post": "Go to post",
   "not Interesed": "Not interested",
   "Copy link": "Copy link",
-  "Embed on website": "Embed on website"
+  "Embed on website": "Embed on website",
+  "less":"less",
+  "like":"like",
+  "time": {
+    "seconds": "{{count}} seconds ago",
+    "minutes": "{{count}} minutes ago",
+    "hours": "{{count}} hours ago",
+    "days": "{{count}} days ago",
+    "weeks": "{{count}} weeks ago",
+    "months": "{{count}} months ago",
+    "years": "{{count}} years ago"
+  }
 }

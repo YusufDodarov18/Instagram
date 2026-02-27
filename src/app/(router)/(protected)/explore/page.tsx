@@ -7,7 +7,7 @@ import Skeleton from "@mui/material/Skeleton";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useTranslation } from "react-i18next";
 import { API } from "@/shared/utils/config";
-import defaultProfile from "../../../../app/provider/images/profil-removebg-preview.png";
+import defaultProfile from "../profile/profil-removebg-preview.png";
 import { Box } from "@mui/material";
 import { post } from "../../types";
 import { commentVideo, likeVideo } from "@/app/provider/svg/svg";

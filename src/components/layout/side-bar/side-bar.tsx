@@ -2,7 +2,7 @@
 import React, { MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import Profile from "../../../app/provider/images/profil-removebg-preview.png";
+import Profile from "../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
 import { usePathname } from "next/navigation";
 import {
   homeIcon,

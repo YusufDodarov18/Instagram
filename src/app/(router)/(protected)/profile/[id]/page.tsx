@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import profile from "../../../../provider/images/instagramDefaultProfile-removebg-preview.png";
+import profile from "../instagramDefaultProfile-removebg-preview.png";
 import { menu3 } from "@/app/provider/svg/svg";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";

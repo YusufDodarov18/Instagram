@@ -1,9 +1,9 @@
 "use client";
-import Profile from "../../../app/provider/images/profil-removebg-preview.png";
+import Profile from "../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import CreatePostModal from "@/app/(router)/(protected)/create/post/create";
@@ -14,7 +14,6 @@ import {
   compasActive,
   homeIcon,
   homeIconActive,
-  instagram,
   instagramText,
   likeActive,
   message,
@@ -82,7 +81,7 @@ export default function BottomNavigation({
               {pathName !== "/profile" ? (
                 <div className="text-lg">{instagramText}</div>
               ) : (
-                <div className="font-bold text-[18px] font-semibold">
+                <div className="font-bold text-[18px]">
                   {myProfile?.userName}
                 </div>
               )}

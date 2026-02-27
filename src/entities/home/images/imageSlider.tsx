@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { API } from "@/shared/utils/config";
 import Video from "../videos/video";
+import Image from "next/image";
 
 const InstaSlider = ({ images }: { images: string[] }) => {
   const [activeIndex, setActiveIndex] = useState(0);
