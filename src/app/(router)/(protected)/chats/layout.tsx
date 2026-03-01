@@ -11,6 +11,7 @@ import ModalChat from '@/entities/chats/modal/component'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { menu } from '@/app/provider/svg/svg'
+import getToken from '@/api/token'
 
 function Layout({children}:{children:React.ReactNode}) {
     const {chats,deleteChat,getChats,loading, getChatById,createChat,chatById}=useChats()
@@ -22,6 +23,7 @@ function Layout({children}:{children:React.ReactNode}) {
     const {t}=useTranslation()
     const params = useParams()
     const activeChatId = params?.['chat-by-id']
+    const myId=getToken()?.sid
     
     useEffect(()=> {
         getChats()
@@ -66,37 +68,42 @@ function Layout({children}:{children:React.ReactNode}) {
                                 <div className='flex px-4 py-1 gap-2'></div>
 
                                 <div className='flex-1 overflow-y-auto mt-1'>
-                                    {chats.map((chat)=>(
-                                        <Link href={`/chats/${chat.chatId}`}>
-                                            <div key={chat.chatId} className={`flex group  w-[100%] items-center gap-3 px-5 py-2 transition-colors cursor-pointer ${Number(activeChatId) === chat.chatId ? "bg-accent" : "hover:bg-accent/50"}`} key={chat.chatId}>
-                                                <div className="relative shrink-0">
-                                                     <img 
-                                                         src={chat?.receiveUserImage?
-                                                         `${API}/images/${chat.receiveUserImage}`:
-                                                         defaultProfile.src
-                                                         } 
-                                                         alt={`${chat.chatId}`}
-                                                         className='w-14 h-14 rounded-full object-cover'
-                                                     />
-                                                </div>
-                                                <div className='flex-1 min-w-0 text-left'>
-                                                     <div className='flex items-center justify-between'>
-                                                         <span className='text-sm font-semibold '>{chat.receiveUserName}</span>
-                                                     </div>
-                                                     <div className='flex items-center gap-1'>
-                                                         <span className={`text-sm truncate font-semibold`}>Салом c</span>  
-                                                     </div>
-                                                </div>
-                                                <div className='hidden group-hover:block' onClick={(e)=>{
-                                                    e.stopPropagation()
-                                                    e.preventDefault()
-                                                    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
-                                                    setMenuPosition({x: rect.left,y: rect.bottom})
-                                                     setSelectedChatId(chat.chatId)
-                                                }}>{menu}</div>
-                                            </div>
-                                        </Link>
-                                    ))}
+                                    {chats.map((chat)=>{
+                                        const isMe=chat.sendUserId===myId
+                                        const userName=isMe?chat.receiveUserName:chat.sendUserName
+                                        const userImage = isMe ?chat.receiveUserImage :chat.sendUserImage
+                                        return (
+                                            <Link href={`/chats/${chat.chatId}`}>
+                                                  <div key={chat.chatId} className={`flex group  w-[100%] items-center gap-3 px-5 py-2 transition-colors cursor-pointer ${Number(activeChatId) === chat.chatId ? "bg-accent" : "hover:bg-accent/50"}`} key={chat.chatId}>
+                                                      <div className="relative shrink-0">
+                                                          <img 
+                                                              src={userImage?
+                                                              `${API}/images/${userImage}`:
+                                                              defaultProfile.src
+                                                              } 
+                                                              alt={`${chat.chatId}`}
+                                                              className='w-14 h-14 rounded-full object-cover'
+                                                          />
+                                                      </div>
+                                                      <div className='flex-1 min-w-0 text-left'>
+                                                          <div className='flex items-center justify-between'>
+                                                              <span className='text-sm font-semibold '>{userName}</span>
+                                                          </div>
+                                                          <div className='flex items-center gap-1'>
+                                                              <span className={`text-sm truncate font-semibold`}>{userName}</span>  
+                                                          </div>
+                                                      </div>
+                                                      <div className='hidden group-hover:block' onClick={(e)=>{
+                                                          e.stopPropagation()
+                                                          e.preventDefault()
+                                                          const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+                                                          setMenuPosition({x: rect.left,y: rect.bottom})
+                                                          setSelectedChatId(chat.chatId)
+                                                      }}>{menu}</div>
+                                                  </div>
+                                            </Link>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -107,8 +114,8 @@ function Layout({children}:{children:React.ReactNode}) {
             </div>
             {menuPosition &&(
                 <div className='fixed z-[9999]' style={{ top: menuPosition.y,left: menuPosition.x}}>
-                    <div className='flex justify-center px-10 py-6 flex-col font-bold items-center rounded-3xl gap-5 bg-[#f7f7f7] dark:bg-[#242323] w-[220px]'>
-                         <div className='flex justify-between items-center  gap-1 cursor-pointer'>
+                    <div className='flex justify-center px-4 py-4 flex-col font-bold items-center rounded-3xl gap-5 bg-[#f7f7f7] dark:bg-[#242323] w-[220px]'>
+                         <div className='flex items-center justify-between w-full px-3 py-2 rounded-xl hover:bg-gray-200 dark:hover:bg-[#2f2f2f] transition cursor-pointer'>
                                 <p>{t("Mark as unread")}</p>
                                 <svg aria-label="Отметить переписку как непрочитанную" className="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="30" role="img" viewBox="0 0 24 24" width="30">
                                     <title>Отметить переписку как непрочитанную</title>

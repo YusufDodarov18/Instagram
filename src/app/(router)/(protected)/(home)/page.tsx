@@ -50,7 +50,6 @@ function page() {
     if(text.length<=CHARACTER_LIMIT)return text
     return text.slice(0,CHARACTER_LIMIT)+"..."
 }
-
  const handleFollow=async(userId:string)=>await addFollowingRelationship(userId)
   return (
         <>

@@ -40,9 +40,11 @@ export const useChats=create<ChatsStore>((set,get)=>({
 
     sendMessage: async (formData)=>{
         try {
-            await axiosRequest.post('/Chat/send-message',formData)
+            await axiosRequest.put('/Chat/send-message',formData)
             get().getChatById(formData.get('ChatId'))
-        } catch (error) {}
+        } catch (error) {
+            console.error(error)
+        }
     },
 
     deleteMessage:async (messageId,chatId) =>{
@@ -59,49 +61,4 @@ export const useChats=create<ChatsStore>((set,get)=>({
         }
         catch{}
     },
-
-    getLastMessages: async () => {
-	    try {
-	    	const chatsRes = await axiosRequest.get(
-	    		'/Chat/get-chats',
-	    		{
-	    			headers: {
-	    				Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-	    			},
-	    		}
-	    	)
-
-	    	const chats = chatsRes.data.data
-	    	const map = {}
-
-	    	await Promise.all(
-	    		chats.map(async (chat:any) => {
-	    			const res = await axios.get(
-	    				`http://37.27.29.18:8003/Chat/get-chat-by-id?chatId=${chat.chatId}`,
-	    				{
-	    					headers: {
-	    						Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-	    					},
-	    				}
-	    			)
-
-	    			let messages = res.data.data
-
-	    			if (messages && messages.length > 0) {
-	    				messages = messages.sort(
-	    					(a:any, b:any) => new Date(b.createdAt) - new Date(a.createdAt)
-	    				)
-
-	    				const lastMessage = messages[0] 
-	    				map[chat.chatId] = lastMessage
-	    			}
-	    		})
-	    	)
-
-	    	set({ lastMessage: map })
-	    } catch (error) {
-	    	console.error('Ошибка при получении последних сообщений:', error)
-	    }
-   },
-
 }))

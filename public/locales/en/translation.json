@@ -172,5 +172,7 @@
   "Online": "Online",
   "Mark as unread":"Mark as unread",
   "delete":"Delete",
-  "Stop":"Stop"
+  "Stop":"Stop",
+  "View profile":"View profile",
+  "writemessage":"write a message"
 }

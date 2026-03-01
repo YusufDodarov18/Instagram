@@ -79,7 +79,7 @@ export const Recommendation = () => {
                                     <h6>{user.fullName}</h6>
                                 </div>
                             </div>
-                            <p className='text-[#285aff] font-bold hover:underline cursor-pointer'>{t("Follow")}</p>
+                            <p className='text-[#285aff] dark:text-[#287eff] font-bold hover:underline cursor-pointer'>{t("Follow")}</p>
                         </div>
                     ))}
                  </div>
