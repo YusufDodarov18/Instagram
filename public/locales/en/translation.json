@@ -153,8 +153,8 @@
   "not Interesed": "Not interested",
   "Copy link": "Copy link",
   "Embed on website": "Embed on website",
-  "less":"less",
-  "like":"like",
+  "less": "less",
+  "like": "like",
   "time": {
     "seconds": "{{count}} seconds ago",
     "minutes": "{{count}} minutes ago",
@@ -163,5 +163,14 @@
     "weeks": "{{count}} weeks ago",
     "months": "{{count}} months ago",
     "years": "{{count}} years ago"
-  }
+  },
+  "your_messages": "Your messages",
+  "send_private_photos_and_messages": "Send private photos and messages to a friend or a group",
+  "New_Message": "New Message",
+  "To whom": "To whom",
+  "Recommended": "Recommended",
+  "Online": "Online",
+  "Mark as unread":"Mark as unread",
+  "delete":"Delete",
+  "Stop":"Stop"
 }

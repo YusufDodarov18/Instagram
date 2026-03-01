@@ -13,7 +13,7 @@ export default function getToken(){
     }catch{}
 }
 
-export function Logout(){
+export function destroyToken(){
     localStorage.removeItem("access_token");
     document.cookie = "token=; max-age=0; path=/";
     window.location.pathname = "/login";

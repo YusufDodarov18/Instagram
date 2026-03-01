@@ -266,7 +266,7 @@ export interface PostsStore {
   deleteFollowingRelationship: (followingUserId: string) => Promise<void>;
   addFavoritePost: (postId: number) => Promise<void>;
   addComment: (data: AddCommentProps) => Promise<void>;
-  getSubscribtions:(userId:string)=>Promise<void>
+  getSubscribtions: (userId: string) => Promise<void>;
 }
 
 export interface ExploreStore {
@@ -379,3 +379,41 @@ export type infoByid = {
   occupation: string;
   about: string;
 };
+
+export interface chat {
+  sendUserId: string;
+  sendUserName: string;
+  sendUserImage: string;
+  chatId: number;
+  receiveUserId: string;
+  receiveUserName: string;
+  receiveUserImage: string;
+}
+
+export interface ChatsStore {
+  loading: boolean;
+  chats: chat[];
+  getChats: () => Promise<void>;
+  chatById: chatById[];
+  getChatById:(id:number)=>Promise<void>
+  createChat:(id:string)=>Promise<void>
+  sendMessage:(formData:formData)=>Promise<void>,
+  deleteMessage:(chatId:number, messageId:string)=>Promise<void>
+  deleteChat:(chatId:number)=>Promise<void>
+}
+
+export interface formData{
+  ChatId:number,
+  MessageText:string
+  File:string|null
+}
+export interface chatById {
+  userId: string;
+  userName: string;
+  userImage: string;
+  messageId: number;
+  chatId: number;
+  messageText: string;
+  sendMassageDate: string;
+  file: string | null;
+}

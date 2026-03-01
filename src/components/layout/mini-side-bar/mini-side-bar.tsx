@@ -28,9 +28,9 @@ import { JwtPayload } from "@/app/(router)/types";
 import CreatePostModal from "@/app/(router)/(protected)/create/post/create";
 import { useDrawerStore } from "@/app/store/search/search";
 import { useDrawerNotification } from "@/app/store/notification/notification";
-import MenuComp from "@/entities/menuConfig/menu";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
+import SettingModal from "@/entities/settingModal/modal";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} arrow />
@@ -54,14 +54,10 @@ const MiniSideBar = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
   const [decode, setDecode] = useState<JwtPayload | null>(null);
-  const [anchorElMenu, setAnchorElMenu] = useState<null | HTMLElement>(null);
-  const openMenu = Boolean(anchorElMenu);
+  const [settingModal, setOpenSettingModal] = useState<boolean>(false);
   const { getMyProfile, myProfile } = useProfile();
 
-  const handleMenuClick = (event: MouseEvent<HTMLElement>) =>
-    setAnchorElMenu(event.currentTarget);
-  const handleMenuClose = () => setAnchorElMenu(null);
-
+  const handleClose = () => setOpenSettingModal(false);
   const renderIcon = (
     path: string,
     activeIcon: React.ReactNode,
@@ -164,15 +160,11 @@ const MiniSideBar = ({ children }: { children: React.ReactNode }) => {
               </Link>
             </LightTooltip>
             <LightTooltip title={t("layout.more")} placement="right">
-              <div className={miniItem} onClick={handleMenuClick}>
+              <div className={miniItem} onClick={()=>setOpenSettingModal(true)}>
                 {setting}
               </div>
             </LightTooltip>
-            <MenuComp
-              anchorEl={anchorElMenu}
-              open={openMenu}
-              onClose={handleMenuClose}
-            />
+            <SettingModal onClose={handleClose} open={settingModal} left={80} />
           </div>
         </div>
       </section>

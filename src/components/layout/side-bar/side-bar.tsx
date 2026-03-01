@@ -28,6 +28,7 @@ import { useDrawerStore } from "@/app/store/search/search";
 import { JwtPayload, NavLinkProps } from "@/app/(router)/types";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
+import SettingModal from "@/entities/settingModal/modal";
 
 const NavLink = ({ href, icon, activeIcon, label, isActive }: NavLinkProps) => (
   <Link
@@ -46,21 +47,17 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
   const { toggleDrawer } = useDrawerStore();
   const { toggleDrawerNotification } = useDrawerNotification();
   const pathname = usePathname();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [settingModal, setOpenSettingModal] = useState<boolean>(false);
   const [decode, setDecode] = useState<JwtPayload | null>(null);
   const { t } = useTranslation();
-  const [open1, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const { myProfile, getMyProfile } = useProfile();
 
   useEffect(() => {
     getMyProfile();
   }, [getMyProfile]);
 
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => setAnchorEl(null);
+  const handleClose = () => setOpenSettingModal(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -131,7 +128,7 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
               <AddBoxOutlinedIcon fontSize="medium" />
               <p className="text-lg">{t("layout.create")}</p>
             </div>
-            <CreatePostModal open={open1} onClose={() => setOpen(false)} />
+            <CreatePostModal open={open} onClose={() => setOpen(false)} />
 
             <NavLink
               href="/profile"
@@ -170,11 +167,11 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
             </Link>
 
             <div className={sidebarItem} >
-              <button onClick={handleClick} className="flex gap-5 items-center">
+              <button onClick={()=>setOpenSettingModal(true)} className="flex gap-5 items-center">
                 {setting}
                 <span>{t("layout.more")}</span>
               </button>
-              <MenuComp anchorEl={anchorEl} open={open} onClose={handleClose} />
+              <SettingModal onClose={handleClose} open={settingModal} left={30} />
             </div>
           </div>
         </div>

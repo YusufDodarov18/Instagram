@@ -188,5 +188,14 @@
     "weeks": "{{count}} нед назад",
     "months": "{{count}} мес назад",
     "years": "{{count}} г назад"
-  }
+  },
+ "messages_title": "Ваши сообщения",
+  "messages_description": "Отправляйте личные фото и сообщения другу или группе",
+  "New_Message":"Новое сообщения",
+  "To whom":"Кому",
+  "Recommended":"Рекомендуемые",
+  "Online":"В сети",
+  "Mark as unread":"Отметить как непрочитанное",
+  "delete":"Удалить",
+  "Stop":"Остановить"
 }

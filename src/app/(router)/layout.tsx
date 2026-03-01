@@ -5,7 +5,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { ThemeProvider } from "@/shared/theme/theme-provider";
-import TranslatorProvider from "../provider/i18n/translator";
+import TranslatorProvider from "../provider/translator";
 
 export const metadata: Metadata = {
   title: "Instagram",

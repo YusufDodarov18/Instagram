@@ -3,9 +3,9 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Logout } from "@/api/token";
 import QrCode from "../qrCode/code";
 import { DecodedToken } from "@/app/(router)/types";
+import { destroyToken } from "@/api/token";
 
 const itemClass =
   "w-full h-[48px] text-sm text-center leading-[48px] cursor-pointer border-b border-gray-300";
@@ -50,7 +50,7 @@ const Menu = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           <div className={itemClass}>{t("loginActivity")}</div>
           <div
             onClick={() => {
-              Logout();
+              destroyToken()
               onClose();
             }}
             className={itemClass}
