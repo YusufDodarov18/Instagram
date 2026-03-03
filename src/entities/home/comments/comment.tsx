@@ -180,6 +180,7 @@ const toggleVolume=()=>{
                                         color:resolvedTheme=="dark"?'white':''
                                       }}
                                  >
+                                  
                                         <div className="relative w-[55%] h-[100%]">
                                              {currentPost?.images?.[0]&&(
                                                     isVideo(currentPost.images[0])?(
@@ -287,64 +288,64 @@ const toggleVolume=()=>{
                                                 </div>
                                              </main>
 
-                                             <footer className="shrink-0 border-t-1 pt-1.5 flex flex-col gap-2">
-                                                <div className="flex justify-between px-5">
-                                                     <div className="flex gap-2">
-                                                        <div>
-                                                             <div className='cursor-pointer' style={{ transform: 'scale(1.2)',marginTop:"-2px"}}>
-                                                                {currentPost?.postLike?
-                                                                   <FavoriteIcon color='error' onClick={()=>likePosts(currentPost?.postId)}/>:
-                                                                   <FavoriteBorderIcon onClick={()=>likePosts(currentPost?.postId)}/>
-                                                                }
-                                                             </div>
+                                                  <footer className="shrink-0 border-t-1 pt-1.5 flex flex-col gap-2">
+                                                         <div className="flex justify-between px-5">
+                                                                <div className="flex gap-2">
+                                                                   <div>
+                                                                        <div className='cursor-pointer' style={{ transform: 'scale(1.2)',marginTop:"-2px"}}>
+                                                                           {currentPost?.postLike?
+                                                                              <FavoriteIcon color='error' onClick={()=>likePosts(currentPost?.postId)}/>:
+                                                                              <FavoriteBorderIcon onClick={()=>likePosts(currentPost?.postId)}/>
+                                                                           }
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className='cursor-pointer'>{comment}</div>
+                                                                    <div className='cursor-pointer'>{messageActive}</div>
+                                                                </div>
+                                                                <div className='cursor-pointer' onClick={()=>addFavoritePost(currentPost?.postId)}>
+                                                                    {currentPost?.postFavorite ?<BookmarkIcon />:<TurnedInNotIcon />}
+                                                                </div>
+                                                         </div>    
+                                                         <div className="px-5">
+                                                               <Typography variant="body1">{currentPost?.postLikeCount} <span className="font-bold">{t("likes")}</span></Typography>
+                                                               <p className="text-gray-500 text-sm">
+                                                                   {currentPost?.datePublished
+                                                                     ? new Intl.DateTimeFormat(i18n.language, { day: "numeric", month: "long" }).format(new Date(post.datePublished)): ""}
+                                                               </p>
                                                          </div>
-                                                         <div className='cursor-pointer'>{comment}</div>
-                                                         <div className='cursor-pointer'>{messageActive}</div>
-                                                     </div>
-                                                    <div className='cursor-pointer' onClick={()=>addFavoritePost(currentPost?.postId)}>
-                                                        {currentPost?.postFavorite ?<BookmarkIcon />:<TurnedInNotIcon />}
-                                                    </div>
-                                                </div>    
-                                                <div className="px-5">
-                                                    <Typography variant="body1">{currentPost?.postLikeCount} <span className="font-bold">{t("likes")}</span></Typography>
-                                                    <p className="text-gray-500 text-sm">
-                                                        {currentPost?.datePublished
-                                                          ? new Intl.DateTimeFormat(i18n.language, { day: "numeric", month: "long" }).format(new Date(post.datePublished)): ""}
-                                                    </p>
-                                                </div>
-                                                <div className="border-t-2 flex justify-between py-3 px-4">
-                                                     <div className="flex gap-3">
-                                                        <p className='cursor-pointer' onClick={()=>setShowEmojies(true)}>{stiker}</p>
-                                                         <input
-                                                            type="text"
-                                                            className="outline-0"
-                                                            placeholder={t("Add a comment...")}
-                                                            value={textComment}
-                                                            onChange={e=>setTextComment(e.target.value)}
-                                                            onKeyDown={e=>{
-                                                               if(e.key=="Enter"&&textComment.trim()!==""){
-                                                                 sendComment()
-                                                               }
-                                                            }}
-                                                        />
-                                                     </div>
-                                                     <button 
-                                                            className="cursor-pointer disabled:cursor-default disabled:text-gray-300" 
-                                                            disabled={textComment.length===0}
-                                                            onClick={sendComment}
-                                                        >
-                                                            {t("Post")}
-                                                    </button>
-                                                     {showEmojies && (
-                                                        <div className="absolute bottom-10 right-2 z-50">
-                                                             <EmojiPicker onEmojiClick={(emojiData)=>{
-                                                                setTextComment((prev)=>prev+emojiData.emoji)
-                                                                setShowEmojies(false)
-                                                             }}/>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                             </footer>
+                                                         <div className="border-t-2 flex justify-between py-3 px-4">
+                                                                <div className="flex gap-3">
+                                                                   <p className='cursor-pointer' onClick={()=>setShowEmojies(true)}>{stiker}</p>
+                                                                    <input
+                                                                       type="text"
+                                                                       className="outline-0"
+                                                                       placeholder={t("Add a comment...")}
+                                                                       value={textComment}
+                                                                       onChange={e=>setTextComment(e.target.value)}
+                                                                       onKeyDown={e=>{
+                                                                          if(e.key=="Enter"&&textComment.trim()!==""){
+                                                                            sendComment()
+                                                                          }
+                                                                       }}
+                                                                   />
+                                                                </div>
+                                                                <button 
+                                                                       className="cursor-pointer disabled:cursor-default disabled:text-gray-300" 
+                                                                       disabled={textComment.length===0}
+                                                                       onClick={sendComment}
+                                                                   >
+                                                                       {t("Post")}
+                                                                </button>
+                                                                 {showEmojies && (
+                                                                    <div className="absolute bottom-10 right-2 z-50">
+                                                                         <EmojiPicker onEmojiClick={(emojiData)=>{
+                                                                            setTextComment((prev)=>prev+emojiData.emoji)
+                                                                            setShowEmojies(false)
+                                                                         }}/>
+                                                                    </div>
+                                                                )}
+                                                         </div>
+                                                  </footer>
                                         </div>
                                 </DialogContent>
                     </Dialog>
@@ -360,16 +361,18 @@ const toggleVolume=()=>{
                                             <DialogContent sx={{}}>
                                                    
                                                     <div className="flex flex-col justify-center text-center gap-2">
-                                                          <p className="text-red-500 font-bold cursor-pointer border-b-1 pb-2" onClick={async()=>{
-                                                            if(!idx) return
-                                                            try {
-                                                              await deleteComment(idx)
-                                                              setIdx(null)
-                                                              setMenuComment(false)
-                                                            }catch (err){
-                                                              console.error("Ошибка на удаление коментарии:",err)
-                                                            }
-                                                          }}>{t("delete")}</p>
+                                                          <p className="text-red-500 font-bold cursor-pointer border-b-1 pb-2" onClick={async()=>
+                                                          {
+                                                              if(!idx) return
+                                                              try {
+                                                                await deleteComment(idx)
+                                                                setIdx(null)
+                                                                setMenuComment(false)
+                                                              }catch (err){
+                                                                console.error("Ошибка на удаление коментарии:",err)
+                                                              }
+                                                          }
+                                                          }>{t("delete")}</p>
                                                           <p className="cursor-pointer pt-2 text-black dark:text-white" onClick={()=>{setIdx(null),setMenuComment(false)}}>{t("cancel")}</p>
                                                     </div>
 

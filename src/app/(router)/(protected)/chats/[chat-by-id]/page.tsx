@@ -75,14 +75,9 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
     const hours = String(date.getHours()).padStart(2, "0");
     const minutes = String(date.getMinutes()).padStart(2, "0");
     const day = date.getDay(); // 0-6
-    const week = {
-      0: "Sun",
-      1: "Mon",
-      2: "Tue",
-      3: "Wed",
-      4: "Thu",
-      5: "Fri",
-      6: "Sat",
+    const week = { 0: "Sun",
+                    1: "Mon", 2: "Tue", 3: "Wed",
+                    4: "Thu", 5: "Fri", 6: "Sat"
     };
     return `${week[day]} ${hours}:${minutes}`;
   }
@@ -95,8 +90,8 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
     try {
          setMenuMessage({x: rect.left,y: rect.bottom})
          setSelectedMessage(messageId)
-    } catch (er) {
-      console.error('error',er)
+    } catch (err) {
+      console.error('error',err)
     }
   }
 

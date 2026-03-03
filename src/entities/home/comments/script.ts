@@ -1,4 +1,4 @@
-export const formatDate= (dateString: string, t: any) => {
+export const formatDate= (dateString: string,t: any) => {
   const now = new Date()
   const past = new Date(dateString)
   const diffMs = now.getTime() - past.getTime()
