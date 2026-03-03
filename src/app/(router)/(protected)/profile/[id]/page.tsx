@@ -15,6 +15,8 @@ import { DecodedToken, MyFollowing } from "@/app/(router)/types";
 import { jwtDecode } from "jwt-decode";
 import FollowingById from "@/entities/profile/following/following-by-id/following-by-id";
 import FollowersById from "@/entities/profile/followers/followers-by-id/followers-by-id";
+import { useRouter } from "next/navigation";
+import { useChats } from "@/app/store/chats/chat";
 
 export default function page({ params }: { params: { id: string } }) {
   const { t } = useTranslation();
@@ -35,8 +37,9 @@ export default function page({ params }: { params: { id: string } }) {
     getChat,
   } = useProfileById();
   const { unFollowing, addFollowing } = useProfile();
-  const { id } = React.use(params)
-  
+  const { createChat, getChatById, chatById } = useChats();
+  const { id } = React.use(params);
+
   useEffect(() => {
     getInfoById(id);
     if (info) {
@@ -53,6 +56,14 @@ export default function page({ params }: { params: { id: string } }) {
       }
     }
   }, []);
+  let router = useRouter();
+
+  useEffect(() => {
+    if (!decode) return;
+    if (String(decode.sid) === String(id)) {
+      router.push("/profile");
+    }
+  }, [id, decode, router]);
 
   useEffect(() => {
     if (!decode) return;
@@ -74,18 +85,12 @@ export default function page({ params }: { params: { id: string } }) {
   }
 
   const showFollowers = async () => {
-    await Promise.all([
-      getFollowersById(id),
-      getFollowingById(id),
-    ]);
+    await Promise.all([getFollowersById(id), getFollowingById(id)]);
     setOpenFollowers(true);
   };
 
   const showFollowing = async () => {
-    await Promise.all([
-      getFollowersById(id),
-      getFollowingById(id),
-    ]);
+    await Promise.all([getFollowersById(id), getFollowingById(id)]);
     setOpenFollowing(true);
   };
 
@@ -174,6 +179,12 @@ export default function page({ params }: { params: { id: string } }) {
               {info?.isSubscriber ? t("unFollow") : t("Follow")}
             </Button>
             <Button
+              onClick={async () => {
+                const response = await createChat(id);
+                if (response) {
+                  router.push(`/chats/${response}`);
+                }
+              }}
               variant={"ghost"}
               className={`flex-1 h-9 text-[12px] md:text-sm cursor-pointer font-semibold ${resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"}`}
             >

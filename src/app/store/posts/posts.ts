@@ -77,6 +77,21 @@ export const usePosts = create<PostsStore>((set,get) => ({
     }));
   },
 
+  deleteComment: async commentId=>{
+     try {
+        await axiosRequest.delete(`/Post/delete-comment?commentId=${commentId}`)
+ 
+        set((state)=>({
+          posts:state.posts.map(post=>({
+              ...post,
+              comments:post.comments.filter(comment=>comment.postCommentId!== Number(commentId)),
+              commentCount:post.comments?.length? post.comments.length-1 :0
+          }))
+        }))
+     } catch (error) {
+        console.error("Ошибка при удалении комментария:", error)
+     }
+  },
     formatShortTime: (date:Date) => {
         if (!date) return "";
         const now = new Date();

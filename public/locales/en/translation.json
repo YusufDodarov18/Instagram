@@ -174,5 +174,13 @@
   "delete":"Delete",
   "Stop":"Stop",
   "View profile":"View profile",
-  "writemessage":"write a message"
+  "writemessage":"write a message",
+  "Participants":"Participants",
+  "Nickname":"Nickname",
+  "delete_chat":"delete chat",
+  "copy":"copy",
+  "delete2":"delete",
+  "Chats will appear here after you send or receive a message":"Chats will appear here after you send or receive a message",
+  "Request":"Request",
+  "Download":"Download"
 }

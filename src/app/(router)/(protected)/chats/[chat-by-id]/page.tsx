@@ -1,7 +1,7 @@
 'use client'
 import { useChats } from '@/app/store/chats/chat'
 import { API } from '@/shared/utils/config'
-import { ArrowLeft, Heart, Image, Info, Mic, Phone, Video } from 'lucide-react'
+import { ArrowLeft, Copy, Download, Heart, Image, Info, Mic, Phone, Share2, Trash, Video } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import profile from '../../profile/profil-removebg-preview.png'
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import getToken from '@/api/token'
 import { menu, stiker } from '@/app/provider/svg/svg'
 import EmojiPicker from 'emoji-picker-react'
-import { formatDate } from '../../../../../entities/home/comments/script';
+import DrawerInfo from '@/entities/chats/info'
 
 export default function page({params}:{params:{'chat-by-id':string}}) {
   const {chatById,deleteChat,getChatById,loading,sendMessage,deleteMessage,getChats,chats}=useChats()
@@ -18,14 +18,20 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   const [file,setFile]=useState<File|null>(null)
   const [messageText,setMessageText]=useState<string>("")
   const [showEmojiPicker,setShowEmojiPicker]=useState<boolean>(false)
-  useEffect(()=>{
-    getChatById(chatId)
-    getChats()
-  },[chatId])
+  const [menuMessage,setMenuMessage]=useState<null|{ x: number; y: number }>(null)
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedMessage, setSelectedMessage] = useState<null | number>(null)
   const router=useRouter()
   const userChat=chats.find(c=>c.chatId.toString()===chatId)
   const {t}=useTranslation()
   const fileInputRef=useRef<HTMLInputElement|null>(null)
+  const menuRef=useRef<null|HTMLDivElement>(null)
+  
+  useEffect(()=>{
+    getChatById(chatId)
+    getChats()
+  },[chatId])
+  
   
   function handleFileChange(e:any){
     const selectedFile=e.target?.files?.[0]
@@ -35,10 +41,10 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   }
 
   const handleSendMessage=async()=>{
-    if (!messageText.trim()&&!file)return
+     if (!messageText.trim() && !file) return;
     const formData=new FormData()
     formData.append("ChatId",chatId)
-    formData.append("MessageText",messageText)
+    if(messageText) formData.append("MessageText",messageText||"")
     if(file) formData.append("File",file)
     try {
       await sendMessage(formData)
@@ -51,6 +57,8 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
       console.error(error)
     }
   }
+
+  const toggleDrawer = (openState: boolean)=>()=>setOpen(openState);
 
   function isFileName(text?:string){
     if(!text) return
@@ -79,10 +87,36 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
     return `${week[day]} ${hours}:${minutes}`;
   }
 
+
+  const openMessageMenu=async (e:ChangeEvent,messageId:number)=>{
+    e.preventDefault()
+    e.stopPropagation()
+    const rect=(e.currentTarget as HTMLElement).getBoundingClientRect()
+    try {
+         setMenuMessage({x: rect.left,y: rect.bottom})
+         setSelectedMessage(messageId)
+    } catch (er) {
+      console.error('error',er)
+    }
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current &&!menuRef.current.contains(event.target as Node)
+      ) {
+        setSelectedMessage(null)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+}, [])
+
 if(!userChat) return
   return (
      <>
-          <div className='flex h-[100%] flex-col bg-background mt-15 md:mt-0'>
+          <div className='flex h-[100%] flex-col bg-background mt-2 md:mt-0'>
                <div className='flex items-center gap-3 border-b border-ig-separator px-4 py-[10px]'>
                     <button
                         onClick={()=>router.back()}
@@ -94,8 +128,7 @@ if(!userChat) return
                         <img 
                           src={
                             isMyImage?
-                             `${API}/images/${isMyImage}`
-                             :profile.src
+                             `${API}/images/${isMyImage}`:profile.src
                             } 
                           alt={isMyId} 
                           className="w-11 h-11 rounded-full cursor-pointer object-cover"
@@ -107,15 +140,9 @@ if(!userChat) return
                           <p className="text-gray-500">{isMyName}</p>
                     </div>
                     <div className='flex items-center gap-4'>
-                        <button className='cursor-pointer'>
-                           <Phone className="h-6 w-6 text-foreground" />
-                        </button>
-                        <button className='cursor-pointer'>
-                           <Video className="h-6 w-6 text-foreground" />
-                        </button>
-                        <button className='cursor-pointer'>
-                           <Info className="h-6 w-6 text-foreground" />
-                        </button>
+                        <button className='cursor-pointer'><Phone className="h-6 w-6 text-foreground" /></button>
+                        <button className='cursor-pointer'><Video className="h-6 w-6 text-foreground" /></button>
+                        <button className='cursor-pointer' onClick={toggleDrawer(true)}><Info className="h-6 w-6 text-foreground" /></button>
                     </div>
                </div>
 
@@ -132,7 +159,7 @@ if(!userChat) return
                           <p className="text-sm text-muted-foreground">
                               {isMyName} · Instagram
                           </p>
-                          <button className="mt-3 rounded-lg cursor-pointer bg-input px-4 py-[6px] text-sm font-semibold text-foreground hover:bg-secondary transition-colors" onClick={()=>router.push("/profile/"+userChat.receiveUserId)}>{t("View profile")}</button>
+                          <button className="mt-3 rounded-lg cursor-pointer bg-input px-4 py-[6px] text-sm font-semibold text-foreground hover:bg-secondary transition-colors" onClick={()=>router.push("/profile/"+isMyId)}>{t("View profile")}</button>
                       </div>
 
                       <div className="space-y-[2px]">
@@ -153,23 +180,85 @@ if(!userChat) return
                                                  />
                                               )}
 
-                                              <div className="flex flex-col items-center">
+                                              <div className="flex flex-col items-center relative" >
                                                    {chat.messageText&&!isFileName(chat.messageText)&&(
-                                                      <div className='flex gap-0.5'>
+                                                      <div className='flex gap-0.5 relative'>
                                                            <div className={`px-4 py-2 text-sm rounded-2xl ${isMe ? "bg-blue-500 text-white dark:bg-[#4A5DF9] rounded-br-none" : "bg-gray-100 text-gray-900 dark:bg-[#25292E] dark:text-white rounded-bl-none"}`}>
                                                               {chat.messageText}
                                                            </div>
-                                                           <span>{menu}</span>
+                                                           <span onClick={(e)=>openMessageMenu(e,chat.messageId)}>{menu}</span>
+                                                           
+                                                           {selectedMessage === chat.messageId && (
+                                                             <div ref={menuRef} className={`absolute top-full mt-1 border bg-[#fff] dark:bg-[#252323] rounded text-gray-900 dark:text-white shadow-lg z-50 w-36  ${isMe ? 'right-0' : 'left-0'}`}>
+                                                                <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]" onClick={()=>{
+                                                                   navigator.clipboard.writeText(chat.messageText)
+                                                                   setSelectedMessage(null)
+                                                                }}
+                                                                >
+                                                                  <span><Copy /></span> {t("copy")}
+                                                                </p>
+                                                                <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]">
+                                                                  <span><Share2 /></span> {t("share")}
+                                                                </p>
+                                                                <p onClick={async(e)=>{
+                                                                       e.stopPropagation();
+                                                                       e.preventDefault()
+                                                                       if (!chat.messageId || !chatId) return;
+                                                                       await deleteMessage(chat.messageId, Number(chatId));
+                                                                       setSelectedMessage(null);
+                                                                  }} className="flex items-center gap-2 p-2 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-[#3b1f1f]">
+                                                                  <span><Trash /></span> 
+                                                                    {t("delete2")}
+                                                                </p>
+                                                              </div>
+                                                            )}
                                                       </div>
                                                    )}
 
                                                    {chat.file &&(
-                                                      <div className="mt-2">
-                                                          {chat.file.endsWith(".mp4")?(
-                                                            <video src={`${API}/images/${chat.file}`} className='max-w-[250px] rounded-xl' controls />
-                                                          ):(
-                                                              <img src={`${API}/images/${chat.file}`} alt="file" className="max-w-[250px] rounded-xl" />
-                                                          )}
+                                                      <div className="mt-2 relative">
+                                                          <div className="flex gap-1 items-start">
+                                                                {chat.file.endsWith(".mp4")?(
+                                                                    <video src={`${API}/images/${chat.file}`} className='max-w-[250px] rounded-xl' controls />
+                                                                ):(
+                                                                    <img src={`${API}/images/${chat.file}`} alt="file" className="max-w-[250px] rounded-xl" />
+                                                                )}
+
+                                                                <span onClick={(e)=>openMessageMenu(e,chat.messageId)}>{menu}</span>
+
+                                                                 {selectedMessage === chat.messageId && (
+                                                                    <div className="absolute top-full left-0 mt-1 border bg-[#fff] dark:bg-[#252323] rounded text-gray-900 dark:text-white shadow-lg z-50 w-36" ref={menuRef}>
+                                                                       <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]" onClick={()=>{
+                                                                         const fileUrl=`${API}/images/${chat?.file}`
+
+                                                                         const link=document.createElement("a")
+                                                                         link.href=fileUrl
+                                                                         link.download=chat.file
+                                                                         document.body.appendChild(link)
+                                                                         link.click()
+                                                                         document.removeChild(link)
+                                                                         setSelectedMessage(null)
+                                                                       }}
+                                                                       >
+                                                                         <span><Download /></span> {t("Download")}
+                                                                       </p>
+                                                                       <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]">
+                                                                         <span><Share2 /></span> {t("share")}
+                                                                       </p>
+                                                                       <p onClick={async(e)=>{
+                                                                              e.stopPropagation();
+                                                                              e.preventDefault()
+                                                                              if (!chat.messageId || !chatId) return;
+                                                                              await deleteMessage(chat.messageId, Number(chatId));
+                                                                              setSelectedMessage(null);
+                                                                         }} className="flex items-center gap-2 p-2 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-[#3b1f1f]">
+                                                                         <span>
+                                                                           <Trash /></span> 
+                                                                           {t("delete2")}
+                                                                       </p>
+                                                                     </div>
+                                                                )}
+                                                          </div>
                                                       </div>
                                                    )}
 
@@ -200,9 +289,7 @@ if(!userChat) return
                                 onFocus={()=>setShowEmojiPicker(false)}
                                 className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
                             />
-                            <input
-								                type='file'
-								                accept='image/*'
+                            <input type='file' accept='image/*'
 								                ref={fileInputRef}
 								                style={{ display: 'none' }}
 								                onChange={handleFileChange}
@@ -241,6 +328,10 @@ if(!userChat) return
                        </div> 
                </div>
           </div>
+
+{isMyId&&(
+      <DrawerInfo open={open} close={()=>setOpen(false)} id={isMyId}/>
+)}
      </>
   )
 }

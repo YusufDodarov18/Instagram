@@ -71,12 +71,18 @@ export default function BottomNavigation({
   return (
     <>
       {pathName !== "/explore" &&
+        !pathName.startsWith("/chats") &&
         pathName !== "/reels" && (
           <div
             className={`flex pt-5 pb-3 z-100 fixed top-0 left-0 right-0 ${resolvedTheme == "dark" ? "bg-black" : "bg-white"} justify-between px-3`}
           >
             <>
-              <div onClick={() => setOpen(true)}>{add}</div>
+              <div
+                onClick={() => setOpen(true)}
+                className="text-black dark:text-white"
+              >
+                {add}
+              </div>
               {pathName !== "/profile" ? (
                 <div className="text-lg">{instagramText}</div>
               ) : (
@@ -97,7 +103,7 @@ export default function BottomNavigation({
         )}
       <div className={`${pathName == "/" ? "pt-13" : ""}`}>{children}</div>
       <section
-        className={`fixed w-[100%] z-[10] bottom-0 ${pathName==="/chats"?"":""}`}
+        className={`fixed w-[100%] z-[10] bottom-0 ${pathName === "/chats" ? "" : ""}`}
         style={{ color: resolvedTheme == "dark" ? "white" : "black" }}
       >
         <div

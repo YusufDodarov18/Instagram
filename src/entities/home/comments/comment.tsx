@@ -105,7 +105,7 @@ import { post } from "@/app/(router)/types";
 import { useTheme } from "next-themes";
 import { t } from "i18next";
 import { formatDate } from "./script";
-import { comment, messageActive, stiker } from "@/app/provider/svg/svg";
+import { comment, menu, messageActive, stiker } from "@/app/provider/svg/svg";
 import i18n from "@/i18n";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -113,15 +113,19 @@ import { usePosts } from "@/app/store/posts/posts";
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import EmojiPicker from "emoji-picker-react";
+import getToken from "@/api/token";
 
 const CommentModal = ({open,handleClose,post}:{open:boolean,handleClose:()=>void,post:post|null}) => {
     const isMobile=useMediaQuery("(min-width:648px)")
-    const {addComment,addFavoritePost,posts,addFollowingRelationship,subscribtions,getSubscribtions,deleteFollowingRelationship,likePosts}=usePosts()
+    const {addComment,deleteComment,addFavoritePost,posts,addFollowingRelationship,subscribtions,getSubscribtions,deleteFollowingRelationship,likePosts}=usePosts()
     const {resolvedTheme}=useTheme()
     const [textComment,setTextComment]=useState<string>("")
     const [showEmojies,setShowEmojies]=useState<boolean>(false)
     const [isMuted,setIsMuted]=useState<boolean>(true)
+    const [menuComment,setMenuComment]=useState<boolean>(false)
+    const [idx,setIdx]=useState<null|string>(null)
     const viderRef=useRef<HTMLVideoElement |null>(null)
+    const myId=getToken()?.sid
 
     if (!post) return null;
     const currentPost = posts.find(p => p.postId === post?.postId);
@@ -233,41 +237,48 @@ const toggleVolume=()=>{
                                             <main className="flex-1 overflow-y-auto pt-7">
                                                 <div className="flex flex-col gap-6 px-5 overflow-x-hidden pb-2">
                                                     {currentPost?.comments?.length>0?(
-                                                        currentPost?.comments.map((comment)=>(
-                                                             <div className="flex justify-between items-start pr-2">
-                                                                  <div className="flex-1">
-                                                                        <div className="flex gap-2">
-                                                                            <Link href={`/profile/${comment?.userId}`} className="flex-shrink-0">
-                                                                                <img
-                                                                                  src={comment?.userImage?
-                                                                                    `${API}/images/${comment.userImage}`:profile.src
-                                                                                  }
-                                                                                  alt="profile"
-                                                                                  className="w-[37px] h-[37px] rounded-[50%] object-cover"
-                                                                                />
-                                                                             </Link>
-                                                                            <div className="flex-1 min-w-0">
-                                                                              <div className="text-gray-800">
-                                                                                <Link href={`/profile/${comment.userId}`}><span className="font-bold text-black dark:text-white mr-2">{comment.userName}</span></Link>
-                                                                                <span className="break-words">{comment?.comment}</span>
-                                                                              </div>
-                                                                              <div className="flex mt-1 text-gray-600 gap-3">
-                                                                                <p>{formatDate(comment.dateCommented,t)}</p>
-                                                                                <p className="cursor-pointer hover:text-gray-800">
-                                                                                  "{t("like")}": {post.postLikeCount}
-                                                                                </p>
-                                                                                <p className="cursor-pointer hover:text-gray-800">
-                                                                                  {t("answer")}
-                                                                                </p>
-                                                                              </div>
-                                                                            </div>
-                                                                        </div>
+                                                        currentPost?.comments.map((comment)=>{
+                                                            const isMyComment=String(comment.userId) === String(myId)
+                                                            // console.log(comment)
+                                                            return <div className="flex justify-between items-start pr-2">
+                                                                         <div className="flex-1">
+                                                                               <div className="flex gap-2">
+                                                                                   <Link href={`/profile/${comment?.userId}`} className="flex-shrink-0">
+                                                                                       <img
+                                                                                         src={comment?.userImage?
+                                                                                           `${API}/images/${comment.userImage}`:profile.src
+                                                                                         }
+                                                                                         alt="profile"
+                                                                                         className="w-[37px] h-[37px] rounded-[50%] object-cover"
+                                                                                       />
+                                                                                    </Link>
+                                                                                   <div className="flex-1 min-w-0">
+                                                                                     <div className={`text-gray-800 dark:text-white ${isMyComment?'flex gap-2':""}`}>
+                                                                                       <Link href={`/profile/${comment.userId}`}><span className="font-bold text-black dark:text-white mr-2">{comment.userName}</span></Link>
+                                                                                       <span className="break-words">
+                                                                                          {comment?.comment}
+                                                                                          </span>
+                                                                                          {isMyComment&&(
+                                                                                              <span onClick={()=>{setMenuComment(true),setIdx(comment.postCommentId.toString())}}>{menu}</span>
+                                                                                          )}
+                                                                                     </div>
+                                                                                     <div className="flex mt-1 text-gray-600 gap-3">
+                                                                                       <p>{formatDate(comment.dateCommented,t)}</p>
+                                                                                       <p className="cursor-pointer hover:text-gray-800">
+                                                                                         "{t("like")}": {post.postLikeCount}
+                                                                                       </p>
+                                                                                       <p className="cursor-pointer hover:text-gray-800">
+                                                                                         {t("answer")}
+                                                                                       </p>
+                                                                                     </div>
+                                                                                   </div>
+                                                                               </div>
+                                                                             </div>
+                                                                             <div className="flex-shrink-0 ml-2">
+                                                                               <Heart className="cursor-pointer w-[18px] hover:opacity-70" />
+                                                                             </div>
                                                                       </div>
-                                                                      <div className="flex-shrink-0 ml-2">
-                                                                        <Heart className="cursor-pointer w-[18px] hover:opacity-70" />
-                                                                      </div>
-                                                                 </div>
-                                                        ))):(
+                                                        })):(
                                                           <div className="flex flex-col justify-center items-center text-center text-gray-500">
                                                                 <h3 className="text-2xl text-black dark:text-white font-semibold">{t("No comments yet.")}</h3>
                                                                 <p className="text-sm mt-1">{t("Start the conversation.")}</p>
@@ -337,6 +348,33 @@ const toggleVolume=()=>{
                                         </div>
                                 </DialogContent>
                     </Dialog>
+
+                              <Dialog open={menuComment} onClose={()=>setMenuComment(false)}
+                                        PaperProps={{
+                                            sx:{m:0,p:0,width:"500px",
+                                              maxWidth:"460px",
+                                              bgcolor:resolvedTheme=="dark"?"#1f1e1e":"white",borderRadius:2,
+                                            }
+                                        }}            
+                                          >
+                                            <DialogContent sx={{}}>
+                                                   
+                                                    <div className="flex flex-col justify-center text-center gap-2">
+                                                          <p className="text-red-500 font-bold cursor-pointer border-b-1 pb-2" onClick={async()=>{
+                                                            if(!idx) return
+                                                            try {
+                                                              await deleteComment(idx)
+                                                              setIdx(null)
+                                                              setMenuComment(false)
+                                                            }catch (err){
+                                                              console.error("Ошибка на удаление коментарии:",err)
+                                                            }
+                                                          }}>{t("delete")}</p>
+                                                          <p className="cursor-pointer pt-2 text-black dark:text-white" onClick={()=>{setIdx(null),setMenuComment(false)}}>{t("cancel")}</p>
+                                                    </div>
+
+                                            </DialogContent>
+                              </Dialog>                      
         </>
     );
 }

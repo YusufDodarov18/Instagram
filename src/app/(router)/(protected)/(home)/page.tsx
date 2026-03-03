@@ -1,5 +1,6 @@
 "use client";
 
+
 import './page.css'
 import getToken from "@/api/token";
 import { usePosts } from "@/app/store/posts/posts";
@@ -23,6 +24,7 @@ import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import CommentModal from "@/entities/home/comments/comment";
 import { post } from "../../types";
+
 
 
 function page() {
@@ -176,12 +178,7 @@ function page() {
              </section>
              
             <Menu open={ openModal} onClose={()=>setOpenModal(false)} />
-
-            <CommentModal
-              open={openModalComment}
-              handleClose={()=>setOpenModalComment(false)}
-              post={idx}
-            />
+            <CommentModal open={openModalComment} handleClose={()=>setOpenModalComment(false)} post={idx}/>
         </>
     )
 }

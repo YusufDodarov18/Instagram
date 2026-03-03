@@ -199,5 +199,13 @@
   "delete":"Удалить",
   "Stop":"Остановить",
   "View profile":"Просмотреть профиль",
-  "writemessage":"напишите сообщение"
+  "writemessage":"напишите сообщение",
+  "Participants":"Участники",
+  "Nickname":"Никнеймы",
+  "delete_chat":"Удалить чат",
+  "copy":"Копировать",
+  "delete2":"удалить",
+  "Chats will appear here after you send or receive a message":"После отправки или получения сообщения здесь появятся все ваши сообщения в чате.",
+  "Request":"Запрос",
+  "Download":"Скачать"
 }

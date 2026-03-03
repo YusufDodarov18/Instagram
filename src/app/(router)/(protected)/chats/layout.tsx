@@ -12,21 +12,27 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { menu } from '@/app/provider/svg/svg'
 import getToken from '@/api/token'
+import { Skeleton, Typography } from '@mui/material'
 
 function Layout({children}:{children:React.ReactNode}) {
-    const {chats,deleteChat,getChats,loading, getChatById,createChat,chatById}=useChats()
+    const {chats,deleteChat,getChats, getChatById,createChat,chatById}=useChats()
     const [openModal,setOpenModal]=useState<boolean>(false)
     const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null)
     const [selectedChatId, setSelectedChatId] = useState<number | null>(null)
     const [openMessageModal,setOpenMessageModal]=useState<boolean>(false)
-    const {myProfile}=useProfile()
+    const [isLoading,setIsLoading]=useState<boolean>(false)
+    const {myProfile,loading}=useProfile()
     const {t}=useTranslation()
     const params = useParams()
     const activeChatId = params?.['chat-by-id']
     const myId=getToken()?.sid
     
     useEffect(()=> {
-        getChats()
+        async function getData() {
+            setIsLoading(true)
+            getChats().then(() => setIsLoading(false));
+        }
+        getData()
     },[getChats])
 
     useEffect(() => {
@@ -34,6 +40,7 @@ function Layout({children}:{children:React.ReactNode}) {
         window.addEventListener("click", handleClick)
         return () => window.removeEventListener("click", handleClick)
     }, [])
+    
 
     return (
         <>
@@ -46,7 +53,7 @@ function Layout({children}:{children:React.ReactNode}) {
                             <div className="flex flex-col h-full bg-background">
                                 <div className='flex items-center justify-between px-5 py-[18px] border-b  border-ig-separator'>
                                     <div className='flex items-center gap-1 cursor-pointer' onClick={()=>setOpenModal(true)}>
-                                        <h1 className="text-[20px] font-bold text-foreground">{myProfile?.userName}</h1>
+                                        {loading?(<Skeleton variant='text' width={120} height={28} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />):(<h1 className="text-[20px] font-bold text-foreground">{myProfile?.userName}</h1>)}
                                         <ChevronDown className="h-4 w-4 text-foreground" />
                                     </div>
                                     <button onClick={()=>setOpenMessageModal(true)} className="p-1 cursor-pointer duration-150 ">
@@ -57,18 +64,42 @@ function Layout({children}:{children:React.ReactNode}) {
                                 <div className='px-4 py-2'>
                                     <div className='relative'>
                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <input
-                                            type="text"
+                                        <input type="text" 
                                             placeholder={t("search1")}
                                             className="w-full h-[40px] rounded-lg bg-input pl-10 pr-4 py-[7px] text-sm text-foreground placeholder:text-muted-foreground outline-none"
                                         />
                                     </div>
                                 </div>
 
-                                <div className='flex px-4 py-1 gap-2'></div>
+                                <div className='flex flex-col px-4 py-3 gap-2'>
+                                    <div className='px-2'>
+                                      <img 
+                                        src={myProfile?.image?`${API}/images/${myProfile.image}`:defaultProfile.src}
+                                        alt='profile'
+                                        className="w-16 h-16 rounded-full cursor-pointer"
+                                     />
+                                    </div>
+                                    <div className="flex justify-between gap-1 mt-2">
+                                        <h1 className="font-bold text-lg">{t("Message")}</h1>
+                                        <h4 className="text-[#6789f8] cursor-pointer hover:underline">{t("Request")}(1)</h4>
+                                    </div>
+                                </div>
 
                                 <div className='flex-1 overflow-y-auto mt-1'>
-                                    {chats.map((chat)=>{
+                                    {isLoading?(
+                                        Array.from({length:5}).map((_,index)=>(
+                                            <div key={index} className="flex w-full items-center gap-3 px-5 py2">
+                                                 <Skeleton variant="circular" width={56} height={56} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />
+
+                                                <div className="flex-1 min-w-0">
+                                                    <Skeleton variant="text" width="60%" height={20} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />
+                                                    <Skeleton variant="text" width="40%" height={18} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />
+                                                </div>
+                                                 <Skeleton variant="circular" width={20} height={20} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />
+                                            </div>
+                                        ))
+                                    ):chats.length===0?<div className="text-center text-gray-500"><Typography>{t("Chats will appear here after you send or receive a message")}</Typography></div>
+                                     :  chats.map((chat)=>{
                                         const isMe=chat.sendUserId===myId
                                         const userName=isMe?chat.receiveUserName:chat.sendUserName
                                         const userImage = isMe ?chat.receiveUserImage :chat.sendUserImage
@@ -107,9 +138,7 @@ function Layout({children}:{children:React.ReactNode}) {
                                 </div>
                             </div>
                         </div>
-                    <div className={`flex-1 min-w-0 ${activeChatId ? "flex" : "hidden lg:flex"} flex-col`}>
-                         {children}
-                    </div>
+                    <div className={`flex-1 min-w-0 ${activeChatId ? "flex" : "hidden lg:flex"} flex-col`}>{children}</div>
                 </div>
             </div>
             {menuPosition &&(
@@ -149,11 +178,7 @@ function Layout({children}:{children:React.ReactNode}) {
                     </div>
                 </div>
             )}
-            <MenuRecomendation
-                open={openModal}
-                onClose={() => setOpenModal(false)}
-                userName={myProfile?.userName}
-            />
+            <MenuRecomendation open={openModal} onClose={() => setOpenModal(false)} userName={myProfile?.userName}/>
             <ModalChat onClose={() => setOpenMessageModal(false)} open={ openMessageModal}  />
         </>
     )

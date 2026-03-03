@@ -33,14 +33,19 @@ export const useChats=create<ChatsStore>((set,get)=>({
 
     createChat:async id=>{
         try {
-            await axiosRequest.post(`/Chat/create-chat?receiverUserId=${id}`)
+           const {data}= await axiosRequest.post(
+                `/Chat/create-chat?receiverUserId=${id}`
+            )
             get().getChats()
+           return data.data
         } catch(error){}
     },
 
     sendMessage: async (formData)=>{
         try {
-            await axiosRequest.put('/Chat/send-message',formData)
+            await axiosRequest.put('/Chat/send-message',formData,{
+                 headers: { 'Content-Type': 'multipart/form-data' }
+            })
             get().getChatById(formData.get('ChatId'))
         } catch (error) {
             console.error(error)
@@ -50,7 +55,7 @@ export const useChats=create<ChatsStore>((set,get)=>({
     deleteMessage:async (messageId,chatId) =>{
         try {
             await axiosRequest.delete(`/Chat/delete-message?massageId=${messageId}`)
-            get().getChatById(chatId)
+            get().getChatById(Number(chatId))
         } catch {}
     },
 

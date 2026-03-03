@@ -267,6 +267,7 @@ export interface PostsStore {
   addFavoritePost: (postId: number) => Promise<void>;
   addComment: (data: AddCommentProps) => Promise<void>;
   getSubscribtions: (userId: string) => Promise<void>;
+  deleteComment:(commentId:string)=>Promise<void>
 }
 
 export interface ExploreStore {
