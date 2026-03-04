@@ -1,6 +1,6 @@
 'use client'
 import ModalChat from "@/entities/chats/modal/component"
-import { Button, Skeleton, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 

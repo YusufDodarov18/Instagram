@@ -32,7 +32,7 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import defaultProfile from "../profile/profil-removebg-preview.png";
 import { API } from "@/shared/utils/config";
-import { comment } from "@/app/provider/svg/svg";
+import { comment } from "@/app/provider/icons/svg";
 import { useTheme as useNextTheme } from "next-themes";
 import EmojiPicker from "emoji-picker-react";
 

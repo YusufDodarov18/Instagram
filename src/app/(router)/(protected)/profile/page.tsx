@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import profile from "../profile/instagramDefaultProfile-removebg-preview.png";
-import { camera, setting2 } from "@/app/provider/svg/svg";
+import { camera, setting2 } from "@/app/provider/icons/svg";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";

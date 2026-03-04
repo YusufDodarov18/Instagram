@@ -105,7 +105,6 @@ import { post } from "@/app/(router)/types";
 import { useTheme } from "next-themes";
 import { t } from "i18next";
 import { formatDate } from "./script";
-import { comment, menu, messageActive, stiker } from "@/app/provider/svg/svg";
 import i18n from "@/i18n";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -114,6 +113,9 @@ import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import EmojiPicker from "emoji-picker-react";
 import getToken from "@/api/token";
+import {comment, menu, messageActive, stiker } from "@/app/provider/icons/svg";
+
+
 
 const CommentModal = ({open,handleClose,post}:{open:boolean,handleClose:()=>void,post:post|null}) => {
     const isMobile=useMediaQuery("(min-width:648px)")

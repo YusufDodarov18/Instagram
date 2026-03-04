@@ -8,11 +8,13 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import CreatePostModal from "@/app/(router)/(protected)/create/post/create";
 import { API } from "@/shared/utils/config";
+import { useProfile } from "@/app/store/profile/myProfile/profile";
+import { JwtPayload } from "@/app/(router)/types";
 import {
+  homeIcon,
   add,
   compas,
   compasActive,
-  homeIcon,
   homeIconActive,
   instagramText,
   likeActive,
@@ -24,9 +26,7 @@ import {
   threads,
   video,
   videoActive,
-} from "@/app/provider/svg/svg";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
-import { JwtPayload } from "@/app/(router)/types";
+} from "@/app/provider/icons/svg";
 
 export default function BottomNavigation({
   children,
@@ -101,7 +101,7 @@ export default function BottomNavigation({
             </>
           </div>
         )}
-      <div className={`${pathName == "/" ? "pt-13" : ""}`}>{children}</div>
+      <div className={`${pathName == "/"||"/profile" ? "pt-13" : ""}`}>{children}</div>
       <section
         className={`fixed w-[100%] z-[10] bottom-0 ${pathName === "/chats" ? "" : ""}`}
         style={{ color: resolvedTheme == "dark" ? "white" : "black" }}

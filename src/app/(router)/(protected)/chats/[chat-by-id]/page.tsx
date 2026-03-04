@@ -7,7 +7,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import profile from '../../profile/profil-removebg-preview.png'
 import { useTranslation } from 'react-i18next'
 import getToken from '@/api/token'
-import { menu, stiker } from '@/app/provider/svg/svg'
+import { menu, stiker } from '@/app/provider/icons/svg'
 import EmojiPicker from 'emoji-picker-react'
 import DrawerInfo from '@/entities/chats/info'
 

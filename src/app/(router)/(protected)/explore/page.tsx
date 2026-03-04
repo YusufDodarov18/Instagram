@@ -10,7 +10,7 @@ import { API } from "@/shared/utils/config";
 import defaultProfile from "../profile/profil-removebg-preview.png";
 import { Box } from "@mui/material";
 import { post } from "../../types";
-import { commentVideo, likeVideo } from "@/app/provider/svg/svg";
+import { commentVideo, likeVideo } from "@/app/provider/icons/svg";
 import ModalExplore from "./modal";
 import { useTheme } from "next-themes";
 import getToken from "@/api/token";

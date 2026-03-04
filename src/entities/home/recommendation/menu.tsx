@@ -1,4 +1,4 @@
-import { instagram } from "@/app/provider/svg/svg";
+import { instagram } from "@/app/provider/icons/svg";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";

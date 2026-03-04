@@ -58,8 +58,8 @@ export const Recommendation = () => {
                     </div>
                     {
                         users.length===0||isLoading?(
-                            Array.from({length:5}).map(el=>(
-                                <RecommendationSkeleton/>
+                            Array.from({length:5}).map((_,i)=>(
+                                <RecommendationSkeleton key={i}/>
                             ))
                         ):
                     users.slice(3,8).map(user=>(

@@ -23,7 +23,7 @@ import {
   DownArrow,
   messageActive,
   upArrow,
-} from "@/app/provider/svg/svg";
+} from "@/app/provider/icons/svg";
 import EmojiPicker from "emoji-picker-react";
 import { useTranslation } from "react-i18next";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -44,7 +44,7 @@ export default function page() {
   const [text, setText] = useState<string>("");
   const [showEmojis, setShowEmojies] = useState<boolean>(false);
   const { t } = useTranslation();
-  
+
   const handleClickOpen = () => setOpen(true);
   const handleClickClose = () => setOpen(false);
 
@@ -172,7 +172,10 @@ export default function page() {
                   scrollSnapStop: "always",
                   borderRadius: 2,
                   overflow: "hidden",
-                  mb: "2vh",
+                  mb: {
+                    xs: 0,
+                    sm: "2vh",
+                  },
                 }}
               >
                 <Skeleton
@@ -196,7 +199,10 @@ export default function page() {
                   scrollSnapStop: "always",
                   borderRadius: 2,
                   overflow: "hidden",
-                  mb: "2vh",
+                  mb: {
+                    xs: 1,
+                    sm: "2vh",
+                  },
                 }}
               >
                 <video

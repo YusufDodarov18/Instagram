@@ -13,10 +13,8 @@ import { useTranslation } from "react-i18next";
 import { Recommendation } from "@/entities/home/recommendation/recommendation";
 import { API } from "@/shared/utils/config";
 import { Button, Typography } from "@mui/material";
-import { menu } from "@/app/provider/svg/svg";
-import InstaSlider from "@/entities/home/images/imageSlider";
+import InstaSlider from "@/entities/home/slider/imageSlider";
 import Menu from "@/entities/home/menu/menu";
-import { comment, messageActive } from '@/app/provider/svg/svg'
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useTheme } from 'next-themes';
@@ -24,6 +22,7 @@ import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import CommentModal from "@/entities/home/comments/comment";
 import { post } from "../../types";
+import { comment, menu, messageActive } from '@/app/provider/icons/svg';
 
 
 

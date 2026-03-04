@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { API } from "@/shared/utils/config";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { mute } from "@/app/provider/svg/svg";
+import { mute } from "@/app/provider/icons/svg";
 import { useChats } from "@/app/store/chats/chat";
 
 function DrawerInfo({

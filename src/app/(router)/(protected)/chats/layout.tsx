@@ -10,7 +10,7 @@ import MenuRecomendation from '@/entities/home/recommendation/menu'
 import ModalChat from '@/entities/chats/modal/component'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { menu } from '@/app/provider/svg/svg'
+import { menu } from '@/app/provider/icons/svg'
 import getToken from '@/api/token'
 import { Skeleton, Typography } from '@mui/material'
 

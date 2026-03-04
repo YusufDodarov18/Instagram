@@ -1,5 +1,5 @@
 "use client";
-import React, { MouseEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import Profile from "../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
@@ -18,11 +18,10 @@ import {
   setting,
   threads,
   instagramSideBar,
-} from "@/app/provider/svg/svg";
+} from "@/app/provider/icons/svg";
 import { jwtDecode } from "jwt-decode";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import CreatePostModal from "@/app/(router)/(protected)/create/post/create";
-import MenuComp from "../../../entities/menuConfig/menu";
 import { useDrawerNotification } from "@/app/store/notification/notification";
 import { useDrawerStore } from "@/app/store/search/search";
 import { JwtPayload, NavLinkProps } from "@/app/(router)/types";
@@ -135,9 +134,9 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
               icon={
                 <img
                   src={
-                    myProfile?.image ?
-                      `${API}/images/${myProfile.image}`
-                    : Profile.src
+                    myProfile?.image
+                      ? `${API}/images/${myProfile.image}`
+                      : Profile.src
                   }
                   className="w-6 h-6 rounded-full"
                   alt="Profile"
@@ -146,9 +145,9 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
               activeIcon={
                 <img
                   src={
-                    myProfile?.image ?
-                      `${API}/images/${myProfile.image}`
-                    : Profile.src
+                    myProfile?.image
+                      ? `${API}/images/${myProfile.image}`
+                      : Profile.src
                   }
                   className="w-6 h-6 rounded-full border-2 border-black"
                   alt="Profile"
@@ -166,12 +165,19 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
               <span>{t("layout.threads")}</span>
             </Link>
 
-            <div className={sidebarItem} >
-              <button onClick={()=>setOpenSettingModal(true)} className="flex gap-5 items-center">
+            <div className={sidebarItem}>
+              <button
+                onClick={() => setOpenSettingModal(true)}
+                className="flex gap-5 items-center"
+              >
                 {setting}
                 <span>{t("layout.more")}</span>
               </button>
-              <SettingModal onClose={handleClose} open={settingModal} left={30} />
+              <SettingModal
+                onClose={handleClose}
+                open={settingModal}
+                left={30}
+              />
             </div>
           </div>
         </div>

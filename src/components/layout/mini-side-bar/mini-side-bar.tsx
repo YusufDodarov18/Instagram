@@ -1,27 +1,11 @@
 "use client";
-import React, { MouseEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Tooltip, tooltipClasses, TooltipProps } from "@mui/material";
 import Profile from "../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { usePathname } from "next/navigation";
-import {
-  compas,
-  compasActive,
-  homeIcon,
-  homeIconActive,
-  instagramMiniLogo,
-  like,
-  likeActive,
-  message,
-  messageActive,
-  searchIconActive,
-  setting,
-  threads,
-  video,
-  videoActive,
-} from "@/app/provider/svg/svg";
 import { jwtDecode } from "jwt-decode";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import { JwtPayload } from "@/app/(router)/types";
@@ -31,6 +15,22 @@ import { useDrawerNotification } from "@/app/store/notification/notification";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
 import SettingModal from "@/entities/settingModal/modal";
+import {
+  instagramMiniLogo,
+  compas,
+  compasActive,
+  homeIcon,
+  homeIconActive,
+  like,
+  likeActive,
+  message,
+  messageActive,
+  searchIconActive,
+  setting,
+  threads,
+  video,
+  videoActive,
+} from "@/app/provider/icons/svg";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} arrow />
@@ -136,9 +136,7 @@ const MiniSideBar = ({ children }: { children: React.ReactNode }) => {
             <CreatePostModal open={open} onClose={() => setOpen(false)} />
 
             <LightTooltip title={t("layout.profile")} placement="right">
-              <Link
-                href="/profile"
-              >
+              <Link href="/profile">
                 <img
                   src={
                     myProfile?.image
@@ -160,7 +158,10 @@ const MiniSideBar = ({ children }: { children: React.ReactNode }) => {
               </Link>
             </LightTooltip>
             <LightTooltip title={t("layout.more")} placement="right">
-              <div className={miniItem} onClick={()=>setOpenSettingModal(true)}>
+              <div
+                className={miniItem}
+                onClick={() => setOpenSettingModal(true)}
+              >
                 {setting}
               </div>
             </LightTooltip>
