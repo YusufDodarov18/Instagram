@@ -39,7 +39,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       windowWidth <= 1279 ||
       isOpen == true ||
       pathname.includes("chat") ||
-      notificationDrawer == true
+      notificationDrawer == true||
+      pathname.includes("settings")
     )
       return "minibar";
     return "bar";

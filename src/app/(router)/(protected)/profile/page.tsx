@@ -110,7 +110,7 @@ const page = () => {
           </div>
           <p className="block sm:hidden text-sm leading-relaxed max-w-sm">{myProfile?.about ? myProfile.about : ""}</p>
           <div className="flex gap-4 w-full">
-            <Button variant={"ghost"} className={`flex-1 h-9 cursor-pointer text-[12px] md:text-sm font-semibold  ${resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"} `}>{t("Edit Profile")}</Button>
+            <Button onClick={()=>router.push("/settings/accounts/edit")} variant={"ghost"} className={`flex-1 h-9 cursor-pointer text-[12px] md:text-sm font-semibold  ${resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"} `}>{t("Edit Profile")}</Button>
             <Button variant={"ghost"}
               className={`flex-1 h-9 text-[12px] md:text-sm cursor-pointer font-semibold ${resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"}`}
               onClick={() => router.push(`/archive?id=${decode?.sid}`)}

@@ -27,7 +27,7 @@ import { useDrawerStore } from "@/app/store/search/search";
 import { JwtPayload, NavLinkProps } from "@/app/(router)/types";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
-import SettingModal from "@/entities/settingModal/modal";
+import SettingModal from "@/entities/setting/settingModal/modal";
 
 const NavLink = ({ href, icon, activeIcon, label, isActive }: NavLinkProps) => (
   <Link

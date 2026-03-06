@@ -14,7 +14,7 @@ import { useDrawerStore } from "@/app/store/search/search";
 import { useDrawerNotification } from "@/app/store/notification/notification";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
-import SettingModal from "@/entities/settingModal/modal";
+import SettingModal from "@/entities/setting/settingModal/modal";
 import {
   instagramMiniLogo,
   compas,

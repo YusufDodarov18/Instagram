@@ -10,7 +10,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { useTranslation } from "react-i18next"
 import { useState } from "react";
-import { instagram } from "@/app/provider/svg/svg";
+import { instagram } from "@/app/provider/icons/svg";
 import axios from "axios";
 
 function page() {
