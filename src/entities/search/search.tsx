@@ -1,6 +1,6 @@
 "use client";
 
-import { useDrawerStore } from "@/app/store/search/search";
+import { useDrawerStore } from "@/app/store/provider/search/search";
 import { Box, Divider, Drawer, Skeleton } from "@mui/material";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";

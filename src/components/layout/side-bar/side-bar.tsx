@@ -22,8 +22,8 @@ import {
 import { jwtDecode } from "jwt-decode";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import CreatePostModal from "@/app/(router)/(protected)/create/post/create";
-import { useDrawerNotification } from "@/app/store/notification/notification";
-import { useDrawerStore } from "@/app/store/search/search";
+import { useDrawerNotification } from "@/app/store/provider/notification/notification";
+import { useDrawerStore } from "@/app/store/provider/search/search";
 import { JwtPayload, NavLinkProps } from "@/app/(router)/types";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";

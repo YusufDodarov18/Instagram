@@ -101,9 +101,21 @@ export default function BottomNavigation({
             </>
           </div>
         )}
-      <div className={`${pathName == "/"||"/profile" ? "pt-13" : ""}`}>{children}</div>
+      <div
+      className={`${
+        pathName === "/" ||
+        pathName === "/profile" ||
+        (!pathName.startsWith("/chats") &&
+          pathName !== "/explore" &&
+          pathName !== "/reels")
+          ? "pt-13"
+          : ""
+      }`}
+    >
+      {children}
+    </div>
       <section
-        className={`fixed w-[100%] z-[10] bottom-0 ${pathName === "/chats" ? "" : ""}`}
+        className={`fixed w-[100%] z-[10] bottom-0 ${pathName.startsWith("/chats/")? "hidden" : ""}`}
         style={{ color: resolvedTheme == "dark" ? "white" : "black" }}
       >
         <div

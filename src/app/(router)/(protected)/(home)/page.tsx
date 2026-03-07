@@ -56,7 +56,7 @@ function page() {
         <>
              <section className="flex justify-between py-0 md:justify-center pb-20 md:py-10">
                   
-                  <section className="flex flex-col gap-10 px-5">
+                  <section className="flex flex-col gap-10 px-5 w-full">
                       <header className="flex">
                         {/* stories */}
                       </header>
@@ -69,7 +69,7 @@ function page() {
                           )
                           :posts.map((el)=>{
                               const isFollowing=subscribtions?.includes(el?.userId)
-                             return <div className="w-[100%] sm:w-[450px]">
+                             return <div key={el.postId} className="w-[100%] sm:w-[470px]">
                                   <header className="flex justify-between gap-1">
                                       <div>
                                         <div className="flex gap-2 items-center">

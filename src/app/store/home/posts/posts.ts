@@ -135,5 +135,13 @@ export const usePosts = create<PostsStore>((set,get) => ({
       } catch (error) {
           console.error("Failed to follow user:", error);
       }
+    },
+
+    addPostView:async postId=>{
+      try {
+        await axiosRequest.post(`/Post/view-post?postid=${postId}`)
+      } catch (error) {
+        console.error(error)
+      }
     }
 }))

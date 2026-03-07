@@ -268,6 +268,7 @@ export interface PostsStore {
   addComment: (data: AddCommentProps) => Promise<void>;
   getSubscribtions: (userId: string) => Promise<void>;
   deleteComment: (commentId: string) => Promise<void>;
+  addPostView:(postId:number)=>Promise<void>
 }
 
 export interface ExploreStore {

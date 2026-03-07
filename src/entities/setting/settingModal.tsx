@@ -59,7 +59,6 @@ export default function SettingModal({open,onClose,left}:{open:boolean,onClose:(
                      <span>{t("logout")}</span>
                   </div>
             </div>
-
                 <Report onClose={()=>setMenuReport(false)} open={menuReport}/>
         </>,
         document.body
