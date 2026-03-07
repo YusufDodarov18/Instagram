@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
-import Report from '../report'
+import Report from './report'
 
 export default function SettingModal({open,onClose,left}:{open:boolean,onClose:()=>void,left:number}) {
     const menu=useRef<HTMLDivElement>(null)

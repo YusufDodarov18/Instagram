@@ -3,7 +3,7 @@
 
 import './page.css'
 import getToken from "@/api/token";
-import { usePosts } from "@/app/store/posts/posts";
+import { usePosts } from "@/app/store/home/posts/posts";
 import PostSkeleton from "@/entities/home/post-actions/post-skeleton/post-skeleton";
 import { useEffect, useState } from "react";
 import profile from '../profile/profil-removebg-preview.png'

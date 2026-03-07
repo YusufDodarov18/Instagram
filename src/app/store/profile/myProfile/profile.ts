@@ -117,4 +117,15 @@ export const useProfile = create<ProfileStore>((set, get) => ({
       console.error(error);
     }
   },
+
+  updateProfile:async formData=>{
+    try {
+      set({loading:true})
+      await axiosRequest.put(`/UserProfile/update-user-profile`,formData)
+      set({loading:false})
+      get().getMyProfile()
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }));

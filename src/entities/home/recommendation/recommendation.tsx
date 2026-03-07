@@ -1,5 +1,5 @@
 import { useProfile } from '@/app/store/profile/myProfile/profile'
-import { useUser } from '@/app/store/users/users'
+import { useUser } from '@/app/store/home/users/users'
 import React, { useEffect, useState } from 'react'
 import MenuRecomendation from './menu'
 import { API } from '@/shared/utils/config'

@@ -27,7 +27,7 @@ import { useDrawerStore } from "@/app/store/search/search";
 import { JwtPayload, NavLinkProps } from "@/app/(router)/types";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
-import SettingModal from "@/entities/setting/settingModal/modal";
+import SettingModal from "@/entities/setting/settingModal";
 
 const NavLink = ({ href, icon, activeIcon, label, isActive }: NavLinkProps) => (
   <Link
@@ -173,11 +173,7 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
                 {setting}
                 <span>{t("layout.more")}</span>
               </button>
-              <SettingModal
-                onClose={handleClose}
-                open={settingModal}
-                left={30}
-              />
+              <SettingModal onClose={handleClose} open={settingModal} left={30}/>
             </div>
           </div>
         </div>

@@ -140,7 +140,7 @@ export interface myStories {
   userId: string;
   userName: string;
   userImage: string;
-  stories: any;
+  stories: stories;
   myPostSaved: myPostSaved;
 }
 
@@ -267,7 +267,7 @@ export interface PostsStore {
   addFavoritePost: (postId: number) => Promise<void>;
   addComment: (data: AddCommentProps) => Promise<void>;
   getSubscribtions: (userId: string) => Promise<void>;
-  deleteComment:(commentId:string)=>Promise<void>
+  deleteComment: (commentId: string) => Promise<void>;
 }
 
 export interface ExploreStore {
@@ -345,6 +345,12 @@ export interface ProfileStore {
   unFollowing: (userId: string, sid: string) => Promise<void>;
   followingLoading: boolean;
   followersLoading: boolean;
+  updateProfile: (formData:editProfile) => Promise<void>;
+}
+
+export interface editProfile {
+  about: string
+  gender: string|number;
 }
 
 export interface ProfileStoreById {
@@ -396,17 +402,17 @@ export interface ChatsStore {
   chats: chat[];
   getChats: () => Promise<void>;
   chatById: chatById[];
-  getChatById:(id:number)=>Promise<void>
-  createChat:(id:string)=>Promise<void>
-  sendMessage:(formData:formData)=>Promise<void>,
-  deleteMessage:(chatId:number, messageId:string)=>Promise<void>
-  deleteChat:(chatId:number)=>Promise<void>
+  getChatById: (id: number) => Promise<void>;
+  createChat: (id: string) => Promise<void>;
+  sendMessage: (formData: formData) => Promise<void>;
+  deleteMessage: (chatId: number, messageId: string) => Promise<void>;
+  deleteChat: (chatId: number) => Promise<void>;
 }
 
-export interface formData{
-  ChatId:number,
-  MessageText:string
-  File:string|null
+export interface formData {
+  ChatId: number;
+  MessageText: string;
+  File: string | null;
 }
 export interface chatById {
   userId: string;
@@ -417,4 +423,67 @@ export interface chatById {
   messageText: string;
   sendMassageDate: string;
   file: string | null;
+}
+
+export interface story {
+  id: number;
+  fileName: string;
+  postId: null;
+  createAt: string;
+  liked: boolean;
+  likedCount: number;
+}
+
+export interface stories {
+  userId: string;
+  userName: string;
+  userImage: string;
+  stories: story[];
+}
+
+export interface storyById {
+  id: number;
+  fileName: string;
+  postId: null;
+  createAt: string;
+  userId: string;
+  userAvatar: null | string;
+  viewerDto: viewStory[];
+}
+
+export interface viewStory {
+  userName: string;
+  name: string;
+  viewCount: number;
+  viewLike: number;
+}
+
+export interface UseStoriesStore {
+  datas: stories[];
+  loading: boolean;
+  myStories: stories[];
+  likeStory: (storyId: number) => Promise<void>;
+  getStories: () => Promise<void>;
+  getStoryById: (id: number) => Promise<void>;
+  storyById: storyById[];
+  addStory: (formData: string) => Promise<void>;
+  addStoriesPost: (postId: number) => Promise<void>;
+  deleteStory: (id: number) => Promise<void>;
+  addStoryView: (storyId: number) => Promise<void>;
+}
+
+export interface location {
+  locationId: number;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+}
+
+export interface UseLocationStore {
+  data: location[];
+  loading: boolean;
+  getLocations: () => Promise<void>;
+  addLocation: (formData: Omit<location, "locationId">) => Promise<void>;
+  deleteLocation: (id: number) => Promise<void>;
 }

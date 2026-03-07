@@ -1,5 +1,5 @@
 import { useDrawerNotification } from "@/app/store/notification/notification";
-import { useUser } from "@/app/store/users/users";
+import { useUser } from "@/app/store/home/users/users";
 import {
   Avatar,
   Box,

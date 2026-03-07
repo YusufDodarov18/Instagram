@@ -108,7 +108,7 @@ import { formatDate } from "./script";
 import i18n from "@/i18n";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { usePosts } from "@/app/store/posts/posts";
+import { usePosts } from "@/app/store/home/posts/posts";
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import EmojiPicker from "emoji-picker-react";

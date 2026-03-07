@@ -17,7 +17,7 @@ export default function Setting({ children }: { children: React.ReactNode }) {
 
   const mobile = pathname === "/settings" || pathname === "/settings/";
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background pb-10 md:pb-0">
       {(!isMobile || mobile) && (
         <aside className={`${isMobile ? "w-[100%]" : "w-[340px] min-w-[340px] border-r border-border"} h-screen sticky top-0 overflow-hidden`}>
           <nav className="h-[100%] flex flex-col px-5 overflow-y-auto pb-8">
@@ -235,7 +235,7 @@ export default function Setting({ children }: { children: React.ReactNode }) {
                   </div>
                   <div className="flex flex-col gap-2 mt-2">
                         <Typography sx={{color:"gray",fontWeight:500}} variant="body2">{t("for_professional_accounts")}</Typography>
-                        <Link href={`/settings/`} className={`w-[100%] flex items-center py-3 gap-3 px-3 rounded-lg hover:bg-[#ececec] dark:hover:bg-[#282828] ${pathname==="/settings/"?"bg-[#f3f2f2] hover:bg-[#f3f2f2] dark:bg-[#2d2c2c] hover:dark:bg-[#2d2c2c]":""}`}>
+                        <Link href={`/settings/account_type_and_tools`} className={`w-[100%] flex items-center py-3 gap-3 px-3 rounded-lg hover:bg-[#ececec] dark:hover:bg-[#282828] ${pathname==="/settings/"?"bg-[#f3f2f2] hover:bg-[#f3f2f2] dark:bg-[#2d2c2c] hover:dark:bg-[#2d2c2c]":""}`}>
                               <svg className="x1lliihq x1n2onr6 x5n08af" aria-label="icon" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24">
                                     <title>Тип аккаунта и инструменты</title>
                                     <path d="M8 12a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0v-3a1 1 0 0 0-1-1Zm8-3a1 1 0 0 0-1 1v6a1 1 0 1 0 2 0v-6a1 1 0 0 0-1-1Zm-4-2a1 1 0 0 0-1 1v8a1 1 0 1 0 2 0V8a1 1 0 0 0-1-1Z"></path>
@@ -243,7 +243,7 @@ export default function Setting({ children }: { children: React.ReactNode }) {
                               </svg>
                               <p>{t("setting.account_type_and_tools")}</p>
                         </Link>
-                        <Link href={`/settings/`} className={`w-[100%] flex items-center py-3 gap-3 px-3 rounded-lg hover:bg-[#ececec] dark:hover:bg-[#282828] ${pathname==="/settings/"?"bg-[#f3f2f2] hover:bg-[#f3f2f2] dark:bg-[#2d2c2c] hover:dark:bg-[#2d2c2c]":""}`}>
+                        <Link href={`/settings/meta_verified`} className={`w-[100%] flex items-center py-3 gap-3 px-3 rounded-lg hover:bg-[#ececec] dark:hover:bg-[#282828] ${pathname==="/settings/"?"bg-[#f3f2f2] hover:bg-[#f3f2f2] dark:bg-[#2d2c2c] hover:dark:bg-[#2d2c2c]":""}`}>
                               <svg className="x1lliihq x1n2onr6 x5n08af" aria-label="icon" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24">
                                     <title>Подтвердите свой профиль</title>
                                     <path d="m21.884 12 1.458-2.273a1 1 0 0 0-.383-1.43l-2.4-1.24.127-2.697a1.001 1.001 0 0 0-.292-.754.97.97 0 0 0-.754-.292l-2.698.126-1.24-2.399a1 1 0 0 0-1.428-.383L12 2.116 9.726.658a1 1 0 0 0-1.428.383l-1.24 2.4-2.698-.127a.972.972 0 0 0-.754.292 1 1 0 0 0-.292.754l.126 2.698-2.4 1.24a1.001 1.001 0 0 0-.382 1.429L2.116 12 .658 14.273a1.001 1.001 0 0 0 .383 1.43l2.399 1.24-.126 2.697a1 1 0 0 0 .292.754.98.98 0 0 0 .754.292l2.698-.126 1.24 2.399a.997.997 0 0 0 .63.507 1.008 1.008 0 0 0 .798-.124L12 21.884l2.274 1.458a.997.997 0 0 0 .54.158 1.016 1.016 0 0 0 .258-.034.997.997 0 0 0 .63-.507l1.24-2.4 2.698.127a.98.98 0 0 0 .754-.292 1.001 1.001 0 0 0 .292-.754l-.126-2.698 2.399-1.24a1 1 0 0 0 .383-1.429Zm-2.03.54 1.211 1.89-1.993 1.03a1.001 1.001 0 0 0-.54.936l.105 2.24-2.242-.104a1 1 0 0 0-.935.54l-1.03 1.993-1.89-1.21a1 1 0 0 0-1.08 0l-1.89 1.21-1.03-1.993a.98.98 0 0 0-.935-.54l-2.242.105.105-2.241a1.002 1.002 0 0 0-.54-.936l-1.994-1.03 1.212-1.89a1 1 0 0 0 0-1.08L2.934 9.57l1.994-1.03a1.002 1.002 0 0 0 .54-.936l-.105-2.24 2.242.104a.952.952 0 0 0 .935-.54l1.03-1.993 1.89 1.21a1 1 0 0 0 1.08 0l1.89-1.21 1.03 1.993a.968.968 0 0 0 .935.54l2.242-.105-.105 2.241a1.001 1.001 0 0 0 .54.936l1.993 1.03-1.21 1.89a1 1 0 0 0 0 1.08Zm-4.49-4.046-4.891 4.89-1.837-1.835a1 1 0 0 0-1.414 1.414l2.544 2.543a1 1 0 0 0 1.414 0l5.598-5.598a1 1 0 0 0-1.414-1.414Z"></path>
@@ -294,4 +294,4 @@ export default function Setting({ children }: { children: React.ReactNode }) {
       )}
     </div>
   );
-}
+};

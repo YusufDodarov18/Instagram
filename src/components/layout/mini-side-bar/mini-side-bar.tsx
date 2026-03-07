@@ -14,7 +14,6 @@ import { useDrawerStore } from "@/app/store/search/search";
 import { useDrawerNotification } from "@/app/store/notification/notification";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
-import SettingModal from "@/entities/setting/settingModal/modal";
 import {
   instagramMiniLogo,
   compas,
@@ -31,6 +30,7 @@ import {
   video,
   videoActive,
 } from "@/app/provider/icons/svg";
+import SettingModal from "@/entities/setting/settingModal";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} arrow />
