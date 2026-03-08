@@ -362,8 +362,7 @@ const sendComment= async ()=> {
                                             }
                                         }}            
                                           >
-                                            <DialogContent sx={{}}>
-                                                   
+                                            <DialogContent>
                                                     <div className="flex flex-col justify-center text-center gap-2">
                                                           <p className="text-red-500 font-bold cursor-pointer border-b-1 pb-2" onClick={async()=>
                                                           {
@@ -379,7 +378,6 @@ const sendComment= async ()=> {
                                                           }>{t("delete")}</p>
                                                           <p className="cursor-pointer pt-2 text-black dark:text-white" onClick={()=>{setIdx(null),setMenuComment(false)}}>{t("cancel")}</p>
                                                     </div>
-
                                             </DialogContent>
                               </Dialog>                      
         </>
