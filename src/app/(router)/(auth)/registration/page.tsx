@@ -85,7 +85,7 @@ function page() {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen px-10 sm:px-0">
+      <div className="flex justify-center items-center min-h-screen px-10 pt-2 sm:px-0">
         <div className="flex flex-col gap-5 mt-2">
          <div className="w-full max-w-[370px] sm:w-[370px] border border-solid border-[#cacaca] mx-auto pb-2 px-4 sm:px-0">
               <span>{instagram}</span>

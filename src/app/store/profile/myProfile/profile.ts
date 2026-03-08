@@ -71,24 +71,29 @@ export const useProfile = create<ProfileStore>((set, get) => ({
       const formData = new FormData();
       formData.append("imageFile", file);
 
+      set({ loading: true });
       const { data } = await axiosRequest.put(
         `${API}/UserProfile/update-user-image-profile`,
         formData,
       );
 
-      set({ myImageProfile: data.data });
-      get().getMyProfile()
+      set({ myImageProfile: data.data, loading: false });
+      get().getMyProfile();
     } catch (error) {
       console.error(error);
+      set({ loading: false });
     }
   },
 
   deleteImageProfile: async () => {
     try {
+      set({ loading: true });
       await axiosRequest.delete(`${API}/UserProfile/delete-user-image-profile`);
-      set({ myImageProfile: null });
+      set({ myImageProfile: null, loading: false });
+      get().getMyProfile();
     } catch (error) {
       console.error(error);
+      set({ loading: false });
     }
   },
 
@@ -118,14 +123,14 @@ export const useProfile = create<ProfileStore>((set, get) => ({
     }
   },
 
-  updateProfile:async formData=>{
+  updateProfile: async (formData) => {
     try {
-      set({loading:true})
-      await axiosRequest.put(`/UserProfile/update-user-profile`,formData)
-      set({loading:false})
-      get().getMyProfile()
+      set({ loading: true });
+      await axiosRequest.put(`/UserProfile/update-user-profile`, formData);
+      set({ loading: false });
+      get().getMyProfile();
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  },
 }));

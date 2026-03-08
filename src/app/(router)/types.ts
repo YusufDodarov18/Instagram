@@ -355,6 +355,7 @@ export interface ProfileStore {
   getMyFollowers: (userId: string) => Promise<void>;
   getMyFollowing: (userId: string) => Promise<void>;
   updateImageProfile: (file: File) => Promise<void>;
+  deleteImageProfile: () => Promise<void>;
   myImageProfile: { file: string } | null;
   addFollowing: (userId: string, sid: string) => Promise<void>;
   unFollowing: (userId: string, sid: string) => Promise<void>;
