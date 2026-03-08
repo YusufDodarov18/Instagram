@@ -21,7 +21,7 @@ import {
 } from "@/app/provider/icons/svg";
 import { jwtDecode } from "jwt-decode";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import CreatePostModal from "@/app/(router)/(protected)/create/post/create";
+import CreatePostModal from "@/app/(router)/(protected)/create/createPost";
 import { useDrawerNotification } from "@/app/store/provider/notification/notification";
 import { useDrawerStore } from "@/app/store/provider/search/search";
 import { JwtPayload, NavLinkProps } from "@/app/(router)/types";
@@ -46,10 +46,10 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
   const { toggleDrawer } = useDrawerStore();
   const { toggleDrawerNotification } = useDrawerNotification();
   const pathname = usePathname();
-  const [settingModal, setOpenSettingModal] = useState<boolean>(false);
+  const [settingModal, setOpenSettingModal] = useState(false);
   const [decode, setDecode] = useState<JwtPayload | null>(null);
   const { t } = useTranslation();
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const { myProfile, getMyProfile } = useProfile();
 
   useEffect(() => {

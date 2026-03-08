@@ -35,14 +35,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 export default function page() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(0);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [open, setOpen] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
   const [pausedStates, setPausedStates] = useState<Record<number, boolean>>({});
   const videoRef = useRef<HTMLVideoElement[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [text, setText] = useState<string>("");
-  const [showEmojis, setShowEmojies] = useState<boolean>(false);
+  const [text, setText] = useState("");
+  const [showEmojis, setShowEmojies] = useState(false);
   const { t } = useTranslation();
 
   const handleClickOpen = () => setOpen(true);

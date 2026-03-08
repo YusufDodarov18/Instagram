@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import { JwtPayload } from "@/app/(router)/types";
-import CreatePostModal from "@/app/(router)/(protected)/create/post/create";
+import CreatePostModal from "@/app/(router)/(protected)/create/createPost";
 import { useDrawerStore } from "@/app/store/provider/search/search";
 import { useDrawerNotification } from "@/app/store/provider/notification/notification";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
@@ -48,13 +48,12 @@ const miniItem =
 
 const MiniSideBar = ({ children }: { children: React.ReactNode }) => {
   const { toggleDrawer } = useDrawerStore();
-  const { toggleDrawerNotification, notificationDrawer } =
-    useDrawerNotification();
+  const {toggleDrawerNotification, notificationDrawer}=useDrawerNotification();
   const pathname = usePathname();
   const { t } = useTranslation();
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const [decode, setDecode] = useState<JwtPayload | null>(null);
-  const [settingModal, setOpenSettingModal] = useState<boolean>(false);
+  const [settingModal, setOpenSettingModal] = useState(false);
   const { getMyProfile, myProfile } = useProfile();
 
   const handleClose = () => setOpenSettingModal(false);

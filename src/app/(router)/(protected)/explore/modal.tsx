@@ -58,12 +58,12 @@ export default function ModalExplore({
   } = useExplore();
   const [textComment, setTextComment] = React.useState<string>("");
   const [isLiked, setIsLiked] = React.useState(selectedPost?.postLike ?? false);
-  const [isMuted, setIsMuted] = React.useState<boolean>(false);
-  const [isFollowed, setIsFollowed] = React.useState<boolean>(false);
-  const [showEmojis, setShowEmojies] = React.useState<boolean>(false);
+  const [isMuted, setIsMuted] = React.useState(false);
+  const [isFollowed, setIsFollowed] = React.useState(false);
+  const [showEmojis, setShowEmojies] = React.useState(false);
   const [likedComments, setLikedComments] = React.useState<object>(new Set());
-  const [isFavorited, setIsFavorited] = React.useState<boolean>(false);
-  const [commentModal, setCommentModal] = React.useState<boolean>(false);
+  const [isFavorited, setIsFavorited] = React.useState(false);
+  const [commentModal, setCommentModal] = React.useState(false);
   const { t, i18n } = useTranslation();
   const { resolvedTheme } = useNextTheme();
 

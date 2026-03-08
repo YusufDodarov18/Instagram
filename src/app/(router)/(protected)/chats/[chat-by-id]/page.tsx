@@ -16,10 +16,10 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   const chatId = params['chat-by-id']
   const myId=getToken()?.sid
   const [file,setFile]=useState<File|null>(null)
-  const [messageText,setMessageText]=useState<string>("")
-  const [showEmojiPicker,setShowEmojiPicker]=useState<boolean>(false)
+  const [messageText,setMessageText]=useState("")
+  const [showEmojiPicker,setShowEmojiPicker]=useState(false)
   const [menuMessage,setMenuMessage]=useState<null|{ x: number; y: number }>(null)
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<null | number>(null)
   const router=useRouter()
   const userChat=chats.find(c=>c.chatId.toString()===chatId)
@@ -27,13 +27,13 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   const fileInputRef=useRef<HTMLInputElement|null>(null)
   const menuRef=useRef<null|HTMLDivElement>(null)
   
-  useEffect(()=>{
-    getChatById(chatId)
-    getChats()
+  useEffect(()=> {
+      getChatById(chatId)
+      getChats()
   },[chatId])
   
   
-  function handleFileChange(e:any){
+  function handleFileChange(e:React.ChangeEvent<HTMLInputElement>){
     const selectedFile=e.target?.files?.[0]
     if(selectedFile){
       setFile(selectedFile)
@@ -42,27 +42,28 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
 
   const handleSendMessage=async()=>{
      if (!messageText.trim() && !file) return;
-    const formData=new FormData()
-    formData.append("ChatId",chatId)
-    if(messageText) formData.append("MessageText",messageText||"")
-    if(file) formData.append("File",file)
-    try {
-      await sendMessage(formData)
-      setMessageText("")
-      fileInputRef.current.value=null
-      setFile(null)
-      setShowEmojiPicker(false)
-      await getChatById(Number(chatId))
-    } catch (error) {
-      console.error(error)
-    }
+     const formData=new FormData()
+     formData.append("ChatId",chatId)
+     formData.append("MessageText",messageText||"")
+     formData.append("File",file)
+     
+     try {
+       await sendMessage(formData)
+       setMessageText("")
+       fileInputRef.current.value=null
+       setFile(null)
+       setShowEmojiPicker(false)
+       await getChatById(Number(chatId))
+     } catch (error) {
+       console.error(error)
+     }
   }
 
   const toggleDrawer = (openState: boolean)=>()=>setOpen(openState);
 
   function isFileName(text?:string){
-    if(!text) return
-    return /\.(png|jpg|jpeg|gif|mp4|webm|mov)$/i.test(text)
+      if(!text) return
+      return /\.(png|jpg|jpeg|gif|mp4|webm|mov)$/i.test(text)
   }
 
   let isMe= userChat?.sendUserId==myId
@@ -78,7 +79,7 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
     const week = { 0: "Sun",
                     1: "Mon", 2: "Tue", 3: "Wed",
                     4: "Thu", 5: "Fri", 6: "Sat"
-    };
+                  };
     return `${week[day]} ${hours}:${minutes}`;
   }
 
@@ -102,7 +103,7 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
         setSelectedMessage(null)
       }
     }
-    document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
@@ -163,108 +164,108 @@ if(!userChat) return
                                   new Date(a.sendMassageDate).getTime()-
                                   new Date(b.sendMassageDate).getTime()
                                 )
-                                .map(chat=>{
-                                    let isMe=chat.userId==myId
-                                     return (
-                                         <div className={`flex gap-1 ${isMe?"justify-end":"justify-start"} mb-2`} key={chat.messageId}>
-                                              {!isMe&&(
-                                                 <img 
-                                                    src={chat.userImage? `${API}/images/${chat.userImage}`:profile.src}
-                                                    alt={chat.userId}
-                                                    className="w-7 h-7 rounded-full object-cover shrink-0 mb-[2px]" 
-                                                 />
-                                              )}
+                                  .map(chat=>{
+                                      var isMe=chat.userId==myId
+                                       return (
+                                           <div className={`flex gap-1 ${isMe?"justify-end":"justify-start"} mb-2`} key={chat.messageId}>
+                                                {!isMe&&(
+                                                   <img 
+                                                      src={chat.userImage? `${API}/images/${chat.userImage}`:profile.src}
+                                                      alt={chat.userId}
+                                                      className="w-7 h-7 rounded-full object-cover shrink-0 mb-[2px]" 
+                                                   />
+                                                )}
 
-                                              <div className="flex flex-col items-center relative" >
-                                                   {chat.messageText&&!isFileName(chat.messageText)&&(
-                                                      <div className='flex gap-0.5 relative'>
-                                                           <div className={`px-4 py-2 text-sm rounded-2xl ${isMe ? "bg-blue-500 text-white dark:bg-[#4A5DF9] rounded-br-none" : "bg-gray-100 text-gray-900 dark:bg-[#25292E] dark:text-white rounded-bl-none"}`}>
-                                                              {chat.messageText}
-                                                           </div>
-                                                           <span onClick={(e)=>openMessageMenu(e,chat.messageId)}>{menu}</span>
-                                                           
-                                                           {selectedMessage === chat.messageId && (
-                                                             <div ref={menuRef} className={`absolute top-full mt-1 border bg-[#fff] dark:bg-[#252323] rounded text-gray-900 dark:text-white shadow-lg z-50 w-36  ${isMe ? 'right-0' : 'left-0'}`}>
-                                                                <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]" onClick={()=>{
-                                                                   navigator.clipboard.writeText(chat.messageText)
-                                                                   setSelectedMessage(null)
-                                                                }}
-                                                                >
-                                                                  <span><Copy /></span> {t("copy")}
-                                                                </p>
-                                                                <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]">
-                                                                  <span><Share2 /></span> {t("share")}
-                                                                </p>
-                                                                <p onClick={async(e)=>{
-                                                                       e.stopPropagation();
-                                                                       e.preventDefault()
-                                                                       if (!chat.messageId || !chatId) return;
-                                                                       await deleteMessage(chat.messageId, Number(chatId));
-                                                                       setSelectedMessage(null);
-                                                                  }} className="flex items-center gap-2 p-2 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-[#3b1f1f]">
-                                                                  <span><Trash /></span> 
-                                                                    {t("delete2")}
-                                                                </p>
-                                                              </div>
-                                                            )}
-                                                      </div>
-                                                   )}
+                                                <div className="flex flex-col items-center relative" >
+                                                     {chat.messageText&&!isFileName(chat.messageText)&&(
+                                                        <div className='flex gap-0.5 relative'>
+                                                             <div className={`px-4 py-2 text-sm rounded-2xl ${isMe ? "bg-blue-500 text-white dark:bg-[#4A5DF9] rounded-br-none" : "bg-gray-100 text-gray-900 dark:bg-[#25292E] dark:text-white rounded-bl-none"}`}>
+                                                                {chat.messageText}
+                                                             </div>
+                                                             <span onClick={(e)=>openMessageMenu(e,chat.messageId)}>{menu}</span>
 
-                                                   {chat.file &&(
-                                                      <div className="mt-2 relative">
-                                                          <div className="flex gap-1 items-start">
-                                                                {chat.file.endsWith(".mp4")?(
-                                                                    <video src={`${API}/images/${chat.file}`} className='max-w-[250px] rounded-xl' controls />
-                                                                ):(
-                                                                    <img src={`${API}/images/${chat.file}`} alt="file" className="max-w-[250px] rounded-xl" />
-                                                                )}
+                                                             {selectedMessage === chat.messageId && (
+                                                               <div ref={menuRef} className={`absolute top-full mt-1 border bg-[#fff] dark:bg-[#252323] rounded text-gray-900 dark:text-white shadow-lg z-50 w-36  ${isMe ? 'right-0' : 'left-0'}`}>
+                                                                  <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]" onClick={()=>{
+                                                                     navigator.clipboard.writeText(chat.messageText)
+                                                                     setSelectedMessage(null)
+                                                                  }}
+                                                                  >
+                                                                    <span><Copy /></span> {t("copy")}
+                                                                  </p>
+                                                                  <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]">
+                                                                    <span><Share2 /></span> {t("share")}
+                                                                  </p>
+                                                                  <p onClick={async(e)=>{
+                                                                         e.stopPropagation();
+                                                                         e.preventDefault()
+                                                                         if (!chat.messageId || !chatId) return;
+                                                                         await deleteMessage(chat.messageId, Number(chatId));
+                                                                         setSelectedMessage(null);
+                                                                    }} className="flex items-center gap-2 p-2 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-[#3b1f1f]">
+                                                                    <span><Trash /></span> 
+                                                                      {t("delete2")}
+                                                                  </p>
+                                                                </div>
+                                                              )}
+                                                        </div>
+                                                     )}
 
-                                                                <span onClick={(e)=>openMessageMenu(e,chat.messageId)}>{menu}</span>
+                                                     {chat.file &&(
+                                                        <div className="mt-2 relative">
+                                                            <div className="flex gap-1 items-start">
+                                                                  {chat.file.endsWith(".mp4")?(
+                                                                      <video src={`${API}/images/${chat.file}`} className='max-w-[250px] rounded-xl' controls />
+                                                                  ):(
+                                                                      <img src={`${API}/images/${chat.file}`} alt="file" className="max-w-[250px] rounded-xl" />
+                                                                  )}
 
-                                                                 {selectedMessage === chat.messageId && (
-                                                                    <div className="absolute top-full left-0 mt-1 border bg-[#fff] dark:bg-[#252323] rounded text-gray-900 dark:text-white shadow-lg z-50 w-36" ref={menuRef}>
-                                                                       <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]" onClick={()=>{
-                                                                         const fileUrl=`${API}/images/${chat?.file}`
+                                                                  <span onClick={(e)=>openMessageMenu(e,chat.messageId)}>{menu}</span>
 
-                                                                         const link=document.createElement("a")
-                                                                         link.href=fileUrl
-                                                                         link.download=chat.file
-                                                                         document.body.appendChild(link)
-                                                                         link.click()
-                                                                         document.removeChild(link)
-                                                                         setSelectedMessage(null)
-                                                                       }}
-                                                                       >
-                                                                         <span><Download /></span> {t("Download")}
-                                                                       </p>
-                                                                       <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]">
-                                                                         <span><Share2 /></span> {t("share")}
-                                                                       </p>
-                                                                       <p onClick={async(e)=>{
-                                                                              e.stopPropagation();
-                                                                              e.preventDefault()
-                                                                              if (!chat.messageId || !chatId) return;
-                                                                              await deleteMessage(chat.messageId, Number(chatId));
-                                                                              setSelectedMessage(null);
-                                                                         }} className="flex items-center gap-2 p-2 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-[#3b1f1f]">
-                                                                         <span>
-                                                                           <Trash /></span> 
-                                                                           {t("delete2")}
-                                                                       </p>
-                                                                     </div>
-                                                                )}
-                                                          </div>
-                                                      </div>
-                                                   )}
+                                                                   {selectedMessage === chat.messageId && (
+                                                                      <div className="absolute top-full left-0 mt-1 border bg-[#fff] dark:bg-[#252323] rounded text-gray-900 dark:text-white shadow-lg z-50 w-36" ref={menuRef}>
+                                                                         <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]" onClick={()=>{
+                                                                           const fileUrl=`${API}/images/${chat?.file}`
 
-                                                   <span className="text-xs text-gray-400 mt-1 text-center">
-                                                        {formatMessageTime(chat.sendMassageDate)}
-                                                   </span>
-                                              </div>
-                                         </div>
-                                     )
-                                })
-                            }
+                                                                           const link=document.createElement("a")
+                                                                           link.href=fileUrl
+                                                                           link.download=chat.file
+                                                                           document.body.appendChild(link)
+                                                                           link.click()
+                                                                           document.removeChild(link)
+                                                                           setSelectedMessage(null)
+                                                                         }}
+                                                                         >
+                                                                           <span><Download /></span> {t("Download")}
+                                                                         </p>
+                                                                         <p className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2d2b2b]">
+                                                                           <span><Share2 /></span> {t("share")}
+                                                                         </p>
+                                                                         <p onClick={async(e)=>{
+                                                                                e.stopPropagation();
+                                                                                e.preventDefault()
+                                                                                if (!chat.messageId || !chatId) return;
+                                                                                await deleteMessage(chat.messageId, Number(chatId));
+                                                                                setSelectedMessage(null);
+                                                                           }} className="flex items-center gap-2 p-2 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-[#3b1f1f]">
+                                                                           <span>
+                                                                             <Trash /></span> 
+                                                                             {t("delete2")}
+                                                                         </p>
+                                                                       </div>
+                                                                  )}
+                                                            </div>
+                                                        </div>
+                                                     )}
+
+                                                     <span className="text-xs text-gray-400 mt-1 text-center">
+                                                          {formatMessageTime(chat.sendMassageDate)}
+                                                     </span>
+                                                </div>
+                                           </div>
+                                       )
+                                 })
+                              }
                       </div>
                </div>
 
@@ -299,9 +300,7 @@ if(!userChat) return
 										            </div>
 									          )}
                             {messageText.trim()?(
-                                <button onClick={handleSendMessage} className="text-[#6789f8] cursor-pointer font-semibold text-sm transition-colors">
-                                    {t("send")}
-                                </button>
+                                <button onClick={handleSendMessage} className="text-[#6789f8] cursor-pointer font-semibold text-sm transition-colors">{t("send")}</button>
                             ):(
                                 <div className="flex items-center gap-3">
                                         <button className="cursor-pointer">
@@ -310,11 +309,12 @@ if(!userChat) return
                                         <button className="cursor-pointer">
                                             <Image onClick={()=>fileInputRef.current?.click()} className="h-6 w-6 text-foreground" />
                                         </button>
-                                        <button className="cursor-pointer" onClick={async()=>{
+                                        <button className="cursor-pointer" onClick={
+                                        async()=>{
                                                const newFormData=new FormData()
                                                newFormData.append("ChatId",chatId)
                                                newFormData.append("MessageText",'❤️')
-                                                await sendMessage(newFormData)
+                                               await sendMessage(newFormData)
                                         }}>
                                              <Heart className="h-6 w-6 text-foreground" />
                                         </button>

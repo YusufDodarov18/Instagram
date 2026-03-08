@@ -25,7 +25,7 @@ export default function FollowingById({
 }) {
   const [subscribers, setSubscribers] = useState<MyFollowing[]>([]);
   const [decode, setDecode] = useState<DecodedToken | null>(null);
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState("");
   const { t } = useTranslation();
   const {
     followingLoading,

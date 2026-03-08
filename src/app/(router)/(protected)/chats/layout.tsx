@@ -16,11 +16,11 @@ import { Skeleton, Typography } from '@mui/material'
 
 function Layout({children}:{children:React.ReactNode}) {
     const {chats,deleteChat,getChats, getChatById,createChat,chatById}=useChats()
-    const [openModal,setOpenModal]=useState<boolean>(false)
+    const [openModal,setOpenModal]=useState(false)
     const [menuPosition, setMenuPosition] = useState<{ x: number; y: number } | null>(null)
     const [selectedChatId, setSelectedChatId] = useState<number | null>(null)
-    const [openMessageModal,setOpenMessageModal]=useState<boolean>(false)
-    const [isLoading,setIsLoading]=useState<boolean>(false)
+    const [openMessageModal,setOpenMessageModal]=useState(false)
+    const [isLoading,setIsLoading]=useState(false)
     const {myProfile,loading}=useProfile()
     const {t}=useTranslation()
     const params = useParams()
@@ -97,44 +97,48 @@ function Layout({children}:{children:React.ReactNode}) {
                                                 </div>
                                                  <Skeleton variant="circular" width={20} height={20} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />
                                             </div>
-                                        ))
-                                    ):chats.length===0?<div className="text-center text-gray-500"><Typography>{t("Chats will appear here after you send or receive a message")}</Typography></div>
-                                     :  chats.map((chat)=>{
-                                        const isMe=chat.sendUserId===myId
-                                        const userName=isMe?chat.receiveUserName:chat.sendUserName
-                                        const userImage = isMe ?chat.receiveUserImage :chat.sendUserImage
-                                        return (
-                                            <Link href={`/chats/${chat.chatId}`}>
-                                                  <div key={chat.chatId} className={`flex group  w-[100%] items-center gap-3 px-5 py-2 transition-colors cursor-pointer ${Number(activeChatId) === chat.chatId ? "bg-accent" : "hover:bg-accent/50"}`} key={chat.chatId}>
-                                                      <div className="relative shrink-0">
-                                                          <img 
-                                                              src={userImage?
-                                                              `${API}/images/${userImage}`:
-                                                              defaultProfile.src
-                                                              } 
-                                                              alt={`${chat.chatId}`}
-                                                              className='w-14 h-14 rounded-full object-cover'
-                                                          />
-                                                      </div>
-                                                      <div className='flex-1 min-w-0 text-left'>
-                                                          <div className='flex items-center justify-between'>
-                                                              <span className='text-sm font-semibold '>{userName}</span>
+                                        )))
+                                        
+                                        :chats.length===0?<div className="text-center text-gray-500"><Typography>{t("Chats will appear here after you send or receive a message")}</Typography></div>
+                                              :chats.map((chat)=>{
+                                                const isMe=chat.sendUserId===myId
+                                                const userName=isMe?chat.receiveUserName:chat.sendUserName
+                                                const userImage = isMe ?chat.receiveUserImage :chat.sendUserImage
+                                                return (
+                                                    <Link href={`/chats/${chat.chatId}`}>
+                                                          <div key={chat.chatId} className={`flex group  w-[100%] items-center gap-3 px-5 py-2 transition-colors cursor-pointer ${Number(activeChatId) === chat.chatId ? "bg-accent" : "hover:bg-accent/50"}`} key={chat.chatId}>
+                                                              <div className="relative shrink-0">
+                                                                  <img 
+                                                                      src={userImage?
+                                                                      `${API}/images/${userImage}`:
+                                                                      defaultProfile.src
+                                                                      } 
+                                                                      alt={`${chat.chatId}`}
+                                                                      className='w-14 h-14 rounded-full object-cover'
+                                                                  />
+                                                              </div>
+                                                              <div className='flex-1 min-w-0 text-left'>
+                                                                  <div className='flex items-center justify-between'>
+                                                                      <span className='text-sm font-semibold '>{userName}</span>
+                                                                  </div>
+                                                                  <div className='flex items-center gap-1'>
+                                                                      <span className={`text-sm truncate font-semibold`}>{userName}</span>  
+                                                                  </div>
+                                                              </div>
+                                                              <div className='hidden group-hover:block' onClick={(e)=>
+                                                              {
+                                                                  e.stopPropagation()
+                                                                  e.preventDefault()
+                                                                  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+                                                                  setMenuPosition({x: rect.left,y: rect.bottom})
+                                                                  setSelectedChatId(chat.chatId)
+                                                              }}
+                                                              >
+                                                                {menu}</div>
                                                           </div>
-                                                          <div className='flex items-center gap-1'>
-                                                              <span className={`text-sm truncate font-semibold`}>{userName}</span>  
-                                                          </div>
-                                                      </div>
-                                                      <div className='hidden group-hover:block' onClick={(e)=>{
-                                                          e.stopPropagation()
-                                                          e.preventDefault()
-                                                          const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
-                                                          setMenuPosition({x: rect.left,y: rect.bottom})
-                                                          setSelectedChatId(chat.chatId)
-                                                      }}>{menu}</div>
-                                                  </div>
-                                            </Link>
-                                        )
-                                    })}
+                                                    </Link>
+                                                )
+                                        })}
                                 </div>
                             </div>
                         </div>

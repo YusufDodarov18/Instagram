@@ -91,6 +91,8 @@
 // };
 
 // export default Comment;
+
+
 'use client'
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -121,10 +123,10 @@ const CommentModal = ({open,handleClose,post}:{open:boolean,handleClose:()=>void
     const isMobile=useMediaQuery("(min-width:648px)")
     const {addComment,deleteComment,addFavoritePost,posts,addFollowingRelationship,subscribtions,getSubscribtions,deleteFollowingRelationship,likePosts}=usePosts()
     const {resolvedTheme}=useTheme()
-    const [textComment,setTextComment]=useState<string>("")
-    const [showEmojies,setShowEmojies]=useState<boolean>(false)
-    const [isMuted,setIsMuted]=useState<boolean>(true)
-    const [menuComment,setMenuComment]=useState<boolean>(false)
+    const [textComment,setTextComment]=useState("")
+    const [showEmojies,setShowEmojies]=useState(false)
+    const [isMuted,setIsMuted]=useState(true)
+    const [menuComment,setMenuComment]=useState(false)
     const [idx,setIdx]=useState<null|string>(null)
     const viderRef=useRef<HTMLVideoElement |null>(null)
     const myId=getToken()?.sid
@@ -135,7 +137,7 @@ const CommentModal = ({open,handleClose,post}:{open:boolean,handleClose:()=>void
 
 // console.log(post)
 
-const sendComment= async ()=>{
+const sendComment= async ()=> {
     if(textComment.trim()=="") return
     let comment={
         commentText:textComment,
@@ -149,12 +151,12 @@ const sendComment= async ()=>{
     }
 }
 
-const toggleVolume=()=>{
-    if(viderRef.current){
-        viderRef.current.muted=!isMuted
-        setIsMuted(!isMuted)
-    }
-}
+   const toggleVolume=()=>{
+       if(viderRef.current){
+           viderRef.current.muted=!isMuted
+           setIsMuted(!isMuted)
+       }
+   }
 
     const isVideo=(url:string)=>url.match(/\.(mp4|webm|ogg)$/i)
      return (
@@ -171,7 +173,7 @@ const toggleVolume=()=>{
                           p: 0,
                         },
                       }}
-                    >
+                      >
                                <DialogContent
                                       sx={{
                                         p: 0,
@@ -189,10 +191,10 @@ const toggleVolume=()=>{
                                                         <video
                                                             ref={viderRef} 
                                                             src={`${API}/images/${currentPost.images[0]}`}
+                                                            className="w-full h-full object-cover"
                                                             autoPlay
                                                             loop
                                                             muted={isMuted}
-                                                            className="w-full h-full object-cover"
                                                          />
                                                     ):(
                                                          <img 

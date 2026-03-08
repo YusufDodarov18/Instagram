@@ -14,15 +14,15 @@ import { instagram } from "@/app/provider/icons/svg";
 import axios from "axios";
 
 function page() {
-  const [name, setName] = useState<string>("")
-  const [surName,setSurname]=useState<string>("")
-  const [email,setEmail]=useState<string>("")
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [registrationError, setRegistrationError] = useState<string>("");
-  const [showPassword,setShowPassword]=useState<boolean>(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
-  const [loading,setLoading]=useState<boolean>(false)
+  const [name, setName] = useState("")
+  const [surName,setSurname]=useState("")
+  const [email,setEmail]=useState("")
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [registrationError, setRegistrationError] = useState("");
+  const [showPassword,setShowPassword]=useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [loading,setLoading]=useState(false)
   
   const router=useRouter()
   const {t}=useTranslation()
@@ -53,7 +53,7 @@ function page() {
       return
     }
 
-    if (password != confirmPassword) {
+    if (password != confirmPassword){
       setRegistrationError(t("authentication.register.registrationErrorPasswordMismatch"));
       return;
     }
@@ -117,10 +117,10 @@ function page() {
                         placeholder={t("authentication.login.password")}
                         type={showPassword?"text":"password"}
                       />
-                     {password && (
+                     {password&&(
                       <span
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+                         onClick={() => setShowPassword(!showPassword)}
+                         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </span>
@@ -134,7 +134,7 @@ function page() {
                         placeholder={t("authentication.register.confirmPassword")}
                         type={showConfirmPassword?"text":"password"}
                       />
-                     {confirmPassword && (
+                     {confirmPassword&&(
                       <span
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
@@ -160,9 +160,7 @@ function page() {
                   </motion.div>
                    <br />
                 {registrationError && (
-                  <p className="text-red-500 text-center mb-3">
-                    {registrationError}
-                  </p>
+                  <p className="text-red-500 text-center mb-3">{registrationError}</p>
                 )}
                <div className="flex flex-col items-center gap-2 text-center text-[12px] w-[280px] m-auto">
                     <p>
@@ -204,7 +202,7 @@ function page() {
                     <span className="font-semibold text-blue-600"> {t("authentication.register.loginLink")}</span>
                   </Link>
                 </p>
-              </div>
+            </div>
               <Instalations/>
         </div>
       </div>

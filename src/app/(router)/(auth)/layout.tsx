@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
 export default function Layout({children}:{children:React.ReactNode}) {
-    const [loading,setLoading]=useState<boolean>(true)
+    const [loading,setLoading]=useState(true)
     const router=useRouter()
 
     useEffect(()=>{

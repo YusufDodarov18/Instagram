@@ -23,7 +23,7 @@ function FollowersById({
   onClose: () => void;
 }) {
   const { followers, followings, followersLoading } = useProfileById();
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState("");
   const [decode, setDecode] = useState<DecodedToken | null>(null);
   const [subscribed, setSubscribed] = useState<MyFollowers[]>([]);
   const { addFollowing, unFollowing } = useProfile();

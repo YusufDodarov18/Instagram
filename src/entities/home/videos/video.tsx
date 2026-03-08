@@ -3,8 +3,8 @@ import React, { useRef, useState } from "react";
 
 export default function Video({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const [isMuted,setIsMuted]=useState<boolean>(true)
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted,setIsMuted]=useState(true)
 
   const togglePlay = () => {
     if (!videoRef.current) return;

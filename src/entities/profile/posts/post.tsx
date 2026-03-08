@@ -7,7 +7,7 @@ import PostModal from "./post-modal/ModalPost";
 
 export default function MyPosts() {
   const { getMyPosts, myPosts } = useProfile();
-  const [selectedPost, setSelectedPost] = useState<null>(null);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     getMyPosts();

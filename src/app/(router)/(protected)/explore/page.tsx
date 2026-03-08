@@ -30,11 +30,11 @@ function page() {
     postSearchHistory,
     users,
   } = useExplore();
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState<post | null>(null);
-  const [openSearchBox, setOpenSeacrhBox] = useState<boolean>(false);
-  const [searchText, setSearchText] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [openSearchBox, setOpenSeacrhBox] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const { resolvedTheme } = useTheme();
   const myId = getToken()?.sid;

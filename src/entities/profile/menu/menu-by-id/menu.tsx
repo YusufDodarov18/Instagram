@@ -35,6 +35,7 @@ export const MenuById = ({
     "Brazil",
     "Japan",
     "Canada",
+    "Tajikistan"
   ];
 
   const randomLocation = () =>
@@ -58,9 +59,7 @@ export const MenuById = ({
           <Box sx={item(true)}>{t("restrict")}</Box>
           <Box sx={item(true)}>{t("report")}</Box>
           <Box sx={item()}>{t("shareTo")}</Box>
-          <Box sx={item()} onClick={handleAboutClick}>
-            {t("aboutThisAccount")}
-          </Box>
+          <Box sx={item()} onClick={handleAboutClick}>{t("aboutThisAccount")}</Box>
           <Box
             sx={{
               py: 1.5,

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 
 export default function SelectLanguages() {
-    const [width,setWidth]=useState<number>(0)
-    const selected=useRef<HTMLSelectElement>(null)
+    const [width,setWidth]=useState(0)
+    const selected=useRef<HTMLSelectElement|null>(null)
 
     const languages:string[]=[
       "Afrikaans","العربية","Čeština","Dansk","Deutsch","Ελληνικά","English","English (UK)",
@@ -32,6 +32,7 @@ export default function SelectLanguages() {
     },[])
 
     const handleChange=(e:React.ChangeEvent<HTMLSelectElement>):void=>{
+        // e.preventDefault()
         updateWidth()
     }
 

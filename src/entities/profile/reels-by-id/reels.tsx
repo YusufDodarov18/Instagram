@@ -6,7 +6,6 @@ import { useEffect } from "react";
 export default function ReelsById() {
   const { getPostById, posts } = useProfileById();
   const pathname = usePathname();
-
   const id = pathname.split("/")[2];
 
   useEffect(() => {

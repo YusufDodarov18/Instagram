@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next"
 
 export default function EmptyChat() {
     const {t}=useTranslation()
-    const [open,setOpen]=useState<boolean>(false)
+    const [open,setOpen]=useState(false)
     return (
         <>
             <div className="flex flex-col h-full gap-4 px-3 justify-center items-center">

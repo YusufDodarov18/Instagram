@@ -10,7 +10,11 @@ export function saveToken(token:string){
 export default function getToken(){
     try {
         return jwtDecode<DecodedToken>(localStorage.getItem("access_token")||"")
-    }catch{}
+    } catch (err)
+    { 
+        console.error(err)
+        throw new Error("Пользователь не зарегистрирован!")
+    }
 }
 
 export function destroyToken(){

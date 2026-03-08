@@ -8,7 +8,7 @@ import Report from './report'
 
 export default function SettingModal({open,onClose,left}:{open:boolean,onClose:()=>void,left:number}) {
     const menu=useRef<HTMLDivElement>(null)
-    const [menuReport,setMenuReport]=useState<boolean>(false)
+    const [menuReport,setMenuReport]=useState(false)
     const {t}=useTranslation()
 
     useEffect(()=> {
@@ -59,7 +59,7 @@ export default function SettingModal({open,onClose,left}:{open:boolean,onClose:(
                      <span>{t("logout")}</span>
                   </div>
             </div>
-                <Report onClose={()=>setMenuReport(false)} open={menuReport}/>
+            <Report onClose={()=>setMenuReport(false)} open={menuReport}/>
         </>,
         document.body
     )

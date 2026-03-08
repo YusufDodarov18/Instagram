@@ -14,7 +14,7 @@ export default function Following({open,onClose}:{open:boolean,onClose:()=>void}
     const { myFollowing,followingLoading,unFollowing,addFollowing} = useProfile();
     const [following,setFollowing]=useState<MyFollowers[]>([])
     const [decode,setDecode]=useState<DecodedToken|null>(null)
-    const [search,setSearch]=useState<string>("")
+    const [search,setSearch]=useState("")
     const {t}=useTranslation()
 
     useEffect(()=>{
@@ -22,7 +22,8 @@ export default function Following({open,onClose}:{open:boolean,onClose:()=>void}
         if(!token)return
 
         try {
-            const decoded=jwtDecode(token)
+            const decoded = jwtDecode(token)
+            
             setDecode(decoded)
         } catch (err) {
             console.error("Ошибка декодирования токена:", err);
@@ -92,44 +93,46 @@ export default function Following({open,onClose}:{open:boolean,onClose:()=>void}
                                             </Box>
                                             <Skeleton variant="rectangular" width={80} height={32} sx={{ borderRadius: "20px" }} />
                                          </Box>
-                                 ))
-                            ) :filteredFollowing.length===0?
-                                <Typography textAlign="center" color="#8e8e8e" mt={2}>{t("No results found.")}</Typography>
-                             :filteredFollowing.map((elem)=>(
-                                <Box key={elem.id} sx={{display: "flex",justifyContent: "space-between",alignItems: "center"}}>
-                                    <Box sx={{ display: "flex", gap: 1 }}>
-                                        <Box sx={{width: 44,height: 44,position: "relative"}}>
-                                             <Link href={`/profile/${elem.userShortInfo.userId}`}>
-                                                    <img
-                                                     src={
-                                                       elem.userShortInfo.userPhoto? 
-                                                       `${API}/images/${elem.userShortInfo.userPhoto}`
-                                                        : profileDefault.src
-                                                     }
-                                                     alt="profile"
-                                                     className="rounded-full object-cover w-full h-full"
-                                                    />
-                                            </Link>
-                                         </Box>
-                                        <Box>
-                                            <Link href={`/`}>
-                                              <Typography fontSize={14} fontWeight={500}>{elem.userShortInfo.userName}</Typography>
-                                            </Link>
-                                            <Typography fontSize={13} color="#8e8e8e">{elem.userShortInfo.fullname}</Typography>
-                                        </Box>
-                                    </Box>
-                                    <Box>
-                                        <Button 
-                                            variant="contained" 
-                                            sx={{bgcolor: "#4A5DF9",boxShadow: "none","&:hover": {boxShadow: "none",  bgcolor: "rgb(54 75 255)",}}}
-                                            onClick={()=>toggleFollow(elem.userShortInfo.userId,elem.isFollowing)}
-                                        >
-                                            {elem.isFollowing?t("unFollow"):t("Follow")}
-                                        </Button>
-                                    </Box>
-                                </Box>
-                            ))}
-                        </Box>
+                                  )))
+                                
+                                
+                                : filteredFollowing.length === 0 ?
+                                    <Typography textAlign="center" color="#8e8e8e" mt={2}>{t("No results found.")}</Typography>
+                                        :filteredFollowing.map((elem)=>(
+                                           <Box key={elem.id} sx={{display: "flex",justifyContent: "space-between",alignItems: "center"}}>
+                                               <Box sx={{ display: "flex", gap: 1 }}>
+                                                   <Box sx={{width: 44,height: 44,position: "relative"}}>
+                                                        <Link href={`/profile/${elem.userShortInfo.userId}`}>
+                                                               <img
+                                                                src={
+                                                                  elem.userShortInfo.userPhoto? 
+                                                                  `${API}/images/${elem.userShortInfo.userPhoto}`
+                                                                   : profileDefault.src
+                                                                }
+                                                                alt="profile"
+                                                                className="rounded-full object-cover w-full h-full"
+                                                               />
+                                                       </Link>
+                                                    </Box>
+                                                   <Box>
+                                                       <Link href={`/`}>
+                                                         <Typography fontSize={14} fontWeight={500}>{elem.userShortInfo.userName}</Typography>
+                                                       </Link>
+                                                       <Typography fontSize={13} color="#8e8e8e">{elem.userShortInfo.fullname}</Typography>
+                                                   </Box>
+                                               </Box>
+                                               <Box>
+                                                   <Button 
+                                                       variant="contained" 
+                                                       sx={{bgcolor: "#4A5DF9",boxShadow: "none","&:hover": {boxShadow: "none",  bgcolor: "rgb(54 75 255)",}}}
+                                                       onClick={()=>toggleFollow(elem.userShortInfo.userId,elem.isFollowing)}
+                                                   >
+                                                       {elem.isFollowing?t("unFollow"):t("Follow")}
+                                                   </Button>
+                                               </Box>
+                                           </Box>
+                                    ))}
+                            </Box>
                     </section>
                 </DialogContent>
             </form>

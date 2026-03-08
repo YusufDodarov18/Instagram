@@ -21,10 +21,10 @@ import { useChats } from "@/app/store/chats/chat";
 export default function page({ params }: { params: { id: string } }) {
   const { t } = useTranslation();
   const { resolvedTheme } = useTheme();
-  const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [openFollowers, setOpenFollowers] = useState<boolean>(false);
-  const [openFollowing, setOpenFollowing] = useState<boolean>(false);
-  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [openFollowers, setOpenFollowers] = useState(false);
+  const [openFollowing, setOpenFollowing] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const [subscribed, setSubscribed] = useState<MyFollowing[] | []>([]);
   const [decode, setDecode] = useState<null | DecodedToken>(null);
   const {

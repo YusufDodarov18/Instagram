@@ -2,10 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Container } from "@mui/material";
 import React, { useState } from "react";
-import CreatePostModal from "./post/create";
+import CreatePostModal from "./createPost";
 
 export default function page() {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   return (
     <Container>
       <Button variant={"outline"} onClick={() => setOpen(true)}>create</Button>

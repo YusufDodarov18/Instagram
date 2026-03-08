@@ -13,7 +13,7 @@ const itemClass =
 const Menu = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const { t } = useTranslation();
   const [decode, setDecode] = useState<DecodedToken | null>(null);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
@@ -42,9 +42,7 @@ const Menu = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           <div className={itemClass}>{t("notifications")}</div>
           <div className={itemClass}>{t("settingsPrivacy")}</div>
           <div className={itemClass}>{t("metaVerified")}</div>
-          <Link
-            href={`https://familycenter.instagram.com/accounts/17841477594845292/?entrypoint=supervision_web&fc_session_id=60c36e7c-6870-489c-97f0-302cda05e8de&account_type=INSTAGRAM&is_home_entry=1`}
-          >
+          <Link href={`https://familycenter.instagram.com/accounts/17841477594845292/?entrypoint=supervision_web&fc_session_id=60c36e7c-6870-489c-97f0-302cda05e8de&account_type=INSTAGRAM&is_home_entry=1`}>
             <div className={itemClass}>{t("supervision")}</div>
           </Link>
           <div className={itemClass}>{t("loginActivity")}</div>
@@ -65,7 +63,12 @@ const Menu = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           </div>
         </DialogContent>
       </Dialog>
-      <QrCode name={decode?.name || ""} open={openModal} onClose={handleClose}/>
+      
+      <QrCode
+          name={decode?.name || ""} 
+          open={openModal} 
+          onClose={handleClose} 
+      />
     </>
   );
 };

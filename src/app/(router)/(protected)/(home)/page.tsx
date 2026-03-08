@@ -28,8 +28,8 @@ import { comment, menu, messageActive } from '@/app/provider/icons/svg';
 
 function page() {
   const {addComment,addFavoritePost,addFollowingRelationship,subscribtions,getSubscribtions,formatShortTime,deleteFollowingRelationship, getPosts,likePosts, loading, posts}=usePosts()
-  const [openModal,setOpenModal]=useState<boolean>(false)
-  const [openModalComment,setOpenModalComment]=useState<boolean>(false)
+  const [openModal,setOpenModal]=useState(false)
+  const [openModalComment,setOpenModalComment]=useState(false)
   const [expandedPostId,setExpandedPostId]=useState<number|null>(null)
   const [idx,setIdx]=useState<null|post>(null)
   const {t,i18n}=useTranslation()
@@ -172,7 +172,7 @@ function page() {
                   </section>
 
                   <aside className="pr-5 hidden md:block">
-                    <Recommendation/>
+                     <Recommendation/>
                   </aside>
              </section>
              

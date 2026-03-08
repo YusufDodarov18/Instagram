@@ -82,6 +82,20 @@ export interface getUsersType {
   getUsers: () => Promise<void>;
   loading: boolean;
   deleteUser: (userId: string) => Promise<void>;
+  subscribers: getUserShortInfo[];
+  getSubscribers: (userId: string) => Promise<void>;
+  addFollowing: (followingUserId: string) => Promise<void>;
+  unFollowing: (followingUserId: string) => Promise<void>;
+}
+
+export interface getUserShortInfo {
+  id: number;
+  userShortInfo: {
+    userId: string;
+    userName: string;
+    userPhoto: string;
+    fullname: string;
+  };
 }
 
 export interface myPost {
@@ -268,7 +282,7 @@ export interface PostsStore {
   addComment: (data: AddCommentProps) => Promise<void>;
   getSubscribtions: (userId: string) => Promise<void>;
   deleteComment: (commentId: string) => Promise<void>;
-  addPostView:(postId:number)=>Promise<void>
+  addPostView: (postId: number) => Promise<void>;
 }
 
 export interface ExploreStore {
@@ -346,12 +360,12 @@ export interface ProfileStore {
   unFollowing: (userId: string, sid: string) => Promise<void>;
   followingLoading: boolean;
   followersLoading: boolean;
-  updateProfile: (formData:editProfile) => Promise<void>;
+  updateProfile: (formData: editProfile) => Promise<void>;
 }
 
 export interface editProfile {
-  about: string
-  gender: string|number;
+  about: string;
+  gender: string | number;
 }
 
 export interface ProfileStoreById {

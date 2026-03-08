@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import CreatePostModal from "@/app/(router)/(protected)/create/post/create";
+import CreatePostModal from "@/app/(router)/(protected)/create/createPost";
 import { API } from "@/shared/utils/config";
 import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { JwtPayload } from "@/app/(router)/types";

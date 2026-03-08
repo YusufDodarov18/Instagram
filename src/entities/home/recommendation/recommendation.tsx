@@ -7,23 +7,38 @@ import profile from '../../../app/(router)/(protected)/profile/profil-removebg-p
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import RecommendationSkeleton from './recommendation-skeleton/skeleton'
+import getToken from '@/api/token'
 
 export const Recommendation = () => {
     const {myProfile,loading}=useProfile()
-    const [openModal,setOpenModal]=useState<boolean>(false)
-    const {getUsers,users}=useUser()
-    const [isLoading,setIsloading]=useState<boolean>(false)
+    const {getUsers,users,addFollowing,subscribers,unFollowing,getSubscribers}=useUser()
+    const [openModal,setOpenModal]=useState(false)
+    const [isLoading,setIsloading]=useState(false)
     const {t}=useTranslation()
-
-    useEffect(()=>{
-        async function getData(){
-            setIsloading(true)
-            getUsers()
-            setIsloading(false)
-        }
-        getData()
-    },[getUsers])
+    const myId=getToken()?.sid
     
+    useEffect(()=> {
+        async function getData(){
+             if(!myId) return
+             setIsloading(true)
+             await getUsers().then(() => getSubscribers(myId)).finally(() => setIsloading(false))
+             setIsloading(false)
+         }
+         getData()
+    },[getUsers,myId])
+
+    const isFollowing=(id:string)=>subscribers.some(user=>user.userShortInfo.userId==id)
+    
+    const handleFollow = async (id: string) => {
+        if(!myId) return
+        if(isFollowing(id)){    
+            await unFollowing(id)
+            await getSubscribers(myId);
+        }else{
+            await addFollowing(id)
+            await getSubscribers(myId);
+        }
+    }
     return (
         <>
             <div className='flex flex-col gap-6'>
@@ -79,7 +94,9 @@ export const Recommendation = () => {
                                     <h6>{user.fullName}</h6>
                                 </div>
                             </div>
-                            <p className='text-[#285aff] dark:text-[#287eff] font-bold hover:underline cursor-pointer'>{t("Follow")}</p>
+                            <p className='text-[#285aff] dark:text-[#287eff] font-bold hover:underline cursor-pointer' onClick={()=>handleFollow(user.id)}>
+                                {isFollowing(user.id) ? t("unFollow") : t("Follow")}
+                            </p>
                         </div>
                     ))}
                  </div>
@@ -95,11 +112,7 @@ export const Recommendation = () => {
                         <Link className='hover:underline' href={`https://www.instagram.com/instagramlite/`}><p>{t("other.instagramLite")}</p></Link>
                  </div>
                  <h6 className='mt-3 text-md text-gray-400'>© {new Date().getFullYear()} Instagram from Meta</h6>
-            <MenuRecomendation 
-              open={openModal}
-              onClose={()=>setOpenModal(false)}
-              userName={myProfile?.userName||""}
-            />
+            <MenuRecomendation open={openModal} onClose={()=>setOpenModal(false)} userName={myProfile?.userName||""}/>
         </>
     )
 }

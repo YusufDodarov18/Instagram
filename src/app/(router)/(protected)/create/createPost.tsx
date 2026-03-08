@@ -74,17 +74,17 @@ export default function CreatePostModal({
   const { myProfile, getMyProfile } = useProfile();
 
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState<number>(1);
-  const [rotation, setRotation] = useState<number>(0);
-  const [flipHorizontal, setFlipHorizontal] = useState<boolean>(false);
-  const [flipVertical, setFlipVertical] = useState<boolean>(false);
+  const [zoom, setZoom] = useState(1);
+  const [rotation, setRotation] = useState(0);
+  const [flipHorizontal, setFlipHorizontal] = useState(false);
+  const [flipVertical, setFlipVertical] = useState(false);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const [croppedImage, setCroppedImage] = useState<Blob | null>(null);
-  const [isVideo, setIsVideo] = useState<boolean>(false);
+  const [isVideo, setIsVideo] = useState(false);
   const [videoUrl, setVideoUrl] = useState<null | string>(null);
   const [filter, setFilter] = useState<FilterType>("none");
-  const [loadingLocal, setLoading] = useState<boolean>(false);
-  const [step, setStep] = useState<number>(0);
+  const [loadingLocal, setLoading] = useState(false);
+  const [step, setStep] = useState(0);
   const [fileError, setFileError] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
@@ -137,7 +137,6 @@ export default function CreatePostModal({
       setStep(1);
     }
   };
-  // getCrop
 
   const handleCrop = async () => {
     if (!image || isVideo || !croppedAreaPixels) return;

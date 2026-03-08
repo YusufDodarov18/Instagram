@@ -21,9 +21,9 @@ import { DecodedToken } from "../../types";
 const page = () => {
   const { getMyProfile, loading, myProfile,updateImageProfile, getMyFollowers, getMyFollowing } =useProfile();
   const [decode, setDecode]=useState<null|DecodedToken>(null);
-  const [openMenu, setOpenMenu]=useState<boolean>(false);
-  const [openFollowers, setOpenFollowers]=useState<boolean>(false);
-  const [openFollowing, setOpenFollowing]=useState<boolean>(false);
+  const [openMenu, setOpenMenu]=useState(false);
+  const [openFollowers, setOpenFollowers]=useState(false);
+  const [openFollowing, setOpenFollowing]=useState(false);
   const { resolvedTheme } = useTheme();
   const router=useRouter();
   const { t }=useTranslation();
@@ -43,15 +43,15 @@ const page = () => {
 
    const showFollowers = async() => {
      if (!decode) return;
-    getMyFollowers(decode.sid);
-    await getMyFollowing(decode.sid);
-    setOpenFollowers(true);
+     getMyFollowers(decode.sid);
+     await getMyFollowing(decode.sid);
+     setOpenFollowers(true);
   };
 
   const showFollowing = () => {
-    if (!decode) return;
-    getMyFollowing(decode?.sid);
-    setOpenFollowing(true);
+     if (!decode) return;
+     getMyFollowing(decode?.sid);
+     setOpenFollowing(true);
   };
 
   if (loading){
@@ -71,48 +71,44 @@ const page = () => {
                 } alt="profile" fill
                 className="rounded-full object-cover"
               />
-              <input 
-                type="file"
-                ref={fileRef}
-                accept="image/*"
-                className="hidden" 
+              <input type="file" ref={fileRef} accept="image/*" className="hidden" 
                 onChange={(e)=>{
                   const file=e.target.files?.[0]
                   if(file){
                     updateImageProfile(file)
                   }
-                }} />
+                }}
+              />
               <div className={`absolute hidden md:block inset-0 rounded-full ${!myProfile?.image&&`bg-black/32`}`} />
-              {!myProfile?.image&&<div className="absolute w-11 h-11 hidden md:block text-white inset-0 m-auto">{camera}</div>}
-            </div>
-            <div className="flex-1">
-              <div className="hidden sm:flex gap-4 items-center">
-                <h2 className="text-3xl font-semibold cursor-pointer">{myProfile?.userName}</h2>
-                <div className="cursor-pointer" onClick={handleClickOpen}>{setting2}</div>
+                {!myProfile?.image&&<div className="absolute w-11 h-11 hidden md:block text-white inset-0 m-auto">{camera}</div>}
               </div>
-              <p className="text-lg mt-3">{myProfile?.firstName + " " + myProfile?.lastName}</p>
-              <div className="flex gap-3 md:gap-8 mt-2 text-[12px] sm:text-sm">
-                <div className="cursor-pointer flex gap-1">
-                  <span className="font-semibold">{myProfile?.postCount}</span>
-                  {t("posts")}
+              <div className="flex-1">
+                <div className="hidden sm:flex gap-4 items-center">
+                  <h2 className="text-3xl font-semibold cursor-pointer">{myProfile?.userName}</h2>
+                  <div className="cursor-pointer" onClick={handleClickOpen}>{setting2}</div>
                 </div>
-                <div className="cursor-pointer flex gap-1" onClick={showFollowers}>
-                  <span className="font-semibold">{myProfile?.subscribersCount}</span>
-                  {t("followers")}
+                <p className="text-lg mt-3">{myProfile?.firstName + " " + myProfile?.lastName}</p>
+                <div className="flex gap-3 md:gap-8 mt-2 text-[12px] sm:text-sm">
+                  <div className="cursor-pointer flex gap-1">
+                    <span className="font-semibold">{myProfile?.postCount}</span>
+                    {t("posts")}
+                  </div>
+                  <div className="cursor-pointer flex gap-1" onClick={showFollowers}>
+                    <span className="font-semibold">{myProfile?.subscribersCount}</span>
+                    {t("followers")}
+                  </div>
+                  <div className="cursor-pointer flex gap-1" onClick={showFollowing}>
+                    <span className="font-semibold">{myProfile?.subscriptionsCount}</span>
+                    {t("following")}
+                  </div>
                 </div>
-                <div className="cursor-pointer flex gap-1" onClick={showFollowing}>
-                  <span className="font-semibold">{myProfile?.subscriptionsCount}</span>
-                  {t("following")}
-                </div>
+                <p className="mt-2 hidden sm:block text-sm leading-relaxed max-w-sm">{myProfile?.about ? myProfile.about : ""}</p>
               </div>
-              <p className="mt-2 hidden sm:block text-sm leading-relaxed max-w-sm">{myProfile?.about ? myProfile.about : ""}</p>
-            </div>
           </div>
           <p className="block sm:hidden text-sm leading-relaxed max-w-sm">{myProfile?.about ? myProfile.about : ""}</p>
           <div className="flex gap-4 w-full">
             <Button onClick={()=>router.push("/settings/accounts/edit")} variant={"ghost"} className={`flex-1 h-9 cursor-pointer text-[12px] md:text-sm font-semibold  ${resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"} `}>{t("Edit Profile")}</Button>
-            <Button variant={"ghost"}
-              className={`flex-1 h-9 text-[12px] md:text-sm cursor-pointer font-semibold ${resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"}`}
+            <Button className={`flex-1 h-9 text-[12px] md:text-sm cursor-pointer font-semibold ${resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"}`} variant={"ghost"} 
               onClick={() => router.push(`/archive?id=${decode?.sid}`)}
             >
               {t("viewArchive")}
@@ -133,6 +129,7 @@ const page = () => {
                <BasicTabs />
           </div>
     </div>
+    
     <Menu open={openMenu} onClose={() => setOpenMenu(false)} />
     <Followers open={openFollowers} onClose={() => setOpenFollowers(false)} />
     <Following open={openFollowing} onClose={() => setOpenFollowing(false)} />

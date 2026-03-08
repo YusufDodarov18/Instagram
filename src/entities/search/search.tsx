@@ -29,7 +29,7 @@ function Search() {
     searchUser,
     toggleDrawer,
   } = useDrawerStore();
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState("");
   const [decode, setDecode] = useState<null | DecodedToken>(null);
   const router = useRouter();
   const { resolvedTheme } = useTheme();
