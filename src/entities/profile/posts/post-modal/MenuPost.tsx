@@ -4,6 +4,12 @@ import { useTheme } from "next-themes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+const itemsClass = {
+  borderBottom: "1px solid #ddd",
+  cursor: "pointer",
+  p: 1.5,
+};
+
 function MenuPost({
   open,
   onClose,
@@ -49,53 +55,21 @@ function MenuPost({
           {t("delete")}
         </Typography>
 
-        <Typography
-          sx={{ p: 1.5, borderBottom: "1px solid #ddd", cursor: "pointer" }}
-        >
-          {t("Edit")}
-        </Typography>
+        <Typography sx={itemsClass}>{t("Edit")}</Typography>
 
-        <Typography
-          sx={{ p: 1.5, borderBottom: "1px solid #ddd", cursor: "pointer" }}
-        >
-          {t("hideLikeCount")}
-        </Typography>
+        <Typography sx={itemsClass}>{t("hideLikeCount")}</Typography>
 
-        <Typography
-          sx={{ p: 1.5, borderBottom: "1px solid #ddd", cursor: "pointer" }}
-        >
-          {t("disableComments")}
-        </Typography>
+        <Typography sx={itemsClass}>{t("disableComments")}</Typography>
 
-        <Typography
-          sx={{ p: 1.5, borderBottom: "1px solid #ddd", cursor: "pointer" }}
-        >
-          {t("Go to post")}
-        </Typography>
+        <Typography sx={itemsClass}>{t("Go to post")}</Typography>
 
-        <Typography
-          sx={{ p: 1.5, borderBottom: "1px solid #ddd", cursor: "pointer" }}
-        >
-          {t("shareTo")}
-        </Typography>
+        <Typography sx={itemsClass}>{t("shareTo")}</Typography>
 
-        <Typography
-          sx={{ p: 1.5, borderBottom: "1px solid #ddd", cursor: "pointer" }}
-        >
-          {t("Copy link")}
-        </Typography>
+        <Typography sx={itemsClass}>{t("Copy link")}</Typography>
 
-        <Typography
-          sx={{ p: 1.5, borderBottom: "1px solid #ddd", cursor: "pointer" }}
-        >
-          {t("Embed on website")}
-        </Typography>
+        <Typography sx={itemsClass}>{t("Embed on website")}</Typography>
 
-        <Typography
-          sx={{ p: 1.5, borderBottom: "1px solid #ddd", cursor: "pointer" }}
-        >
-          {t("aboutThisAccount")}
-        </Typography>
+        <Typography sx={itemsClass}>{t("aboutThisAccount")}</Typography>
 
         <Typography sx={{ p: 1.5, cursor: "pointer" }} onClick={onClose}>
           {t("Cancel")}

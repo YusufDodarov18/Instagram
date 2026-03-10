@@ -96,6 +96,6 @@ export const useStory=create<UseStoriesStore>((set,get)=>({
     addStoryView:async storyId=>{
         try {
             await axiosRequest.post(`/Story/add-story-view?StoryId=${storyId}`)
-        } catch{}
+        }catch{}
     }
 }))
