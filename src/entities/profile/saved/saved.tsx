@@ -1,7 +1,7 @@
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
 import React, { useEffect, useState } from "react";
-import PostModal from "../posts/post-modal/ModalPost";
+import PostModal from "../posts/post-modal/modal";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 function MySavedPosts() {
   const { getMyPostSaved, myPostSaved } = useProfile();

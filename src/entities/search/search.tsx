@@ -1,6 +1,5 @@
 "use client";
 
-import { useDrawerStore } from "@/app/store/provider/search/search";
 import { Box, Divider, Drawer, Skeleton } from "@mui/material";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
@@ -10,10 +9,11 @@ import { t } from "i18next";
 import Image from "next/image";
 import { API } from "@/shared/utils/config";
 import ClearIcon from "@mui/icons-material/Clear";
-import avatar from "../../app/provider/images/ava.jpeg";
+import avatar from "../../app/widget/images/ava.jpeg";
 import CloseIcon from "@mui/icons-material/Close";
 import { DecodedToken } from "@/app/(router)/types";
 import { jwtDecode } from "jwt-decode";
+import { useDrawerStore } from "@/app/store/search/search";
 
 function Search() {
   const {

@@ -1,7 +1,7 @@
 "use client";
 import { FilterType } from "@/app/(router)/types";
 import { useCreatePost } from "@/app/store/create/createPost";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
 import getCroppedImg from "@/shared/utils/cropImage";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";

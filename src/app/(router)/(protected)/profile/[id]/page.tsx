@@ -1,22 +1,22 @@
 "use client";
 import Image from "next/image";
 import profile from "../instagramDefaultProfile-removebg-preview.png";
-import { menu3 } from "@/app/provider/icons/svg";
+import { menu3 } from "@/app/widget/icons/svg";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
-import ProfileSkeleton from "@/entities/profile/loading/loading";
+import ProfileSkeleton from "@/entities/profile/profile-skeleton/loading";
 import BasicTabsById from "@/entities/profile/tabs-by-id/tab";
-import { useProfileById } from "@/app/store/profile/profile-by-id/profile-by-id";
 import { MenuById } from "@/entities/profile/menu/menu-by-id/menu";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { DecodedToken, MyFollowing } from "@/app/(router)/types";
 import { jwtDecode } from "jwt-decode";
 import FollowingById from "@/entities/profile/following/following-by-id/following-by-id";
 import FollowersById from "@/entities/profile/followers/followers-by-id/followers-by-id";
 import { useRouter } from "next/navigation";
-import { useChats } from "@/app/store/chats/chat";
+import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
+import { useChats } from "@/app/store/pages/chats/chat";
 
 export default function page({ params }: { params: { id: string } }) {
   const { t } = useTranslation();

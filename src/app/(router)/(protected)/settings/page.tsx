@@ -151,6 +151,9 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useIsMobile } from '@/shared/hooks/use-mobile'
 
+
+
+
 export default function Page(){
     const router=useRouter()
     const isMobile=useIsMobile()

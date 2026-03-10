@@ -10,8 +10,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
 import { useTranslation } from "react-i18next"
 import { useState } from "react";
-import { instagram } from "@/app/provider/icons/svg";
 import axios from "axios";
+import { instagram } from "@/app/widget/icons/svg";
 
 function page() {
   const [name, setName] = useState("")
@@ -166,7 +166,7 @@ function page() {
                     <p>
                       {t("authentication.register.contactInfoNotice")}
                       <Link href="https://www.facebook.com/help/instagram/261704639352628">
-                        <span className="text-blue-800"> {t("authentication.register.contactInfoMore")}</span>
+                        <span className="text-blue-800 dark:text-blue-500"> {t("authentication.register.contactInfoMore")}</span>
                       </Link>
                     </p>
                     <p>{t("authentication.register.registrationInfo")}</p>
@@ -199,7 +199,7 @@ function page() {
                 <p className="text-[15px] text-[gray] ml-[120px] mt-[15px] m-[auto] ">
                   {t("authentication.register.alreadyHaveAccount")}
                   <Link href={"/login"}>
-                    <span className="font-semibold text-blue-600"> {t("authentication.register.loginLink")}</span>
+                    <span className="font-semibold text-blue-600 dark:text-blue-500"> {t("authentication.register.loginLink")}</span>
                   </Link>
                 </p>
             </div>

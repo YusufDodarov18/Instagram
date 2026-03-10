@@ -14,7 +14,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useExplore } from "@/app/store/explore/explore";
 import {
   MoreHoriz,
   FavoriteBorder,
@@ -32,9 +31,10 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import defaultProfile from "../profile/profil-removebg-preview.png";
 import { API } from "@/shared/utils/config";
-import { comment } from "@/app/provider/icons/svg";
+import { comment } from "@/app/widget/icons/svg";
 import { useTheme as useNextTheme } from "next-themes";
 import EmojiPicker from "emoji-picker-react";
+import { useExplore } from "@/app/store/pages/explore/explore";
 
 export default function ModalExplore({
   open,

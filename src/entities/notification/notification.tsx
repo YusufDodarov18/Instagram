@@ -1,5 +1,3 @@
-import { useDrawerNotification } from "@/app/store/provider/notification/notification";
-import { useUser } from "@/app/store/home/users/users";
 import {
   Avatar,
   Box,
@@ -15,6 +13,9 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CloseIcon from "@mui/icons-material/Close";
 import getToken from "@/api/token";
+import { useTheme } from "next-themes";
+import { useDrawerNotification } from "@/app/store/notification/notification";
+import { useUser } from "@/app/store/pages/home/users/users";
 
 export default function Notification() {
   const {
@@ -33,9 +34,10 @@ export default function Notification() {
       getUsers();
     }
   }, [notificationDrawer]);
+  const {resolvedTheme}=useTheme()
 
   const DrawerList = (
-    <Box sx={{ width: 400 }} role="presentation">
+    <Box sx={{ width: 400}} role="presentation">
       <Box sx={{ p: 2 }}>
         <Box
           sx={{ display: "flex", justifyContent: "space-between", pt: "10px" }}
@@ -159,6 +161,8 @@ export default function Notification() {
           height: "100vh",
           position: "fixed",
           boxShadow: 3,
+          bgcolor: resolvedTheme === "dark" ? "#1c1b1b" : "",
+          color:resolvedTheme=="dark"?"white":""
         },
       }}
       ModalProps={{

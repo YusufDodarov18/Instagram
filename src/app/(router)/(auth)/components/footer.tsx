@@ -44,9 +44,7 @@ export const Footer = () => {
       <div className="flex gap-2 py-4 items-center flex-col md:flex-row">
         <SelectLanguages />
 
-        <p className="text-[14px] text-[#5D6C7B] dark:text-[#A8A8A8]">
-          © 2026 Instagram from Meta
-        </p>
+        <p className="text-[14px] text-[#5D6C7B] dark:text-[#A8A8A8]">© 2026 Instagram from Meta</p>
       </div>
     </div>
   );

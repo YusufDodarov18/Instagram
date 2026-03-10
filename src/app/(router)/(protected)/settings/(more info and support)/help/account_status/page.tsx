@@ -1,10 +1,10 @@
 "use client"
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import profile from '../../../../profile/profil-removebg-preview.png'
 import { API } from "@/shared/utils/config";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 const page = () => {
     const {myProfile,getMyProfile}=useProfile()

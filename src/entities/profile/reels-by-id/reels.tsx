@@ -1,4 +1,4 @@
-import { useProfileById } from "@/app/store/profile/profile-by-id/profile-by-id";
+import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
 import { API } from "@/shared/utils/config";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";

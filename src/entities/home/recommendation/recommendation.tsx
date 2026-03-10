@@ -1,5 +1,4 @@
-import { useProfile } from '@/app/store/profile/myProfile/profile'
-import { useUser } from '@/app/store/home/users/users'
+"use client"
 import React, { useEffect, useState } from 'react'
 import MenuRecomendation from './menu'
 import { API } from '@/shared/utils/config'
@@ -8,6 +7,8 @@ import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import RecommendationSkeleton from './recommendation-skeleton/skeleton'
 import getToken from '@/api/token'
+import { useProfile } from '@/app/store/pages/profile/myProfile/profile'
+import { useUser } from '@/app/store/pages/home/users/users'
 
 export const Recommendation = () => {
     const {myProfile,loading}=useProfile()
@@ -63,7 +64,7 @@ export const Recommendation = () => {
                                     <h6>{myProfile?.firstName+" "+myProfile?.lastName}</h6>
                                 </div>
                             </div>
-                            <p className='text-[#285aff] font-bold hover:underline cursor-pointer' onClick={()=>setOpenModal(true)}>{t("Switch")}</p>
+                            <p className='text-[#285aff] dark:text-[#85A1FF] font-bold hover:underline cursor-pointer' onClick={()=>setOpenModal(true)}>{t("Switch")}</p>
                         </div>
                 }
                  <div className='flex flex-col gap-2'>
@@ -94,13 +95,14 @@ export const Recommendation = () => {
                                     <h6>{user.fullName}</h6>
                                 </div>
                             </div>
-                            <p className='text-[#285aff] dark:text-[#287eff] font-bold hover:underline cursor-pointer' onClick={()=>handleFollow(user.id)}>
+                            <p className='text-[#285aff] dark:text-[#708DFF] font-bold hover:underline cursor-pointer' onClick={()=>handleFollow(user.id)}>
                                 {isFollowing(user.id) ? t("unFollow") : t("Follow")}
                             </p>
                         </div>
                     ))}
                  </div>
             </div>
+                
                 <div className="mt-2 pt-4 text-sm text-gray-500 dark:text-gray-400 flex flex-wrap gap-[7px]">
                         <Link className='hover:underline' href={`https://about.instagram.com/`}><p>{t("other.information")}</p></Link>
                         <Link className='hover:underline' href={`https://help.instagram.com/`}><p>{t("other.help")}</p></Link>

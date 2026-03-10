@@ -1,6 +1,5 @@
 "use client";
 
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import defaultProfile from "../profile.png";
@@ -11,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Select from "./genderGroup";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 function page() {
   const {
@@ -19,7 +19,7 @@ function page() {
     updateProfile,
     deleteImageProfile,
     updateImageProfile,
-    loading
+    loading,
   } = useProfile();
   const [aboutText, setAboutText] = useState("");
   const [gender, setGender] = useState("male");
@@ -76,14 +76,39 @@ function page() {
   };
 
   async function editProfile() {
+    if (!myProfile) return;
+
     const newProfile = {
       about: aboutText,
       gender: genderReverseMap[gender],
       customGender: gender === "custom" ? customGender : null,
     };
+
+    const GenderMap = {
+      Female: 0,
+      Male: 1,
+      Custom: 2,
+      PreferNotToSay: 3,
+    };
+
+    const oldProfile = {
+      about: myProfile.about || "",
+      gender: GenderMap[myProfile.gender],
+      customGender: myProfile.customGender || null,
+    };
+
+    const isChanged =
+      newProfile.about !== oldProfile.about ||
+      newProfile.gender !== oldProfile.gender ||
+      newProfile.customGender !== oldProfile.customGender;
+
+    if (!isChanged) {
+      return;
+    }
+
     try {
       await updateProfile(newProfile);
-      router.push(`/profile`);
+      router.push("/profile");
     } catch (error) {
       console.error(error);
     }
@@ -95,7 +120,7 @@ function page() {
     if (!file) return;
 
     await updateImageProfile(file);
-    setModalImage(false)
+    setModalImage(false);
   };
 
   //   const getFileImage = (e: ChangeEvent<HTMLInputElement>) => {
@@ -120,35 +145,148 @@ function page() {
           <div className="w-[100%] flex justify-between items-center px-9 py-6 rounded-2xl bg-[#F3F5F7] dark:bg-[#262626]">
             <div className="flex items-center gap-3">
               <div className="relative w-[47px] h-[47px]">
-                  <img
-                    src={
-                      myProfile?.image
-                        ? `${API}/images/${myProfile.image}`
-                        : defaultProfile.src
-                    }
-                    alt="profile"
-                    className="w-[47px] h-[47px] rounded-full object-cover cursor-pointer"
-                    onClick={()=>changePhoto(myProfile?.image||"")}
-                  />
-                 {loading && (
-                   <div className="absolute inset-0 flex items-center justify-center">
-                     <svg aria-label="Загрузка…" role="img" viewBox="0 0 100 100" className="w-6 h-6 animate-spin">
-                       <rect height="6" opacity="0" rx="3" ry="3" transform="rotate(-90 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.08" rx="3" ry="3" transform="rotate(-60 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.16" rx="3" ry="3" transform="rotate(-30 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.25" rx="3" ry="3" transform="rotate(0 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.33" rx="3" ry="3" transform="rotate(30 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.41" rx="3" ry="3" transform="rotate(60 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.5" rx="3" ry="3" transform="rotate(90 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.58" rx="3" ry="3" transform="rotate(120 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.66" rx="3" ry="3" transform="rotate(150 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.75" rx="3" ry="3" transform="rotate(180 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.83" rx="3" ry="3" transform="rotate(210 50 50)" width="25" x="72" y="47"/>
-                       <rect height="6" opacity="0.91" rx="3" ry="3" transform="rotate(240 50 50)" width="25" x="72" y="47"/>
-                     </svg>
-                   </div>
-                 )}
-                </div>
+                <img
+                  src={
+                    myProfile?.image
+                      ? `${API}/images/${myProfile.image}`
+                      : defaultProfile.src
+                  }
+                  alt="profile"
+                  className="w-[47px] h-[47px] rounded-full object-cover cursor-pointer"
+                  onClick={() => changePhoto(myProfile?.image || "")}
+                />
+                {loading && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg
+                      aria-label="Загрузка…"
+                      role="img"
+                      viewBox="0 0 100 100"
+                      className="w-6 h-6 animate-spin"
+                    >
+                      <rect
+                        height="6"
+                        opacity="0"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(-90 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.08"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(-60 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.16"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(-30 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.25"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(0 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.33"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(30 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.41"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(60 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.5"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(90 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.58"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(120 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.66"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(150 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.75"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(180 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.83"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(210 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                      <rect
+                        height="6"
+                        opacity="0.91"
+                        rx="3"
+                        ry="3"
+                        transform="rotate(240 50 50)"
+                        width="25"
+                        x="72"
+                        y="47"
+                      />
+                    </svg>
+                  </div>
+                )}
+              </div>
               <div>
                 <h2 className="font-bold text-xl">{myProfile?.userName}</h2>
                 <h3 className="text-[#6A717A] dark:text-[#A8A8A8]">

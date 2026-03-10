@@ -5,10 +5,10 @@ import InitialLoading from "@/entities/initialLoading/initialLoading";
 import MiniSideBar from "@/components/layout/mini-side-bar/mini-side-bar";
 import SideBar from "@/components/layout/side-bar/side-bar";
 import Search from "../../../entities/search/search";
-import { useDrawerStore } from "@/app/store/provider/search/search";
-import { useDrawerNotification } from "@/app/store/provider/notification/notification";
 import Notification from "../../../entities/notification/notification";
 import BottomNavigation from "@/components/layout/bottom-navigation/bottom-navigation";
+import { useDrawerStore } from "@/app/store/search/search";
+import { useDrawerNotification } from "@/app/store/notification/notification";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { isOpen } = useDrawerStore();
@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       windowWidth <= 1279 ||
       isOpen == true ||
       pathname.includes("chat") ||
-      notificationDrawer == true||
+      notificationDrawer == true ||
       pathname.includes("settings")
     )
       return "minibar";

@@ -13,8 +13,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import profileDefault from "../../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
 import { API } from "@/shared/utils/config";
-import { useProfileById } from "@/app/store/profile/profile-by-id/profile-by-id";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
+import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 export default function FollowingById({
   open,

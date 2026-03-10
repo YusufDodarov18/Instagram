@@ -1,13 +1,15 @@
 "use client";
 
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
 import { useEffect, useState } from "react";
-import PostModal from "./post-modal/ModalPost";
+import PostModal from "./post-modal/modal";
+import { myPost } from "@/app/(router)/types";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 export default function MyPosts() {
   const { getMyPosts, myPosts } = useProfile();
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState<null | myPost>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     getMyPosts();
@@ -23,7 +25,10 @@ export default function MyPosts() {
           return (
             <div
               key={el.postId}
-              onClick={() => setSelectedPost(el)}
+              onClick={() => {
+                setSelectedPost(el);
+                setOpen(true);
+              }}
               className="w-full aspect-square overflow-hidden cursor-pointer"
             >
               {isVideo ? (
@@ -48,7 +53,14 @@ export default function MyPosts() {
         })}
       </div>
       {selectedPost && (
-        <PostModal post={selectedPost} onClose={() => setSelectedPost(null)} />
+        <PostModal
+          open={open}
+          post={selectedPost}
+          onClose={() => {
+            setOpen(false);
+            setSelectedPost(null);
+          }}
+        />
       )}
     </>
   );

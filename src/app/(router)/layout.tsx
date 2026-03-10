@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import "../styles/globals.css"
 import "@fontsource/roboto/300.css";
@@ -5,7 +6,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { ThemeProvider } from "@/shared/theme/theme-provider";
-import TranslatorProvider from "../provider/translator";
+import TranslatorProvider from "../widget/layout/layout";
 
 export const metadata: Metadata = {
   title: "Instagram",

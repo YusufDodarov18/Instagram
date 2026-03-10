@@ -7,9 +7,9 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useChats } from "@/app/store/chats/chat";
 import { API } from "@/shared/utils/config";
 import profile from "../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
+import { useChats } from "@/app/store/pages/chats/chat";
 
 const ModalChat = ({
   open,

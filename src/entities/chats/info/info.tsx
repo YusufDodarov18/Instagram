@@ -8,13 +8,13 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import ListItemButton from "@mui/material/ListItemButton";
 import { useTheme } from "next-themes";
-import { useProfileById } from "@/app/store/profile/profile-by-id/profile-by-id";
 import { useEffect } from "react";
 import { API } from "@/shared/utils/config";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { mute } from "@/app/provider/icons/svg";
-import { useChats } from "@/app/store/chats/chat";
+import { mute } from "@/app/widget/icons/svg";
+import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
+import { useChats } from "@/app/store/pages/chats/chat";
 
 function DrawerInfo({
   open,

@@ -1,6 +1,5 @@
 'use client'
 import { DecodedToken, MyFollowers } from '@/app/(router)/types';
-import { useProfile } from "@/app/store/profile/myProfile/profile"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Box, Button, Skeleton, Typography } from "@mui/material";
 import { jwtDecode } from "jwt-decode"
@@ -9,6 +8,7 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next";
 import profileDefault from "../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
 import { API } from '@/shared/utils/config';
+import { useProfile } from '@/app/store/pages/profile/myProfile/profile';
 
 export default function Following({open,onClose}:{open:boolean,onClose:()=>void}) {
     const { myFollowing,followingLoading,unFollowing,addFollowing} = useProfile();

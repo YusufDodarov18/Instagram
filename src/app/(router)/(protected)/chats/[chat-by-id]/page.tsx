@@ -1,5 +1,4 @@
 'use client'
-import { useChats } from '@/app/store/chats/chat'
 import { API } from '@/shared/utils/config'
 import { ArrowLeft, Copy, Download, Heart, Image, Info, Mic, Phone, Share2, Trash, Video } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -7,9 +6,10 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import profile from '../../profile/profil-removebg-preview.png'
 import { useTranslation } from 'react-i18next'
 import getToken from '@/api/token'
-import { menu, stiker } from '@/app/provider/icons/svg'
 import EmojiPicker from 'emoji-picker-react'
-import DrawerInfo from '@/entities/chats/info'
+import { useChats } from '@/app/store/pages/chats/chat'
+import { menu, stiker } from '@/app/widget/icons/svg'
+import DrawerInfo from '@/entities/chats/info/info'
 
 export default function page({params}:{params:{'chat-by-id':string}}) {
   const {chatById,deleteChat,getChatById,loading,sendMessage,deleteMessage,getChats,chats}=useChats()

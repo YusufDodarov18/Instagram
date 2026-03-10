@@ -110,12 +110,12 @@ import { formatDate } from "./script";
 import i18n from "@/i18n";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { usePosts } from "@/app/store/home/posts/posts";
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import EmojiPicker from "emoji-picker-react";
 import getToken from "@/api/token";
-import {comment, menu, messageActive, stiker } from "@/app/provider/icons/svg";
+import { usePosts } from "@/app/store/pages/home/posts/posts";
+import { comment, messageActive, stiker } from "@/app/widget/icons/svg";
 
 
 
@@ -385,4 +385,3 @@ const sendComment= async ()=> {
 }
 
 export default CommentModal;
-

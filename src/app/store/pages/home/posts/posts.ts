@@ -75,6 +75,7 @@ export const usePosts = create<PostsStore>((set,get) => ({
           : post,
       ),
     }));
+    // get().getPostsById(postId)
   },
 
   deleteComment: async commentId=>{
@@ -143,5 +144,14 @@ export const usePosts = create<PostsStore>((set,get) => ({
       } catch (error) {
         console.error(error)
       }
-    }
+    },
+    
+
+    // getPostsById:async postId=>{
+    //   try {
+    //     await axiosRequest.get(`/Post/get-post-by-id?id=${postId}`)
+    //   } catch (error) {
+    //     console.error(error)
+    //   }
+    // }
 }))

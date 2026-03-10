@@ -3,7 +3,6 @@
 
 import './page.css'
 import getToken from "@/api/token";
-import { usePosts } from "@/app/store/home/posts/posts";
 import PostSkeleton from "@/entities/home/post-actions/post-skeleton/post-skeleton";
 import { useEffect, useState } from "react";
 import profile from '../profile/profil-removebg-preview.png'
@@ -22,7 +21,8 @@ import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import CommentModal from "@/entities/home/comments/comment";
 import { post } from "../../types";
-import { comment, menu, messageActive } from '@/app/provider/icons/svg';
+import { usePosts } from '@/app/store/pages/home/posts/posts';
+import { comment, menu, messageActive } from '@/app/widget/icons/svg';
 
 
 

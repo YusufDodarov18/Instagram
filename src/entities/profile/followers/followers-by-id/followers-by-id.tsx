@@ -1,5 +1,4 @@
 import { DecodedToken, MyFollowers } from "@/app/(router)/types";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +12,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import profileDefault from "../../../../app/(router)/(protected)/profile/profil-removebg-preview.png";
-import { useProfileById } from "@/app/store/profile/profile-by-id/profile-by-id";
+import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 function FollowersById({
   open,

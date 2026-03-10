@@ -138,7 +138,7 @@ function page() {
               <p className="text-[15px] text-[gray] flex flex-col md:flex-row">
                 {t("authentication.login.noAccount")}
                 <Link href={"/registration"}>
-                  <span className="font-semibold text-blue-600">
+                  <span className="font-semibold text-blue-600 dark:text-blue-500">
                     {t("authentication.login.registration")}
                   </span>
                 </Link>

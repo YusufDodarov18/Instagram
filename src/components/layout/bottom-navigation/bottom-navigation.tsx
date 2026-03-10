@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import CreatePostModal from "@/app/(router)/(protected)/create/createPost";
 import { API } from "@/shared/utils/config";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { JwtPayload } from "@/app/(router)/types";
 import {
   homeIcon,
@@ -26,7 +25,8 @@ import {
   threads,
   video,
   videoActive,
-} from "@/app/provider/icons/svg";
+} from "@/app/widget/icons/svg";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 export default function BottomNavigation({
   children,
@@ -35,7 +35,7 @@ export default function BottomNavigation({
 }) {
   const pathname = usePathname();
   const iconClass =
-    "flex items-center gap-4 rounded-[8px] h-[52px] px-0 m-[0] justify-center dark:text-black";
+    "flex items-center gap-4 rounded-[8px] h-[52px] px-0 m-[0] justify-center dark:text-white dark:hover:text-white";
 
   const icons = {
     "/": { active: homeIcon, inactive: homeIconActive },
@@ -50,7 +50,6 @@ export default function BottomNavigation({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-
     const token = localStorage.getItem("access_token");
     if (token) {
       try {
@@ -102,24 +101,24 @@ export default function BottomNavigation({
           </div>
         )}
       <div
-      className={`${
-        pathName === "/" ||
-        pathName === "/profile" ||
-        (!pathName.startsWith("/chats") &&
-          pathName !== "/explore" &&
-          pathName !== "/reels")
-          ? "pt-13"
-          : ""
-      }`}
-    >
-      {children}
-    </div>
+        className={`${
+          pathName === "/" ||
+          pathName === "/profile" ||
+          (!pathName.startsWith("/chats") &&
+            pathName !== "/explore" &&
+            pathName !== "/reels")
+            ? "pt-13"
+            : ""
+        }`}
+      >
+        {children}
+      </div>
       <section
-        className={`fixed w-[100%] z-[10] bottom-0 ${pathName.startsWith("/chats/")? "hidden" : ""}`}
+        className={`fixed w-[100%] z-[10] bottom-0 ${pathName.startsWith("/chats/") ? "hidden" : ""}`}
         style={{ color: resolvedTheme == "dark" ? "white" : "black" }}
       >
         <div
-          className={`flex gap-[0.5rem] mt-4 align-bottom bg-white justify-evenly`}
+          className={`flex gap-[0.5rem] mt-4 align-bottom bg-white dark:bg-[#1c1b1b] dark:text-white justify-evenly`}
         >
           {/* Home */}
           <Link className="block" href="/">

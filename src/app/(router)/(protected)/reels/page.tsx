@@ -1,6 +1,5 @@
 "use client";
 import "../../../styles/animation.css";
-import { useReels } from "@/app/store/reels/reels";
 import { API } from "@/shared/utils/config";
 import {
   Avatar,
@@ -23,7 +22,7 @@ import {
   DownArrow,
   messageActive,
   upArrow,
-} from "@/app/provider/icons/svg";
+} from "@/app/widget/icons/svg";
 import EmojiPicker from "emoji-picker-react";
 import { useTranslation } from "react-i18next";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -33,6 +32,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import CloseIcon from "@mui/icons-material/Close";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { useReels } from "@/app/store/pages/reels/reels";
 
 export default function page() {
   const [open, setOpen] = useState(false);

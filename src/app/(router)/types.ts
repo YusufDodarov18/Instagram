@@ -346,10 +346,10 @@ export interface MyFollowing {
 export interface ProfileStore {
   myProfile: myProfile | null;
   loading: boolean;
-  myPosts: myPost | [];
-  myPostSaved: myPostSaved | [];
-  myFollowers: MyFollowers | [];
-  myFollowing: MyFollowing | [];
+  myPosts: myPost[] 
+  myPostSaved: myPostSaved[];
+  myFollowers: MyFollowers[];
+  myFollowing: MyFollowing[];
   getMyProfile: () => Promise<void>;
   getMyPosts: () => Promise<void>;
   getMyFollowers: (userId: string) => Promise<void>;

@@ -10,9 +10,6 @@ import { jwtDecode } from "jwt-decode";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import { JwtPayload } from "@/app/(router)/types";
 import CreatePostModal from "@/app/(router)/(protected)/create/createPost";
-import { useDrawerStore } from "@/app/store/provider/search/search";
-import { useDrawerNotification } from "@/app/store/provider/notification/notification";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
 import {
   instagramMiniLogo,
@@ -29,8 +26,11 @@ import {
   threads,
   video,
   videoActive,
-} from "@/app/provider/icons/svg";
+} from "@/app/widget/icons/svg";
 import SettingModal from "@/entities/setting/settingModal";
+import { useDrawerNotification } from "@/app/store/notification/notification";
+import { useDrawerStore } from "@/app/store/search/search";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} arrow />
@@ -44,11 +44,12 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
 }));
 
 const miniItem =
-  "w-[40px] h-[40px] mx-auto flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800";
+  "w-[40px] h-[40px] mx-auto flex items-center justify-center rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800 dark:hover:bg-[#2a2929] dark:hover:text-white";
 
 const MiniSideBar = ({ children }: { children: React.ReactNode }) => {
   const { toggleDrawer } = useDrawerStore();
-  const {toggleDrawerNotification, notificationDrawer}=useDrawerNotification();
+  const { toggleDrawerNotification, notificationDrawer } =
+    useDrawerNotification();
   const pathname = usePathname();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -76,7 +77,7 @@ const MiniSideBar = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex">
-      <section className="w-[60px] h-screen border-r border-gray-200 fixed">
+      <section className="w-[60px] h-screen border-r dark:bg-[#1c1b1b] border-gray-200 fixed">
         <div className="h-full flex flex-col justify-between py-4">
           <div className="mb-4 ml-4">
             <Link href={`/`}>{instagramMiniLogo}</Link>

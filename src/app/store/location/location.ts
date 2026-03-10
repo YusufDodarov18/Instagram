@@ -21,8 +21,7 @@ export const useLocation=create<UseLocationStore>((set,get)=>({
                 `/Location/add-Location/${formData}`
             )
             set({loading:false})
-        } catch (error) {
-        }
+        } catch (error) {}
     },
 
     deleteLocation:async id=>{

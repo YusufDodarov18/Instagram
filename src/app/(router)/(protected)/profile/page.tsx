@@ -3,32 +3,32 @@
 
 import Image from "next/image";
 import profile from "../profile/instagramDefaultProfile-removebg-preview.png";
-import { camera, setting2 } from "@/app/provider/icons/svg";
+import { camera, setting2 } from "@/app/widget/icons/svg";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
-import ProfileSkeleton from "@/entities/profile/loading/loading";
 import BasicTabs from "@/entities/profile/tabs/tabs";
 import Menu from "@/entities/profile/menu/menu";
 import Followers from "@/entities/profile/followers/followers";
 import Following from "@/entities/profile/following/following";
 import { DecodedToken } from "../../types";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
+import ProfileSkeleton from "@/entities/profile/profile-skeleton/loading";
 
 const page = () => {
-  const { getMyProfile, loading, myProfile,updateImageProfile, getMyFollowers, getMyFollowing } =useProfile();
-  const [decode, setDecode]=useState<null|DecodedToken>(null);
-  const [openMenu, setOpenMenu]=useState(false);
-  const [openFollowers, setOpenFollowers]=useState(false);
-  const [openFollowing, setOpenFollowing]=useState(false);
-  const { resolvedTheme } = useTheme();
-  const router=useRouter();
-  const { t }=useTranslation();
-  const fileRef=useRef<HTMLInputElement|null>(null)
-  const [file,setFile]=useState<File|null>(null)
+  let { getMyProfile, loading, myProfile,updateImageProfile, getMyFollowers, getMyFollowing } =useProfile();
+  let [decode, setDecode]=useState<null|DecodedToken>(null);
+  let [openMenu, setOpenMenu]=useState(false);
+  let [openFollowers, setOpenFollowers]=useState(false);
+  let [openFollowing, setOpenFollowing]=useState(false);
+  let { resolvedTheme } = useTheme();
+  let router=useRouter();
+  let { t }=useTranslation();
+  let fileRef=useRef<HTMLInputElement|null>(null)
+  let [file,setFile]=useState<File|null>(null)
 
   const handleClickOpen = () => setOpenMenu(true)
 

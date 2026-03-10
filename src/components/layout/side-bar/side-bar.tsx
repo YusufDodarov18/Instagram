@@ -18,16 +18,16 @@ import {
   setting,
   threads,
   instagramSideBar,
-} from "@/app/provider/icons/svg";
+} from "@/app/widget/icons/svg";
 import { jwtDecode } from "jwt-decode";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import CreatePostModal from "@/app/(router)/(protected)/create/createPost";
-import { useDrawerNotification } from "@/app/store/provider/notification/notification";
-import { useDrawerStore } from "@/app/store/provider/search/search";
 import { JwtPayload, NavLinkProps } from "@/app/(router)/types";
-import { useProfile } from "@/app/store/profile/myProfile/profile";
 import { API } from "@/shared/utils/config";
 import SettingModal from "@/entities/setting/settingModal";
+import { useDrawerStore } from "@/app/store/search/search";
+import { useDrawerNotification } from "@/app/store/notification/notification";
+import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 const NavLink = ({ href, icon, activeIcon, label, isActive }: NavLinkProps) => (
   <Link
@@ -40,7 +40,7 @@ const NavLink = ({ href, icon, activeIcon, label, isActive }: NavLinkProps) => (
 );
 
 const sidebarItem =
-  "flex items-center gap-4 w-[90%] mx-auto h-[52px] px-4 rounded-md text-lg cursor-pointer hover:bg-gray-100 dark:hover:text-black";
+  "flex items-center gap-4 w-[90%] mx-auto h-[52px] px-4 rounded-md text-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-[#2a2929] dark:hover:text-white";
 
 export default function SideBar({ children }: { children: React.ReactNode }) {
   const { toggleDrawer } = useDrawerStore();
@@ -73,7 +73,7 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <section className="w-[320px] h-screen fixed border-r-2 border-gray-300">
+      <section className="w-[320px] h-screen fixed border-r-2 dark:bg-[#1c1b1b] border-gray-300">
         <div className="h-full flex flex-col pb-5">
           <div className="pb-10 pt-[20px] ml-[20px] flex mt-[20px]">
             <Link href={`/`}>{instagramSideBar}</Link>
@@ -122,7 +122,7 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
 
             <div
               onClick={() => setOpen(true)}
-              className="flex items-center gap-4 w-[90%] m-auto rounded-md h-[52px] px-4 hover:bg-gray-100 cursor-pointer dark:hover:text-black"
+              className="flex items-center gap-4 w-[90%] m-auto rounded-md h-[52px] px-4 hover:bg-gray-100 cursor-pointer dark:hover:bg-[#2a2929] dark:hover:text-white dark:hover:text-black"
             >
               <AddBoxOutlinedIcon fontSize="medium" />
               <p className="text-lg">{t("layout.create")}</p>
@@ -173,7 +173,11 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
                 {setting}
                 <span>{t("layout.more")}</span>
               </button>
-              <SettingModal onClose={handleClose} open={settingModal} left={30}/>
+              <SettingModal
+                onClose={handleClose}
+                open={settingModal}
+                left={30}
+              />
             </div>
           </div>
         </div>
