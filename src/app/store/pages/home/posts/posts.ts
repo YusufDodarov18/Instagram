@@ -153,5 +153,14 @@ export const usePosts = create<PostsStore>((set,get) => ({
     //   } catch (error) {
     //     console.error(error)
     //   }
-    // }
+    // },
+    
+    deletePost:async id=>{
+      try {
+        await axiosRequest.delete(`/Post/delete-post?id=${id}`)
+        get().getPosts()
+      } catch (error) {
+        console.error(error)
+      }
+    }
 }))

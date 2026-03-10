@@ -534,5 +534,8 @@
   "manually_approve_tags": "Одобрять метки вручную",
   "allow_mentions_from_everyone": "Разрешить упоминания для всех",
   "allow_mentions_from_following": "Разрешить упоминания людям, на которых вы подписаны",
-  "disable_mentions": "Запретить упоминания"
+  "disable_mentions": "Запретить упоминания",
+  "Edit":"Редактировать",
+  "hideLikeCount": "Скрыть число отметок \"Нравится\" от других",
+    "disableComments": "Выключить комментарии"
 }
