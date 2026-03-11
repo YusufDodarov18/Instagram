@@ -72,35 +72,6 @@ export default function page() {
     getReels();
   }, [getReels]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const index = Number(entry.target.getAttribute("data-index"));
-          const video = videoRef.current[index];
-          if (!video) return;
-
-          if (entry.isIntersecting) {
-            setCurrentVideoIndex(index);
-            video.muted = isMuted;
-            video.play().catch(() => {});
-            setPausedStates((prev) => ({ ...prev, [index]: false }));
-          } else {
-            video.pause();
-            video.muted = true;
-          }
-        });
-      },
-      { threshold: 0.7 },
-    );
-
-    videoRef.current.forEach((video) => {
-      if (video) observer.observe(video);
-    });
-
-    return () => observer.disconnect();
-  }, [isMuted]);
-
   // Функция скролла рилсов
   useEffect(() => {
     const container = containerRef.current;
@@ -108,18 +79,25 @@ export default function page() {
     const handleScroll = () => {
       const containerHeight = container.clientHeight;
       const scrollTop = container.scrollTop;
-      // Вычисляем новый индекс, округляя до ближайшего видео
-      const newIndex = Math.min(
-        Math.max(Math.round(scrollTop / (containerHeight * 0.9)), 0),
-        reels.length - 1,
-      );
-      if (newIndex !== currentVideoIndex && newIndex < reels.length) {
+      const newIndex = Math.round(scrollTop / containerHeight);
+      if (newIndex !== currentVideoIndex) {
         setCurrentVideoIndex(newIndex);
+        videoRef.current.forEach((video, index) => {
+          if (!video) return;
+          if (index === newIndex) {
+            video.muted = isMuted;
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
       }
     };
+
     container.addEventListener("scroll", handleScroll);
+
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [currentVideoIndex, reels?.length]);
+  }, [currentVideoIndex, isMuted]);
 
   const toggleMuted = () => {
     const currentVideo = videoRef.current[currentVideoIndex];
@@ -142,6 +120,19 @@ export default function page() {
       video.pause();
       setPausedStates((prev) => ({ ...prev, [index]: true }));
     }
+  };
+
+  const playVideoByIndex = (index: number) => {
+    videoRef.current.forEach((video, i) => {
+      if (!video) return;
+
+      if (i === index) {
+        video.muted = isMuted;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
   };
 
   return (
@@ -356,7 +347,7 @@ export default function page() {
                       variant="caption"
                       sx={{ fontSize: "13px", opacity: 0.8 }}
                     >
-                      🎵 {el.userName} • Оригинальное аудио
+                      🎵 {el.userName} • {t("Original audio")}
                     </Typography>
                   </Box>
                 </Box>
@@ -632,10 +623,12 @@ export default function page() {
           onClick={() => {
             const container = containerRef.current;
             if (!container) return;
-
             const newIndex = Math.max(currentVideoIndex - 1, 0);
+
             setCurrentVideoIndex(newIndex);
-            const videoHeight = container.clientHeight * 0.9;
+            playVideoByIndex(newIndex);
+
+            const videoHeight = container.clientHeight;
             container.scrollTo({
               top: newIndex * videoHeight,
               behavior: "smooth",
@@ -650,8 +643,11 @@ export default function page() {
             if (!container) return;
 
             const newIndex = Math.min(currentVideoIndex + 1, reels.length - 1);
+
             setCurrentVideoIndex(newIndex);
-            const videoHeight = container.clientHeight * 0.9;
+            playVideoByIndex(newIndex);
+
+            const videoHeight = container.clientHeight;
             container.scrollTo({
               top: newIndex * videoHeight,
               behavior: "smooth",

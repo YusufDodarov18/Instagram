@@ -10,6 +10,7 @@ import EmojiPicker from 'emoji-picker-react'
 import { useChats } from '@/app/store/pages/chats/chat'
 import { menu, stiker } from '@/app/widget/icons/svg'
 import DrawerInfo from '@/entities/chats/info/info'
+import Call from '@/entities/chats/callModal/call'
 
 export default function page({params}:{params:{'chat-by-id':string}}) {
   const {chatById,deleteChat,getChatById,loading,sendMessage,deleteMessage,getChats,chats}=useChats()
@@ -21,6 +22,7 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   const [menuMessage,setMenuMessage]=useState<null|{ x: number; y: number }>(null)
   const [open, setOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<null | number>(null)
+  const [callModal,setCallModal]=useState(false)
   const router=useRouter()
   const userChat=chats.find(c=>c.chatId.toString()===chatId)
   const {t}=useTranslation()
@@ -84,6 +86,10 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
       return `${week[day]} ${hours}:${minutes}`;
   }
 
+     function openCallModal(){
+      setCallModal(true)
+     }
+
 
     const openMessageMenu=async (e:ChangeEvent,messageId:number)=>{
       e.preventDefault()
@@ -137,8 +143,8 @@ if(!userChat) return
                             <p className="text-gray-500">{isMyName}</p>
                       </div>
                       <div className='flex items-center gap-4'>
-                          <button className='cursor-pointer'><Phone className="h-6 w-6 text-foreground" /></button>
-                          <button className='cursor-pointer'><Video className="h-6 w-6 text-foreground" /></button>
+                          <button className='cursor-pointer' onClick={openCallModal}><Phone className="h-6 w-6 text-foreground" /></button>
+                          <button className='cursor-pointer' onClick={openCallModal}><Video className="h-6 w-6 text-foreground" /></button>
                           <button className='cursor-pointer' onClick={toggleDrawer(true)}><Info className="h-6 w-6 text-foreground" /></button>
                       </div>
                  </div>
@@ -324,6 +330,16 @@ if(!userChat) return
                  </div>
             </div>
 
+              {callModal&&(
+                 <Call 
+                      open={callModal} 
+                      onClose={()=>setCallModal(false)} 
+                      user={userChat?
+                          (myId===userChat.sendUserId?userChat.receiveUserId:userChat.sendUserId)
+                          :null
+                        }
+                  />
+              )}
 {isMyId&&(
       <DrawerInfo open={open} close={()=>setOpen(false)} id={isMyId}/>
 )}
