@@ -32,7 +32,7 @@ function Search() {
   const [search, setSearch] = useState("");
   const [decode, setDecode] = useState<null | DecodedToken>(null);
   const router = useRouter();
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -69,8 +69,8 @@ function Search() {
     <Box
       sx={{
         width: 420,
-        backgroundColor: resolvedTheme == "dark" ? "#121212" : "white",
-        color: resolvedTheme == "dark" ? "white" : "black",
+        backgroundColor: theme == "dark" ? "#121212" : "white",
+        color: theme == "dark" ? "white" : "black",
       }}
       role="presentation"
     >
@@ -89,12 +89,12 @@ function Search() {
             px: "14px",
             py: "8px",
             borderRadius: "999px",
-            backgroundColor: resolvedTheme === "dark" ? "#262626" : "#EFEFEF",
+            backgroundColor: theme === "dark" ? "#262626" : "#EFEFEF",
           }}
         >
           <SearchIcon
             sx={{
-              color: resolvedTheme === "dark" ? "#8e8e8e" : "#737373",
+              color: theme === "dark" ? "#8e8e8e" : "#737373",
               fontSize: 25,
             }}
           />
@@ -108,7 +108,7 @@ function Search() {
             placeholder={t("search1")}
             className="w-full bg-transparent outline-none border-none text-[20px]"
             style={{
-              color: resolvedTheme === "dark" ? "white" : "black",
+              color: theme === "dark" ? "white" : "black",
             }}
           />
         </Box>
@@ -129,7 +129,7 @@ function Search() {
         <Box
           className="flex flex-col gap-5"
           style={{
-            backgroundColor: resolvedTheme == "dark" ? "#121212" : "white",
+            backgroundColor: theme == "dark" ? "#121212" : "white",
           }}
         >
           {loading ? (
@@ -227,7 +227,7 @@ function Search() {
           height: "100vh",
           position: "fixed",
           boxShadow: 3,
-          bgcolor: resolvedTheme == "dark" ? "#121212" : "white",
+          bgcolor: theme == "dark" ? "#121212" : "white",
         },
       }}
       ModalProps={{

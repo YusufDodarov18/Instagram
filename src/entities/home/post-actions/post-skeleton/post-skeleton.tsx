@@ -2,8 +2,8 @@ import { Skeleton } from "@mui/material"
 import { useTheme } from "next-themes"
 
 const PostSkeleton = () => {
-  const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === "dark"
+  const { theme } = useTheme()
+  const isDark = theme === "dark"
   const bg = isDark ? "#2c2c2c" : "#e0e0e0"
   const highlight = isDark ? "#3c3c3c" : "#f5f5f5"
     return (

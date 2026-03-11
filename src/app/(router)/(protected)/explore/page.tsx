@@ -36,7 +36,7 @@ function page() {
   const [searchText, setSearchText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const myId = getToken()?.sid;
   const router = useRouter();
 
@@ -98,7 +98,7 @@ function page() {
           <div
             className="flex flex-col gap-5 fixed top-[60px] left-0 right-0 z-10 px-3 py-5 shadow-lg rounded-lg h-[100vh]"
             style={{
-              backgroundColor: resolvedTheme === "dark" ? "#121212" : "#fff",
+              backgroundColor: theme === "dark" ? "#121212" : "#fff",
             }}
           >
             <div className="flex justify-between">
@@ -200,7 +200,7 @@ function page() {
                   height="100%"
                   animation="wave"
                   sx={{
-                    backgroundColor: resolvedTheme === "dark" ? "#333" : "",
+                    backgroundColor: theme === "dark" ? "#333" : "",
                   }}
                 />
               </Box>

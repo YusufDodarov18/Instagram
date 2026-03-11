@@ -33,7 +33,7 @@ function page() {
   const [expandedPostId,setExpandedPostId]=useState<number|null>(null)
   const [idx,setIdx]=useState<null|post>(null)
   const {t,i18n}=useTranslation()
-  const {resolvedTheme}=useTheme()
+  const {theme}=useTheme()
   const myId=getToken()?.sid
   let CHARACTER_LIMIT=50
 
@@ -91,7 +91,7 @@ function page() {
 
                                       <div className="flex gap-2 items-center">
                                          {!isFollowing&&(
-                                            <Button onClick={()=>handleFollow(el.userId)} sx={{color:resolvedTheme=="dark"?"#85A1FF":"#3143E3"}}>{t("follow")}</Button>
+                                            <Button onClick={()=>handleFollow(el.userId)} sx={{color:theme=="dark"?"#85A1FF":"#3143E3"}}>{t("follow")}</Button>
                                          )}
                                          <p className="cursor-pointer" onClick={()=>setOpenModal(true)}>{menu}</p>
                                       </div>

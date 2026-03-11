@@ -58,7 +58,7 @@ export default function BottomNavigation({
     }
   }, []);
 
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
 
   const { myProfile, getMyProfile } = useProfile();
 
@@ -73,7 +73,7 @@ export default function BottomNavigation({
         !pathName.startsWith("/chats") &&
         pathName !== "/reels" && (
           <div
-            className={`flex pt-5 pb-3 z-100 fixed top-0 left-0 right-0 ${resolvedTheme == "dark" ? "bg-black" : "bg-white"} justify-between px-3`}
+            className={`flex pt-5 pb-3 z-100 fixed top-0 left-0 right-0 ${theme == "dark" ? "bg-black" : "bg-white"} justify-between px-3`}
           >
             <>
               <div
@@ -115,7 +115,7 @@ export default function BottomNavigation({
       </div>
       <section
         className={`fixed w-[100%] z-[10] bottom-0 ${pathName.startsWith("/chats/") ? "hidden" : ""}`}
-        style={{ color: resolvedTheme == "dark" ? "white" : "black" }}
+        style={{ color: theme == "dark" ? "white" : "black" }}
       >
         <div
           className={`flex gap-[0.5rem] mt-4 align-bottom bg-white dark:bg-[#1c1b1b] dark:text-white justify-evenly`}

@@ -38,7 +38,7 @@ function a11yProps(index: number) {
 
 export default function BasicTabsById() {
   const [value, setValue] = React.useState(0);
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -54,16 +54,16 @@ export default function BasicTabsById() {
             display: "flex",
             justifyContent: "space-between",
             "& .MuiTabs-indicator": {
-              backgroundColor: resolvedTheme === "dark" ? "white" : "black",
+              backgroundColor: theme === "dark" ? "white" : "black",
             },
           }}
         >
           <Tab
             sx={{
               flex: 1,
-              color: resolvedTheme === "dark" ? "white" : "black",
+              color: theme === "dark" ? "white" : "black",
               "&.Mui-selected": {
-                color: resolvedTheme === "dark" ? "white" : "black",
+                color: theme === "dark" ? "white" : "black",
               },
             }}
             label={
@@ -141,9 +141,9 @@ export default function BasicTabsById() {
           <Tab
             sx={{
               flex: 1,
-              color: resolvedTheme === "dark" ? "white" : "black",
+              color: theme === "dark" ? "white" : "black",
               "&.Mui-selected": {
-                color: resolvedTheme === "dark" ? "white" : "black",
+                color: theme === "dark" ? "white" : "black",
               },
             }}
             label={
@@ -164,9 +164,9 @@ export default function BasicTabsById() {
           <Tab
             sx={{
               flex: 1,
-              color: resolvedTheme === "dark" ? "white" : "black",
+              color: theme === "dark" ? "white" : "black",
               "&.Mui-selected": {
-                color: resolvedTheme === "dark" ? "white" : "black",
+                color: theme === "dark" ? "white" : "black",
               },
             }}
             label={

@@ -25,7 +25,7 @@ function DrawerInfo({
   close: () => void;
   id: string;
 }) {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const { loading, getInfoById, info } = useProfileById();
   const { deleteChat } = useChats();
   const router = useRouter();
@@ -45,8 +45,8 @@ function DrawerInfo({
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          bgcolor: resolvedTheme == "dark" ? "#212121" : "",
-          color: resolvedTheme === "dark" ? "white" : "",
+          bgcolor: theme == "dark" ? "#212121" : "",
+          color: theme === "dark" ? "white" : "",
         }}
       >
         <List sx={{ flex: 1 }}>

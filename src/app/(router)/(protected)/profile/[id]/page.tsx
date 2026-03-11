@@ -20,7 +20,7 @@ import { useChats } from "@/app/store/pages/chats/chat";
 
 export default function page({ params }: { params: { id: string } }) {
   const { t } = useTranslation();
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const [openMenu, setOpenMenu] = useState(false);
   const [openFollowers, setOpenFollowers] = useState(false);
   const [openFollowing, setOpenFollowing] = useState(false);
@@ -174,7 +174,7 @@ export default function page({ params }: { params: { id: string } }) {
           <div className="flex gap-4 w-full">
             <Button
               onClick={toggleFollow}
-              className={`flex-1 h-9 cursor-pointer text-[12px] ${info?.isSubscriber ? (resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black] hover:bg-[#F0F2F5]]") : `text-white bg-[#4A5dF9] hover:bg-[#324afa] hover:text-white`} md:text-sm font-semibold `}
+              className={`flex-1 h-9 cursor-pointer text-[12px] ${info?.isSubscriber ? (theme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black] hover:bg-[#F0F2F5]]") : `text-white bg-[#4A5dF9] hover:bg-[#324afa] hover:text-white`} md:text-sm font-semibold `}
             >
               {info?.isSubscriber ? t("unFollow") : t("Follow")}
             </Button>
@@ -186,7 +186,7 @@ export default function page({ params }: { params: { id: string } }) {
                 }
               }}
               variant={"ghost"}
-              className={`flex-1 h-9 text-[12px] md:text-sm cursor-pointer font-semibold ${resolvedTheme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"}`}
+              className={`flex-1 h-9 text-[12px] md:text-sm cursor-pointer font-semibold ${theme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"}`}
             >
               {t("Message")}
             </Button>

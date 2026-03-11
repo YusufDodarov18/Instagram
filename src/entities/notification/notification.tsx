@@ -34,7 +34,7 @@ export default function Notification() {
       getUsers();
     }
   }, [notificationDrawer]);
-  const {resolvedTheme}=useTheme()
+  const {theme}=useTheme()
 
   const DrawerList = (
     <Box sx={{ width: 400}} role="presentation">
@@ -161,8 +161,8 @@ export default function Notification() {
           height: "100vh",
           position: "fixed",
           boxShadow: 3,
-          bgcolor: resolvedTheme === "dark" ? "#1c1b1b" : "",
-          color:resolvedTheme=="dark"?"white":""
+          bgcolor: theme === "dark" ? "#1c1b1b" : "",
+          color:theme=="dark"?"white":""
         },
       }}
       ModalProps={{

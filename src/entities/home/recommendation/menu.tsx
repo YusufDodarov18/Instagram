@@ -23,7 +23,7 @@ export default function MenuRecomendation({
   const [name, setName] = useState(userName);
   const [password, setPassword] = useState("E6@t3a.7Tw%si6Y");
   const { t } = useTranslation();
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   useEffect(() => {
     if (userName) {
       setName(userName);
@@ -79,9 +79,9 @@ export default function MenuRecomendation({
                   {...label}
                   defaultChecked
                   sx={{
-                    color: resolvedTheme === "dark" ? "#fff" : "#000",
+                    color: theme === "dark" ? "#fff" : "#000",
                     "&.Mui-checked": {
-                      color: resolvedTheme === "dark" ? "#fff" : "#000",
+                      color: theme === "dark" ? "#fff" : "#000",
                     },
                   }}
                 />

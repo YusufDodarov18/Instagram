@@ -22,7 +22,7 @@ function MenuPost({
   onCloseModal: () => void;
 }) {
   const { t } = useTranslation();
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const { deletePost } = usePosts();
   return (
     <Dialog open={open} onClose={onClose}>
@@ -33,8 +33,8 @@ function MenuPost({
           display: "flex",
           flexDirection: "column",
           textAlign: "center",
-          backgroundColor: resolvedTheme === "dark" ? "#161616" : "",
-          color: resolvedTheme === "dark" ? "white" : "",
+          backgroundColor: theme === "dark" ? "#161616" : "",
+          color: theme === "dark" ? "white" : "",
         }}
       >
         <Typography

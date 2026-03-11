@@ -4,8 +4,8 @@ import Stack from "@mui/material/Stack";
 import { useTheme } from "next-themes";
 
 export default function ProfileSkeleton() {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
         <div className="flex justify-center items-center flex-col">

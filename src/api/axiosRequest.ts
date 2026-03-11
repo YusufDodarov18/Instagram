@@ -24,6 +24,7 @@ axiosRequest.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401 && typeof window !== "undefined") {
       localStorage.removeItem("access_token");
+      document.cookie = "token=; max-age=0; path=/";
       window.location.href = "/login";
     }
 

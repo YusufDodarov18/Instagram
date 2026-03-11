@@ -72,7 +72,7 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
     addPostView,
   } = usePosts();
 
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   const { t } = useTranslation();
   const handleComment = async () => {
     if (!newComment.trim()) return;
@@ -112,7 +112,7 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
       >
         <Box
           flex={1}
-          bgcolor={resolvedTheme == "dark" ? "black" : "white"}
+          bgcolor={theme == "dark" ? "black" : "white"}
           display="flex"
           justifyContent="center"
           alignItems="center"
@@ -138,8 +138,8 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
           flex={1}
           display="flex"
           flexDirection="column"
-          bgcolor={resolvedTheme == "dark" ? "black" : "white"}
-          color={resolvedTheme == "dark" ? "white" : "black"}
+          bgcolor={theme == "dark" ? "black" : "white"}
+          color={theme == "dark" ? "white" : "black"}
         >
           <Box display="flex" alignItems="center" p={2}>
             <Avatar src={post.userImage && `${API}/images/${post.userImage}`} />
@@ -153,7 +153,7 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
               sx={{
                 marginLeft: "auto",
                 cursor: "pointer",
-                color: resolvedTheme == "dark" ? "white" : "black",
+                color: theme == "dark" ? "white" : "black",
               }}
             >
               {menu}
@@ -218,7 +218,7 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
                   sx={{
                     color: post.postLike
                       ? "red"
-                      : resolvedTheme == "dark"
+                      : theme == "dark"
                         ? "white"
                         : "black",
                   }}
@@ -226,12 +226,12 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
                   {post.postLike ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
                 <IconButton
-                  sx={{ color: resolvedTheme == "dark" ? "white" : "black" }}
+                  sx={{ color: theme == "dark" ? "white" : "black" }}
                 >
                   {comment}
                 </IconButton>
                 <IconButton
-                  sx={{ color: resolvedTheme == "dark" ? "white" : "black" }}
+                  sx={{ color: theme == "dark" ? "white" : "black" }}
                 >
                   {messageActive}
                 </IconButton>
@@ -240,7 +240,7 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
                 <IconButton
                   onClick={async () => await addFavoritePost(post.postId)}
                   sx={{
-                    color: resolvedTheme == "dark" ? "white" : "black",
+                    color: theme == "dark" ? "white" : "black",
                     marginLeft: "auto",
                   }}
                 >
@@ -279,7 +279,7 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
                     setNewComment((prev) => prev + emojiObject.emoji);
                     setShowEmjies(false);
                   }}
-                  theme={resolvedTheme == "dark" ? "dark" : "light"}
+                  theme={theme == "dark" ? "dark" : "light"}
                 />
               </Box>
             )}
@@ -305,14 +305,14 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
                 InputProps={{
                   disableUnderline: true,
                   sx: {
-                    color: resolvedTheme == "dark" ? "white" : "black",
+                    color: theme == "dark" ? "white" : "black",
                     pl: 1,
                   },
                 }}
               />
               <IconButton
                 onClick={handleComment}
-                sx={{ color: resolvedTheme == "dark" ? "white" : "black" }}
+                sx={{ color: theme == "dark" ? "white" : "black" }}
               >
                 <SendIcon />
               </IconButton>
