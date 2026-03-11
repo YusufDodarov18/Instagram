@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import "../styles/globals.css"
 import "@fontsource/roboto/300.css";
