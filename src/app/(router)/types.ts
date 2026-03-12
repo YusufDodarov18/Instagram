@@ -32,6 +32,7 @@ export interface CreatePostType {
   setCaption: (text: string) => void;
   reset: () => void;
   uploadPost: () => Promise<void>;
+  setTitle: (title:string)=>void
 }
 
 export interface MenuCompProps {

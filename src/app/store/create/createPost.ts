@@ -14,6 +14,7 @@ export const useCreatePost = create<CreatePostType>((set, get) => ({
   setToken: (newToken) => set({ token: newToken }),
   setImage: (file) => set({ image: file }),
   setCaption: (text) => set({ caption: text }),
+  setTitle: (text) => set({ title: text }),
 
   reset: () =>
     set({

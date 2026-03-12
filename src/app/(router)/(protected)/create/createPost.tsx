@@ -11,7 +11,18 @@ import FlipIcon from "@mui/icons-material/Flip";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 import RotateRightIcon from "@mui/icons-material/RotateRight";
-import TagFacesIcon from "@mui/icons-material/TagFaces";
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import Popper from "@mui/material/Popper";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import Image from "next/image";
 import {
   Avatar,
   Box,
@@ -30,6 +41,9 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import Cropper, { Area } from "react-easy-crop";
 import { useTranslation } from "react-i18next";
+import { Switch } from "@/components/ui/switch";
+import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 const FILTERS = [
   { value: "none", label: "Normal", icon: "🟣" },
@@ -70,6 +84,7 @@ export default function CreatePostModal({
     reset,
     uploadPost,
     title,
+    setTitle,
   } = useCreatePost();
   const { myProfile, getMyProfile } = useProfile();
 
@@ -87,6 +102,11 @@ export default function CreatePostModal({
   const [step, setStep] = useState(0);
   const [fileError, setFileError] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const emojiRef = useRef(null);
+  const captionRef = useRef<null | HTMLTextAreaElement>(null);
+  const router = useRouter();
+  const { theme } = useTheme();
   const { t } = useTranslation();
 
   const onCropComplete = useCallback(
@@ -168,7 +188,7 @@ export default function CreatePostModal({
     filterString: string,
   ): Promise<Blob> => {
     return new Promise((resolve, reject) => {
-      const img = new Image();
+      const img = new window.Image();
       img.onload = () => {
         const canvas = document.createElement("canvas");
         canvas.width = img.width;
@@ -203,6 +223,7 @@ export default function CreatePostModal({
         setImage(file);
       }
       await uploadPost();
+      router.push("/profile");
     } catch (e) {
       console.log("Error uploading post:", e);
     } finally {
@@ -267,6 +288,16 @@ export default function CreatePostModal({
         setStep(1);
       }
     }
+  };
+
+  const onEmojiClick = (emojiData: EmojiClickData) => {
+    const captionText = captionRef.current;
+    if (!captionText) return;
+    const newText =
+      caption.substring(0, captionText.selectionStart) +
+      emojiData.emoji +
+      caption.substring(captionText.selectionEnd);
+    setCaption(newText);
   };
 
   return (
@@ -335,7 +366,8 @@ export default function CreatePostModal({
           alignItems: "center",
           justifyContent: "center",
           flexGrow: 1,
-          bgcolor: "#fafafa",
+          bgcolor: theme === "dark" ? "##1f1e1d" : "#fafafa",
+          ...(step === 3 && { height: "calc(90vh - 64px)" }),
         }}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
@@ -597,15 +629,20 @@ export default function CreatePostModal({
         )}
 
         {step === 3 && image && (
-          <Box sx={{ display: "flex", width: "100%", height: "100%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              height: "100%",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 2, sm: 0 },
+            }}
+          >
             <Box
               sx={{
-                width: "60%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: { xs: "100%", sm: "65%" },
+                height: "100%",
                 bgcolor: "#000",
-                position: "relative",
               }}
             >
               {isVideo ? (
@@ -622,13 +659,14 @@ export default function CreatePostModal({
                       : URL.createObjectURL(image)
                   }
                   style={{
-                    maxHeight: "100%",
-                    maxWidth: "100%",
+                    width: "100%",
+                    height: "100%",
                     filter: filter,
                     objectFit: "contain",
                     transform: `${flipHorizontal ? "scaleX(-1)" : ""} ${
                       flipVertical ? "scaleY(-1)" : ""
                     }`,
+                    cursor: "crosshair",
                   }}
                   alt="Preview"
                 />
@@ -653,14 +691,17 @@ export default function CreatePostModal({
             </Box>
             <Box
               sx={{
-                width: "40%",
-                p: 2,
+                width: { xs: "100%", sm: "35%" },
                 display: "flex",
-                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                p: 2,
                 overflowY: "auto",
+                flexDirection: "column",
+                gap: 1.5,
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+              <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                 <Avatar
                   src={
                     myProfile?.image
@@ -671,66 +712,188 @@ export default function CreatePostModal({
                 />
                 <Typography fontWeight={600}>{myProfile?.userName}</Typography>
               </Box>
-              <TextField
-                placeholder={t("Write a caption...")}
-                fullWidth
-                multiline
-                rows={6}
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-                sx={{
-                  mt: 20,
-                  mb: 2,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { border: "none" },
-                    fontSize: 14,
-                  },
-                }}
-                inputProps={{ maxLength: 2200 }}
-              />
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                sx={{ alignSelf: "flex-end", mb: 2 }}
-              >
-                {caption.length}/2,200
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  borderBottom: "1px solid #dbdbdb",
-                  py: 1,
-                  mb: 2,
-                  cursor: "pointer",
-                }}
-              >
-                <Typography variant="body2" color="textSecondary">
-                  {t("Add Location")}
-                </Typography>
-                <LocationOnIcon fontSize="small" />
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  borderBottom: "1px solid #dbdbdb",
-                  py: 1,
-                  cursor: "pointer",
-                }}
-              >
-                <Typography variant="body2" color="textSecondary">
-                  {t("Tag People")}
-                </Typography>
-                <TagFacesIcon fontSize="small" />
+              <Box sx={{ width: "100%" }}>
+                <textarea
+                  ref={captionRef}
+                  className="w-[100%] h-[140px] resize-none focus:outline-0"
+                  value={caption}
+                  onChange={(e) => setCaption(e.target.value)}
+                />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    pt: 0.5,
+                    color: "#737373",
+                    pb: 1,
+                    borderBottom: "1px solid #dcdee0",
+                  }}
+                >
+                  <Box>
+                    <InsertEmoticonIcon
+                      ref={emojiRef}
+                      onClick={() => setShowEmoji((p) => !p)}
+                      sx={{ cursor: "pointer" }}
+                    />
+
+                    <Popper
+                      open={showEmoji}
+                      anchorEl={emojiRef.current}
+                      placement="top-end"
+                      style={{ zIndex: 2000 }}
+                    >
+                      <ClickAwayListener
+                        onClickAway={() => setShowEmoji(false)}
+                      >
+                        <Box>
+                          <EmojiPicker onEmojiClick={onEmojiClick} />
+                        </Box>
+                      </ClickAwayListener>
+                    </Popper>
+                  </Box>
+                  <Typography>{caption.length}/2,200</Typography>
+                </Box>
               </Box>
               {error && (
                 <Typography color="error" sx={{ mt: 2 }}>
                   {error}
                 </Typography>
               )}
+              <Box sx={{ width: "100%", ml: -1, p: 0 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 2,
+                    width: "100%",
+                  }}
+                >
+                  <TextField
+                    placeholder={t("add_location")}
+                    variant="outlined"
+                    sx={inputStyle}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <LocationOnIcon sx={{ cursor: "pointer" }} />
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <TextField
+                    variant="outlined"
+                    sx={inputStyle}
+                    placeholder={t("add_collaborators")}
+                  />
+                  <PersonAddAltIcon sx={{ cursor: "pointer" }} />
+                </Box>
+              </Box>
+              <Accordion
+                type="multiple"
+                collapsible
+                defaultValue="shipping"
+                className="max-w-70"
+              >
+                <AccordionItem value="returns" className="pb-5">
+                  <AccordionTrigger className="text-lg">
+                    {t("setting.accessibility")}
+                  </AccordionTrigger>
+                  <AccordionContent className="flex flex-col gap-3">
+                    <Typography sx={{ color: "#A8A8A8" }} variant="body2">
+                      {t("accessibility_info")}
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+                      <Image
+                        width={50}
+                        height={45}
+                        src={URL.createObjectURL(image)}
+                        alt="image"
+                        style={{ borderRadius: 4 }}
+                      />
+                      <input
+                        type="text"
+                        placeholder={t("write_alt_text")}
+                        style={{
+                          width: "100%",
+                          background: "transparent",
+                          border: "none",
+                          outline: "none",
+                          borderBottom: "1px solid #2a2a2a",
+                          padding: "8px 4px",
+                          color: "#A8A8A8",
+                          fontSize: "14px",
+                        }}
+                      />
+                    </Box>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="support">
+                  <AccordionTrigger className="cursor-pointer text-lg">
+                    {t("advanced_settings")}
+                  </AccordionTrigger>
+                  <AccordionContent className="flex flex-col items-center gap-3 py-3 px-2 pb-5">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 2,
+                      }}
+                    >
+                      <Typography>{t("hide_likes_views")}</Typography>
+                      <Switch className="scale-125 cursor-pointer" />
+                    </Box>
+                    <p className="text-[#6A717A] dark:text-[#A8A8A8]">
+                      {t("likes_views_info")}
+                      <span
+                        className="text-[#708DFF] underline-0 cursor-pointer hover:underline hover:text-[#708DFF]"
+                        onClick={() =>
+                          router.push(
+                            `https://help.instagram.com/113355287252104`,
+                          )
+                        }
+                      >
+                        {t("authentication.register.contactInfoMore")}
+                      </span>
+                    </p>
+                  </AccordionContent>
+                  <AccordionContent className="flex flex-col gap-3 py-3 px-2">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 2,
+                      }}
+                    >
+                      <Typography>{t("turn_off_comments")}</Typography>
+                      <Switch className="scale-125 cursor-pointer" />
+                    </Box>
+                    <p className="text-[#6A717A] dark:text-[#A8A8A8]">
+                      {t("change_later_info")}
+                    </p>
+                  </AccordionContent>
+                  <AccordionContent className="flex flex-col items-center gap-3 py-3 px-2">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: 2,
+                      }}
+                    >
+                      <Typography>{t("threads_auto_post")}</Typography>
+                      <Switch className="scale-125 cursor-pointer" />
+                    </Box>
+                    <p className="text-[#6A717A] dark:text-[#A8A8A8]">
+                      {t("threads_share_info")}
+                    </p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </Box>
           </Box>
         )}
@@ -767,3 +930,15 @@ export default function CreatePostModal({
     </Dialog>
   );
 }
+
+const inputStyle = {
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: "none",
+  },
+  "&:hover .MuiOutlinedInput-notchedOutline": {
+    border: "none",
+  },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    border: "none",
+  },
+};
