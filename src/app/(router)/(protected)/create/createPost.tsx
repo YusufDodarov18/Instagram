@@ -16,6 +16,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import Popper from "@mui/material/Popper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
+import defaultAvatar from "../../(protected)/profile/profil-removebg-preview.png";
 import {
   Accordion,
   AccordionContent,
@@ -87,6 +88,7 @@ export default function CreatePostModal({
     setTitle,
   } = useCreatePost();
   const { myProfile, getMyProfile } = useProfile();
+  const imageProfile = `${API}/images/${myProfile?.image}`;
 
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -649,7 +651,7 @@ export default function CreatePostModal({
                 <video
                   src={videoUrl || ""}
                   controls
-                  style={{ maxHeight: "100%", maxWidth: "100%" }}
+                  style={{ width: "100%", height: "100%" }}
                 />
               ) : (
                 <img
@@ -703,11 +705,7 @@ export default function CreatePostModal({
             >
               <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                 <Avatar
-                  src={
-                    myProfile?.image
-                      ? `${API}/images/${myProfile.image}`
-                      : "/default-avatar.jpg"
-                  }
+                  src={myProfile ? imageProfile : defaultAvatar.src}
                   sx={{ width: 32, height: 32, mr: 1 }}
                 />
                 <Typography fontWeight={600}>{myProfile?.userName}</Typography>
@@ -732,7 +730,7 @@ export default function CreatePostModal({
                   <Box>
                     <InsertEmoticonIcon
                       ref={emojiRef}
-                      onClick={() => setShowEmoji((p) => !p)}
+                      onClick={() => setShowEmoji((prev) => !prev)}
                       sx={{ cursor: "pointer" }}
                     />
 
