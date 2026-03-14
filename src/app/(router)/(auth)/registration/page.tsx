@@ -65,6 +65,7 @@ function page() {
 
     try {
       setLoading(true)
+
       const user={
         userName:name,
         fullName:surName,
@@ -73,9 +74,11 @@ function page() {
         confirmPassword: confirmPassword,
       }
       const {data}=await axios.post(`https://instagram-api.softclub.tj/Account/register`,user)
+      
       if(data){
           router.push("/login")
       }
+
       setLoading(false)
     } catch (err) {
       setRegistrationError(t("authentication.register.registrationErrorGeneric"));
@@ -208,7 +211,7 @@ function page() {
       </div>
                         
         <div className="mt-[40px]">
-          <Footer/>
+            <Footer/>
         </div>
     </>
   )

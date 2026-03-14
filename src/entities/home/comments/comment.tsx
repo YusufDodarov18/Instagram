@@ -359,7 +359,7 @@ const sendComment= async ()=> {
 
                               <Dialog open={menuComment} onClose={()=>setMenuComment(false)}
                                         PaperProps={{
-                                            sx:{m:0,p:0,width:"500px",
+                                            sx:{m:0,p:0, width:"500px",
                                               maxWidth:"460px",
                                               bgcolor:theme=="dark"?"#1f1e1e":"white",borderRadius:2,
                                             }
@@ -379,10 +379,13 @@ const sendComment= async ()=> {
                                                                  console.error("Ошибка на удаление коментарии:",err)
                                                                }
                                                            }
-                                                           }>{t("delete")}</p>
+                                                           }
+                                                            >
+                                                              {t("delete")}
+                                                             </p>
                                                            <p className="cursor-pointer pt-2 text-black dark:text-white" onClick={()=>{setIdx(null),setMenuComment(false)}}>{t("cancel")}</p>
                                                      </div>
-                                             </DialogContent>
+                                            </DialogContent>
                               </Dialog>                      
         </>
     );

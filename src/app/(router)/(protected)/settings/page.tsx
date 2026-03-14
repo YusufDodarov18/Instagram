@@ -161,17 +161,17 @@ export default function Page(){
 
     useEffect(()=> {
         setHydrated(true)
-    },[])
+    },[ ])
 
     useEffect(()=>{
         if(hydrated&&!isMobile){
             router.replace("/settings/accounts/edit")
         }
-    },[hydrated,router,isMobile])
+    },[ hydrated,router,isMobile ])
 
     if(!hydrated) return null
 
-    return null
+    return null;
 }
 
 

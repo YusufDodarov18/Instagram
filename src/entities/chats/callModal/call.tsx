@@ -48,16 +48,15 @@ const Call = ( {open,onClose, user} :{open:boolean, onClose:()=>void,user:string
             peer.addTrack(track, media)
         })
 
-        peer.ontrack= (e)=>{
-            if(remoteVideo.current){
-                remoteVideo.current.srcObject=e.streams[0]
-            }
+        peer.ontrack= (e)=> {
+             if(remoteVideo.current){
+                 remoteVideo.current.srcObject=e.streams[0]
+             }
         }
-
         peerRef.current=peer
     }
 
-    const toggleMute= () => {
+    const toggleMute= () =>{
         if(!stream) return null
 
         const audioTrack=stream.getAudioTracks()[0]

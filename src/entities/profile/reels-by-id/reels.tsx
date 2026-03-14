@@ -1,12 +1,14 @@
 import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
 import { API } from "@/shared/utils/config";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import PostModalById from "../posts/post-by-id/postModal";
 
 export default function ReelsById() {
   const { getPostById, posts } = useProfileById();
   const pathname = usePathname();
   const id = pathname.split("/")[2];
+  const [selectedPost, setSelectedPost] = useState<number | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -30,6 +32,7 @@ export default function ReelsById() {
               <div
                 key={el.postId}
                 className="w-full aspect-square overflow-hidden"
+                onClick={() => setSelectedPost(el.postId)}
               >
                 <video
                   src={src}
@@ -43,9 +46,13 @@ export default function ReelsById() {
             );
           })}
       </div>
-      {/* {selectedPost && (
-            <PostModal post={selectedPost} onClose={() => setSelectedPost(null)} />
-          )} */}
+      {selectedPost && (
+        <PostModalById
+          open={!!selectedPost}
+          onClose={() => setSelectedPost(null)}
+          postId={selectedPost}
+        />
+      )}
     </>
   );
 }

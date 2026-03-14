@@ -157,7 +157,7 @@ function FollowersById({
                 </Typography>
               ) : (
                 filteredFollowers.map((elem) => {
-                  const isSelf = decode?.sid === elem.userShortInfo.userId;
+                  const isFollowed = decode?.sid === elem.userShortInfo.userId;
                   return (
                     <Box
                       key={elem.id}
@@ -186,7 +186,7 @@ function FollowersById({
                         <Box>
                           <Link
                             href={
-                              isSelf
+                              isFollowed
                                 ? "/profile"
                                 : `/profile/${elem.userShortInfo.userId}`
                             }
@@ -201,7 +201,7 @@ function FollowersById({
                         </Box>
                       </Box>
                       <Box>
-                        {!isSelf && (
+                        {!isFollowed && (
                           <Button
                             variant="contained"
                             sx={{

@@ -16,7 +16,7 @@ import Followers from "@/entities/profile/followers/followers";
 import Following from "@/entities/profile/following/following";
 import { DecodedToken } from "../../types";
 import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
-import ProfileSkeleton from "@/entities/profile/profile-skeleton/loading";
+import ProfileSkeleton from "@/entities/profile/profile-skeleton/skeleton";
 
 const page = () => {
   let { getMyProfile, loading, myProfile,updateImageProfile, getMyFollowers, getMyFollowing } =useProfile();
@@ -55,7 +55,7 @@ const page = () => {
   };
 
   if (loading){
-    return <ProfileSkeleton />;
+    return <ProfileSkeleton/>;
   }
   return (
     <>

@@ -27,17 +27,17 @@ export const usePosts = create<PostsStore>((set,get) => ({
     likePosts: async (postId) => {
        await axiosRequest.post(`/Post/like-post?postId=${postId}`);
 
-    set((state) => ({
-      posts: state.posts.map((post) =>
-        post.postId === postId
-          ? {
-              ...post,
-              postLike: !post.postLike,
-              postLikeCount: post.postLike? post.postLikeCount - 1:post.postLikeCount + 1,
-            }
-          :post,
-      ),
-    }));
+      set((state) => ({
+        posts: state.posts.map((post) =>
+          post.postId === postId
+            ? {
+                ...post,
+                postLike: !post.postLike,
+                postLikeCount: post.postLike? post.postLikeCount - 1:post.postLikeCount + 1,
+              }
+            :post,
+        ),
+      }));
   },
 
   addFavoritePost: async (postId) => {

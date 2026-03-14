@@ -32,7 +32,7 @@ export interface CreatePostType {
   setCaption: (text: string) => void;
   reset: () => void;
   uploadPost: () => Promise<void>;
-  setTitle: (title:string)=>void
+  setTitle: (title: string) => void;
 }
 
 export interface MenuCompProps {
@@ -149,6 +149,19 @@ export interface myProfile {
   subscribersCount: number;
   subscriptionsCount: number;
   userName: string;
+}
+
+export interface PostByIdStore {
+  datas: post[];
+  dataById: post | null;
+  getPostById: (postId: number) => Promise<void>;
+  likePost: (postId: number) => Promise<void>;
+  addFavoritePost: (postId: number) => Promise<void>;
+  addCommentPost: (formData: AddCommentProps) => Promise<void>;
+  deleteComment: (commentId: string, postId: number) => Promise<void>;
+  follow: (userId: string, postId: number) => Promise<void>;
+  unFollow: (userId: string, postId: number) => Promise<void>;
+  loading: boolean;
 }
 
 export interface myStories {
@@ -284,7 +297,7 @@ export interface PostsStore {
   getSubscribtions: (userId: string) => Promise<void>;
   deleteComment: (commentId: string) => Promise<void>;
   addPostView: (postId: number) => Promise<void>;
-  deletePost:(id:string)=>Promise<void>
+  deletePost: (id: string) => Promise<void>;
 }
 
 export interface ExploreStore {
@@ -348,7 +361,7 @@ export interface MyFollowing {
 export interface ProfileStore {
   myProfile: myProfile | null;
   loading: boolean;
-  myPosts: myPost[] 
+  myPosts: myPost[];
   myPostSaved: myPostSaved[];
   myFollowers: MyFollowers[];
   myFollowing: MyFollowing[];

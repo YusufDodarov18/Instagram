@@ -213,6 +213,7 @@ export default function CreatePostModal({
       img.src = URL.createObjectURL(blob);
     });
   };
+  
   const handleUpLoad = async () => {
     if (!image) return;
     try {
@@ -314,6 +315,8 @@ export default function CreatePostModal({
           minHeight: "70vh",
           borderRadius: 1,
           overflow: "hidden",
+          backgroundColor: theme === "dark" ? "#171716" : "white",
+          color: theme == "dark" ? "white" : "",
         },
       }}
     >
@@ -324,10 +327,16 @@ export default function CreatePostModal({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          backgroundColor: theme === "dark" ? "black" : "",
+          color: theme == "dark" ? "white" : "",
         }}
       >
         {step > 0 ? (
-          <IconButton onClick={() => setStep(step - 1)} disabled={loadingLocal}>
+          <IconButton
+            onClick={() => setStep(step - 1)}
+            disabled={loadingLocal}
+            sx={{ color: theme === "dark" ? "white" : "black" }}
+          >
             <ArrowBackIcon />
           </IconButton>
         ) : (
@@ -388,8 +397,8 @@ export default function CreatePostModal({
           >
             <svg
               aria-label="Icon to represent media such as images or videos"
-              color="#262626"
-              fill="#262626"
+              color={theme === "dark" ? "" : "#262626"}
+              fill={theme === "dark" ? "" : "#262626"}
               height="77"
               role="img"
               viewBox="0 0 97.6 77.3"
@@ -433,6 +442,7 @@ export default function CreatePostModal({
                 accept="image/*,video/*"
                 type="file"
                 onChange={handleFIleChange}
+                multiple
               />
             </Button>
           </Box>
@@ -708,7 +718,9 @@ export default function CreatePostModal({
                   src={myProfile ? imageProfile : defaultAvatar.src}
                   sx={{ width: 32, height: 32, mr: 1 }}
                 />
-                <Typography fontWeight={600}>{myProfile?.userName}</Typography>
+                <Typography fontWeight={600} sx={{ ml: -0.8 }}>
+                  {myProfile?.userName}
+                </Typography>
               </Box>
               <Box sx={{ width: "100%" }}>
                 <textarea
@@ -770,7 +782,15 @@ export default function CreatePostModal({
                   <TextField
                     placeholder={t("add_location")}
                     variant="outlined"
-                    sx={inputStyle}
+                    sx={{
+                      ...inputStyle,
+                      "& .MuiInputBase-input": {
+                        color: theme == "dark" ? "white" : "",
+                      },
+                      "& input::placeholder": {
+                        color: theme === "dark" ? "white" : "",
+                      },
+                    }}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                   />
@@ -786,7 +806,15 @@ export default function CreatePostModal({
                 >
                   <TextField
                     variant="outlined"
-                    sx={inputStyle}
+                    sx={{
+                      ...inputStyle,
+                      "& .MuiInputBase-input": {
+                        color: theme == "dark" ? "white" : "",
+                      },
+                      "& input::placeholder": {
+                        color: theme === "dark" ? "white" : "",
+                      },
+                    }}
                     placeholder={t("add_collaborators")}
                   />
                   <PersonAddAltIcon sx={{ cursor: "pointer" }} />

@@ -56,24 +56,14 @@ function MenuPost({
         </Typography>
 
         <Typography sx={itemsClass}>{t("Edit")}</Typography>
-
         <Typography sx={itemsClass}>{t("hideLikeCount")}</Typography>
-
         <Typography sx={itemsClass}>{t("disableComments")}</Typography>
-
         <Typography sx={itemsClass}>{t("Go to post")}</Typography>
-
         <Typography sx={itemsClass}>{t("shareTo")}</Typography>
-
         <Typography sx={itemsClass}>{t("Copy link")}</Typography>
-
         <Typography sx={itemsClass}>{t("Embed on website")}</Typography>
-
         <Typography sx={itemsClass}>{t("aboutThisAccount")}</Typography>
-
-        <Typography sx={{ p: 1.5, cursor: "pointer" }} onClick={onClose}>
-          {t("Cancel")}
-        </Typography>
+        <Typography sx={{ p: 1.5, cursor: "pointer" }} onClick={onClose}>{t("Cancel")}</Typography>
       </Box>
     </Dialog>
   );

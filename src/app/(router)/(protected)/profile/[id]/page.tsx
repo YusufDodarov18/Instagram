@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
-import ProfileSkeleton from "@/entities/profile/profile-skeleton/loading";
 import BasicTabsById from "@/entities/profile/tabs-by-id/tab";
 import { MenuById } from "@/entities/profile/menu/menu-by-id/menu";
 import { DecodedToken, MyFollowing } from "@/app/(router)/types";
@@ -17,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
 import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 import { useChats } from "@/app/store/pages/chats/chat";
+import ProfileSkeleton from "@/entities/profile/profile-skeleton/skeleton";
 
 export default function page({ params }: { params: { id: string } }) {
   const { t } = useTranslation();

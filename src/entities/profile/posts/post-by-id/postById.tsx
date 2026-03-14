@@ -1,12 +1,19 @@
 import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
 import { API } from "@/shared/utils/config";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import { useTheme } from "next-themes";
+import PostModalById from "./postModal";
 
 export default function PostById() {
   const { getPostById, posts } = useProfileById();
   const pathname = usePathname();
+  const [selectedPost, setSelectedPost] = useState<null | number>(null);
   const id = pathname.split("/")[2];
+  const { theme } = useTheme();
+  if (!id) return null;
 
   useEffect(() => {
     if (id) {
@@ -14,6 +21,8 @@ export default function PostById() {
     }
   }, [id, getPostById]);
 
+  if (!posts) return;
+  // console.log(selectedPost);
   return (
     <>
       <div className="grid grid-cols-3 gap-[2px] sm:gap-4 px-1 sm:px-0">
@@ -24,7 +33,10 @@ export default function PostById() {
           return (
             <div
               key={el.postId}
-            //   onClick={() => setSelectedPost(el)}
+              onClick={() => {
+                if (!el.postId && el.postId !== 0) return;
+                setSelectedPost(Number(el.postId));
+              }}
               className="w-full aspect-square overflow-hidden cursor-pointer"
             >
               {isVideo ? (
@@ -48,9 +60,13 @@ export default function PostById() {
           );
         })}
       </div>
-      {/* {selectedPost && (
-            <PostModal post={selectedPost} onClose={() => setSelectedPost(null)} />
-          )} */}
+      {selectedPost && (
+        <PostModalById
+          open={!!selectedPost}
+          onClose={() => setSelectedPost(null)}
+          postId={selectedPost}
+        />
+      )}
     </>
   );
 }

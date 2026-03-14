@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Box,
   Dialog,
@@ -142,7 +142,10 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
           color={theme == "dark" ? "white" : "black"}
         >
           <Box display="flex" alignItems="center" p={2}>
-            <Avatar src={post.userImage && `${API}/images/${post.userImage}`} />
+            <Avatar
+              src={post.userImage && `${API}/images/${post.userImage}`}
+              alt="profile"
+            />
             <Typography ml={1} fontWeight={600}>
               {post.userName}
             </Typography>
@@ -225,14 +228,10 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
                 >
                   {post.postLike ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                 </IconButton>
-                <IconButton
-                  sx={{ color: theme == "dark" ? "white" : "black" }}
-                >
+                <IconButton sx={{ color: theme == "dark" ? "white" : "black" }}>
                   {comment}
                 </IconButton>
-                <IconButton
-                  sx={{ color: theme == "dark" ? "white" : "black" }}
-                >
+                <IconButton sx={{ color: theme == "dark" ? "white" : "black" }}>
                   {messageActive}
                 </IconButton>
               </Box>
@@ -325,7 +324,7 @@ export default function PostModal({ open, post, onClose }: PostModalProps) {
         onClose={() => setModal(false)}
         open={modal}
         onCloseModal={onClose}
-        id={post.postId}
+        id={post.postId.toFixed()}
       />
     </>
   );

@@ -1,11 +1,11 @@
 import { API } from "@/shared/utils/config";
 import React, { useEffect, useState } from "react";
-import PostModal from "../posts/post-modal/modal";
 import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
+import PostModalById from "../posts/post-by-id/postModal";
 
 function MySavedPosts() {
   const { getMyPostSaved, myPostSaved } = useProfile();
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -35,8 +35,8 @@ function MySavedPosts() {
           return (
             <div
               className="w-[100%] aspect-square overflow-hidden cursor-pointer"
-              onClick={() => setSelectedPost(el)}
-              key={el.id}
+              onClick={() => setSelectedPost(el.postId)}
+              key={el.postId}
             >
               {isVideo ? (
                 <video
@@ -60,7 +60,11 @@ function MySavedPosts() {
       </div>
 
       {selectedPost && (
-        <PostModal post={selectedPost} onClose={() => setSelectedPost(null)} />
+        <PostModalById
+          postId={selectedPost}
+          open={!!selectedPost}
+          onClose={() => setSelectedPost(null)}
+        />
       )}
     </>
   );

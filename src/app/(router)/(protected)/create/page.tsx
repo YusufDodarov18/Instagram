@@ -10,7 +10,7 @@ export default function page() {
   const { t } = useTranslation();
   return (
     <Container>
-      <Button variant={"outline"} onClick={() => setOpen(true)}>{t("layout.create")}</Button>
+      <Button variant="outline" onClick={() => setOpen(true)}>{t("layout.create")}</Button>
       <CreatePostModal open={open} onClose={() => setOpen(false)} />
     </Container>
   );
