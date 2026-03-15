@@ -19,21 +19,23 @@ export type FilterType =
   | "invert(100%)"
   | "blur(2px)";
 
-export interface CreatePostType {
+export type CreatePostType = {
   token: string | null;
-  image: File | null;
+  images: File[];
   caption: string;
   title: string;
   loading: boolean;
   error: string;
   success: boolean;
-  setToken: (newToken: string | null) => void;
-  setImage: (file: File | null) => void;
+  setToken: (token: string) => void;
+  setImages: (files: File[]) => void;
+  addImage: (file: File) => void;
+  removeImage: (index: number) => void;
   setCaption: (text: string) => void;
+  setTitle: (text: string) => void;
   reset: () => void;
   uploadPost: () => Promise<void>;
-  setTitle: (title: string) => void;
-}
+};
 
 export interface MenuCompProps {
   anchorEl: HTMLElement | null;

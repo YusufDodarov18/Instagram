@@ -4,7 +4,7 @@ import { create } from "zustand";
 
 export const useCreatePost = create<CreatePostType>((set, get) => ({
   token: null,
-  image: null,
+  images: [],
   caption: "",
   title: "",
   loading: false,
@@ -12,13 +12,20 @@ export const useCreatePost = create<CreatePostType>((set, get) => ({
   success: false,
 
   setToken: (newToken) => set({ token: newToken }),
-  setImage: (file) => set({ image: file }),
+  setImages: (files) => set({ images: files }),
+  addImage: (file) => set((state) => ({ images: [...state.images, file] })),
+
+  removeImage: (index) =>
+    set((state) => ({
+      images: state.images.filter((_, i) => i !== index),
+    })),
+
   setCaption: (text) => set({ caption: text }),
   setTitle: (text) => set({ title: text }),
 
   reset: () =>
     set({
-      image: null,
+      images: [],
       caption: "",
       title: "",
       loading: false,
@@ -27,10 +34,12 @@ export const useCreatePost = create<CreatePostType>((set, get) => ({
     }),
 
   uploadPost: async () => {
-    const { image, caption, title, token } = get();
-    if (!image) {
+    const { images, caption, title, token } = get();
+
+    if (images.length === 0) {
       return set({ error: "Изображение обязательно" });
     }
+
     const authToken = token || localStorage.getItem("access_token");
 
     if (!authToken) {
@@ -38,7 +47,11 @@ export const useCreatePost = create<CreatePostType>((set, get) => ({
     }
 
     const formData = new FormData();
-    formData.append("Images", image);
+
+    images.forEach((img) => {
+      formData.append("Images", img);
+    });
+
     formData.append("Content", caption);
     formData.append("Title", title);
 
@@ -47,13 +60,12 @@ export const useCreatePost = create<CreatePostType>((set, get) => ({
 
       await axiosRequest.post(`/Post/add-post`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${authToken}`,
         },
       });
 
       set({
-        image: null,
+        images: [],
         caption: "",
         title: "",
         loading: false,
@@ -65,7 +77,7 @@ export const useCreatePost = create<CreatePostType>((set, get) => ({
         loading: false,
         error:
           error?.response?.status === 401
-            ? "Неавторизованный доступ. Проверь токен."
+            ? "Неавторизованный доступ"
             : error?.response?.data?.message || "Ошибка при загрузке поста",
         success: false,
       });

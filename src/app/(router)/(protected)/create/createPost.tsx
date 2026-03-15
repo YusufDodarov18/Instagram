@@ -18,13 +18,6 @@ import Popper from "@mui/material/Popper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import defaultAvatar from "../../(protected)/profile/profil-removebg-preview.png";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import Image from "next/image";
-import {
   Avatar,
   Box,
   Button,
@@ -42,9 +35,9 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import Cropper, { Area } from "react-easy-crop";
 import { useTranslation } from "react-i18next";
-import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { DropDownMenu } from "@/entities/create/dropDownMenu";
 
 const FILTERS = [
   { value: "none", label: "Normal", icon: "🟣" },
@@ -58,7 +51,7 @@ const FILTERS = [
   { value: "blur(2px)", label: "Blur", icon: "🌀" },
 ];
 
-const MAX_FILE_SIZE_MB = 50; // Max file size in MB
+const MAX_FILE_SIZE_MB = 50;
 const SUPPORTED_FORMATS = [
   "image/jpeg",
   "image/png",
@@ -75,9 +68,10 @@ export default function CreatePostModal({
   onClose: (value: boolean) => void;
 }) {
   const {
-    image,
+    images,
     caption,
-    setImage,
+    setImages,
+    addImage,
     setCaption,
     loading,
     error,
@@ -100,7 +94,7 @@ export default function CreatePostModal({
   const [isVideo, setIsVideo] = useState(false);
   const [videoUrl, setVideoUrl] = useState<null | string>(null);
   const [filter, setFilter] = useState<FilterType>("none");
-  const [loadingLocal, setLoading] = useState(false);
+  const [loadingLocal, setLoadingLocal] = useState(false);
   const [step, setStep] = useState(0);
   const [fileError, setFileError] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -111,8 +105,10 @@ export default function CreatePostModal({
   const { theme } = useTheme();
   const { t } = useTranslation();
 
+  const firstImage = images[0] ?? null;
+
   const onCropComplete = useCallback(
-    (croppedArea: Area, croppedAreaPixels: Area) => {
+    (_croppedArea: Area, croppedAreaPixels: Area) => {
       setCroppedAreaPixels(croppedAreaPixels);
     },
     [],
@@ -122,37 +118,37 @@ export default function CreatePostModal({
     if (!SUPPORTED_FORMATS.includes(file.type)) {
       return "Unsupported file format.";
     }
-
     if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
       return `File is too large. Maximum size is ${MAX_FILE_SIZE_MB}MB.`;
     }
-
     return null;
   };
 
-  const handleFIleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e?.target?.files?.[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e?.target?.files || []);
+    if (!files.length) return;
 
-    if (!file) return;
-
-    const error = validateFile(file);
-
-    if (error) {
-      setFileError(error);
-      return;
+    for (const file of files) {
+      const err = validateFile(file);
+      if (err) {
+        setFileError(err);
+        return;
+      }
     }
+
     setFileError(null);
-    const isVid = file.type.startsWith("video");
-    setIsVideo(isVid);
-    setImage(file);
+    const firstFile = files[0];
+    const isVideo = firstFile.type.startsWith("video");
+    setIsVideo(isVideo);
+    setImages(files);
     setCroppedImage(null);
     setFilter("none");
     setRotation(0);
     setFlipHorizontal(false);
     setFlipVertical(false);
 
-    if (isVid) {
-      const url = URL.createObjectURL(file);
+    if (isVideo) {
+      const url = URL.createObjectURL(firstFile);
       setVideoUrl(url);
       setStep(3);
     } else {
@@ -161,23 +157,27 @@ export default function CreatePostModal({
   };
 
   const handleCrop = async () => {
-    if (!image || isVideo || !croppedAreaPixels) return;
+    if (!firstImage || isVideo || !croppedAreaPixels) return;
     try {
-      setLoading(true);
+      setLoadingLocal(true);
       const croppedBlob = await getCroppedImg(
-        URL.createObjectURL(image),
+        URL.createObjectURL(firstImage),
         croppedAreaPixels,
         rotation,
         flipHorizontal,
         flipVertical,
       );
       setCroppedImage(croppedBlob);
-      setImage(new File([croppedBlob], image.name, { type: image.type }));
+      const updated = [...images];
+      updated[0] = new File([croppedBlob], firstImage.name, {
+        type: firstImage.type,
+      });
+      setImages(updated);
       setStep(2);
     } catch (err) {
       console.log("Error cropping image:", err);
     } finally {
-      setLoading(false);
+      setLoadingLocal(false);
     }
   };
 
@@ -196,41 +196,44 @@ export default function CreatePostModal({
         canvas.width = img.width;
         canvas.height = img.height;
         const ctx = canvas.getContext("2d");
-        ctx?.translate(canvas.width / 2, canvas.height / 2);
-        if (flipHorizontal) ctx?.scale(-1, 1);
-        if (flipVertical) ctx?.scale(1, -1);
-        ctx?.translate(-canvas.width / 2, -canvas.height / 2);
-        (ctx as CanvasRenderingContext2D).filter = filterString;
-        ctx?.drawImage(img, 0, 0);
+        if (!ctx) {
+          reject(new Error("Canvas context not available"));
+          return;
+        }
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        if (flipHorizontal) ctx.scale(-1, 1);
+        if (flipVertical) ctx.scale(1, -1);
+        ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        ctx.filter = filterString;
+        ctx.drawImage(img, 0, 0);
         canvas.toBlob((filteredBlob) => {
           if (!filteredBlob) reject(new Error("Error applying filter"));
           else resolve(filteredBlob);
         }, "image/jpeg");
       };
-      img.onerror = (e: Event | string) => {
-        reject(e);
-      };
+      img.onerror = reject;
       img.src = URL.createObjectURL(blob);
     });
   };
-  
-  const handleUpLoad = async () => {
-    if (!image) return;
-    try {
-      setLoading(true);
 
-      let file = image;
+  const handleUpload = async () => {
+    if (!images.length) return;
+    try {
+      setLoadingLocal(true);
       if (!isVideo && croppedImage) {
         const filterBlob = await applyFilterToImage(croppedImage, filter);
-        file = new File([filterBlob], image.name, { type: image.type });
-        setImage(file);
+        const updated = [...images];
+        updated[0] = new File([filterBlob], images[0].name, {
+          type: images[0].type,
+        });
+        setImages(updated);
       }
       await uploadPost();
       router.push("/profile");
     } catch (e) {
       console.log("Error uploading post:", e);
     } finally {
-      setLoading(false);
+      setLoadingLocal(false);
     }
   };
 
@@ -239,8 +242,16 @@ export default function CreatePostModal({
     setStep(0);
     setVideoUrl(null);
     setFileError(null);
+    setCroppedImage(null);
+    setFilter("none");
+    setRotation(0);
+    setFlipHorizontal(false);
+    setFlipVertical(false);
+    setZoom(1);
+    setCrop({ x: 0, y: 0 });
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
+
   const handleClose = () => {
     resetModal();
     onClose(false);
@@ -255,7 +266,9 @@ export default function CreatePostModal({
 
   useEffect(() => {
     return () => {
-      if (videoUrl) URL.revokeObjectURL(videoUrl);
+      if (videoUrl) {
+        URL.revokeObjectURL(videoUrl);
+      }
     };
   }, [videoUrl]);
 
@@ -267,41 +280,54 @@ export default function CreatePostModal({
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const file = e.dataTransfer.files[0];
-      const error = validateFile(file);
-      if (error) {
-        setFileError(error);
+    const files = Array.from(e.dataTransfer.files || []);
+    if (!files.length) return;
+    for (const file of files) {
+      const err = validateFile(file);
+      if (err) {
+        setFileError(err);
         return;
       }
-      setFileError(null);
-      const isVid = file.type.startsWith("video");
-      setIsVideo(isVid);
-      setImage(file);
-      setCroppedImage(null);
-      setFilter("none");
-      setRotation(0);
+    }
 
-      if (isVid) {
-        const url = URL.createObjectURL(file);
-        setVideoUrl(url);
-        setStep(3);
-      } else {
-        setStep(1);
-      }
+    setFileError(null);
+    const firstFile = files[0];
+    const isVideo = firstFile.type.startsWith("video");
+    setIsVideo(isVideo);
+    setImages(files);
+    setCroppedImage(null);
+    setFilter("none");
+    setRotation(0);
+    setFlipHorizontal(false);
+    setFlipVertical(false);
+
+    if (isVideo) {
+      const url = URL.createObjectURL(firstFile);
+      setVideoUrl(url);
+      setStep(3);
+    } else {
+      setStep(1);
     }
   };
 
   const onEmojiClick = (emojiData: EmojiClickData) => {
-    const captionText = captionRef.current;
-    if (!captionText) return;
+    const captionEl = captionRef.current;
+    if (!captionEl) return;
     const newText =
-      caption.substring(0, captionText.selectionStart) +
+      caption.substring(0, captionEl.selectionStart) +
       emojiData.emoji +
-      caption.substring(captionText.selectionEnd);
+      caption.substring(captionEl.selectionEnd);
     setCaption(newText);
   };
+
+  const stepTitle =
+    step === 0
+      ? t("create")
+      : step === 1
+        ? t("crop")
+        : step === 2
+          ? t("Filters")
+          : t("create");
 
   return (
     <Dialog
@@ -316,7 +342,7 @@ export default function CreatePostModal({
           borderRadius: 1,
           overflow: "hidden",
           backgroundColor: theme === "dark" ? "#171716" : "white",
-          color: theme == "dark" ? "white" : "",
+          color: theme === "dark" ? "white" : "",
         },
       }}
     >
@@ -328,7 +354,7 @@ export default function CreatePostModal({
           alignItems: "center",
           justifyContent: "space-between",
           backgroundColor: theme === "dark" ? "black" : "",
-          color: theme == "dark" ? "white" : "",
+          color: theme === "dark" ? "white" : "",
         }}
       >
         {step > 0 ? (
@@ -340,20 +366,14 @@ export default function CreatePostModal({
             <ArrowBackIcon />
           </IconButton>
         ) : (
-          <div style={{ width: 24 }} />
+          <div style={{ width: 40 }} />
         )}
         <Typography variant="subtitle1" fontWeight={600}>
-          {step === 0
-            ? t("create")
-            : step === 1
-              ? t("crop")
-              : step === 2
-                ? t("Filters")
-                : t("create")}
+          {stepTitle}
         </Typography>
         {step === 3 ? (
           <Button
-            onClick={handleUpLoad}
+            onClick={handleUpload}
             disabled={loading || loadingLocal}
             color="primary"
             sx={{ textTransform: "none", fontWeight: 600 }}
@@ -365,10 +385,9 @@ export default function CreatePostModal({
             )}
           </Button>
         ) : (
-          <div style={{ width: 24 }} />
+          <div style={{ width: 40 }} />
         )}
       </DialogTitle>
-      {/* Select photo  */}
       <DialogContent
         sx={{
           p: 0,
@@ -377,7 +396,7 @@ export default function CreatePostModal({
           alignItems: "center",
           justifyContent: "center",
           flexGrow: 1,
-          bgcolor: theme === "dark" ? "##1f1e1d" : "#fafafa",
+          bgcolor: theme === "dark" ? "#1f1e1d" : "#fafafa",
           ...(step === 3 && { height: "calc(90vh - 64px)" }),
         }}
         onDragOver={handleDragOver}
@@ -393,12 +412,13 @@ export default function CreatePostModal({
               height: "100%",
               width: "100%",
               cursor: "pointer",
+              py: 6,
             }}
           >
             <svg
               aria-label="Icon to represent media such as images or videos"
-              color={theme === "dark" ? "" : "#262626"}
-              fill={theme === "dark" ? "" : "#262626"}
+              color={theme === "dark" ? "white" : "#262626"}
+              fill={theme === "dark" ? "white" : "#262626"}
               height="77"
               role="img"
               viewBox="0 0 97.6 77.3"
@@ -407,19 +427,24 @@ export default function CreatePostModal({
               <path
                 d="M16.3 24h.3c2.8-.2 4.9-2.6 4.8-5.4-.2-2.8-2.6-4.9-5.4-4.8s-4.9 2.6-4.8 5.4c.1 2.7 2.4 4.8 5.1 4.8zm-2.4-7.2c.5-.6 1.3-1 2.1-1h.2c1.7 0 3.1 1.4 3.1 3.1 0 1.7-1.4 3.1-3.1 3.1-1.7 0-3.1-1.4-3.1-3.1 0-.8.3-1.5.8-2.1z"
                 fill="currentColor"
-              ></path>
+              />
               <path
                 d="M84.7 18.4L58 16.9l-.2-3c-.3-5.7-5.2-10.1-11-9.8L12.9 6c-5.7.3-10.1 5.3-9.8 11L5 51v.8c.7 5.2 5.1 9.1 10.3 9.1h.6l21.7-1.2v.6c-.3 5.7 4 10.7 9.8 11l34 2h.6c5.5 0 10.1-4.3 10.4-9.8l2-34c.4-5.8-4-10.7-9.7-11.1zM7.2 10.8C8.7 9.1 10.8 8.1 13 8l34-1.9c4.6-.3 8.6 3.3 8.9 7.9l.2 2.8-5.3-.3c-5.7-.3-10.7 4-11 9.8l-.6 9.5-9.5 10.7c-.2.3-.6.4-1 .5-.4 0-.7-.1-1-.4l-7.8-7c-1.4-1.3-3.5-1.1-4.8.3L7 49 5.2 17c-.2-2.3.6-4.5 2-6.2zm8.7 48c-4.3.2-8.1-2.8-8.8-7.1l9.4-10.5c.2-.3.6-.4 1-.5.4 0 .7.1 1 .4l7.8 7c.7.6 1.6.9 2.5.9.9 0 1.7-.5 2.3-1.1l7.8-8.8-1.1 18.6-21.9 1.1zm76.5-29.5l-2 34c-.3 4.6-4.3 8.2-8.9 7.9l-34-2c-4.6-.3-8.2-4.3-7.9-8.9l2-34c.3-4.4 3.9-7.9 8.4-7.9h.5l34 2c4.7.3 8.2 4.3 7.9 8.9z"
                 fill="currentColor"
-              ></path>
+              />
               <path
                 d="M78.2 41.6L61.3 30.5c-2.1-1.4-4.9-.8-6.2 1.3-.4.7-.7 1.4-.7 2.2l-1.2 20.1c-.1 2.5 1.7 4.6 4.2 4.8h.3c.7 0 1.4-.2 2-.5l18-9c2.2-1.1 3.1-3.8 2-6-.4-.7-.9-1.3-1.5-1.8zm-1.4 6l-18 9c-.4.2-.8.3-1.3.3-.4 0-.9-.2-1.2-.4-.7-.5-1.2-1.3-1.1-2.2l1.2-20.1c.1-.9.6-1.7 1.4-2.1.8-.4 1.7-.3 2.5.1L77 43.3c1.2.8 1.5 2.3.7 3.4-.2.4-.5.7-.9.9z"
                 fill="currentColor"
-              ></path>
+              />
             </svg>
             <Typography variant="h6" sx={{ mt: 2, mb: 3 }}>
               {t("Drag photos and videos here")}
             </Typography>
+            {images.length > 0 && (
+              <Typography variant="body2" sx={{ mb: 1, color: "#0095f6" }}>
+                {images.length} {t("files selected") ?? "файл танланди"}
+              </Typography>
+            )}
             {fileError && (
               <Typography color="error" sx={{ mb: 2 }}>
                 {fileError}
@@ -441,14 +466,13 @@ export default function CreatePostModal({
                 hidden
                 accept="image/*,video/*"
                 type="file"
-                onChange={handleFIleChange}
+                onChange={handleFileChange}
                 multiple
               />
             </Button>
           </Box>
         )}
-
-        {step === 1 && image && !isVideo && (
+        {step === 1 && firstImage && !isVideo && (
           <Box
             sx={{
               position: "relative",
@@ -458,7 +482,7 @@ export default function CreatePostModal({
             }}
           >
             <Cropper
-              image={URL.createObjectURL(image)}
+              image={URL.createObjectURL(firstImage)}
               crop={crop}
               zoom={zoom}
               rotation={rotation}
@@ -487,7 +511,7 @@ export default function CreatePostModal({
                 min={1}
                 max={3}
                 step={0.1}
-                onChange={(e, z) => setZoom(z)}
+                onChange={(_e, z) => setZoom(z as number)}
                 sx={{ width: "80%", color: "#fff" }}
                 aria-label="Zoom"
               />
@@ -504,7 +528,7 @@ export default function CreatePostModal({
             >
               <Tooltip title="Rotate left" arrow>
                 <IconButton
-                  onClick={() => setRotation(rotation - 90)}
+                  onClick={() => setRotation((r) => r - 90)}
                   sx={{ bgcolor: "rgba(0,0,0,0.5)", color: "#fff" }}
                 >
                   <RotateLeftIcon fontSize="small" />
@@ -512,7 +536,7 @@ export default function CreatePostModal({
               </Tooltip>
               <Tooltip title="Rotate right" arrow>
                 <IconButton
-                  onClick={() => setRotation(rotation + 90)}
+                  onClick={() => setRotation((r) => r + 90)}
                   sx={{ bgcolor: "rgba(0,0,0,0.5)", color: "#fff" }}
                 >
                   <RotateRightIcon fontSize="small" />
@@ -520,7 +544,7 @@ export default function CreatePostModal({
               </Tooltip>
               <Tooltip title="Flip horizontal" arrow>
                 <IconButton
-                  onClick={() => setFlipHorizontal(!flipHorizontal)}
+                  onClick={() => setFlipHorizontal((v) => !v)}
                   sx={{ bgcolor: "rgba(0,0,0,0.5)", color: "#fff" }}
                 >
                   <FlipIcon fontSize="small" />
@@ -540,9 +564,45 @@ export default function CreatePostModal({
                 </IconButton>
               </Tooltip>
             </Box>
+            {images.length > 1 && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: 60,
+                  left: 10,
+                  display: "flex",
+                  gap: 1,
+                  flexWrap: "wrap",
+                  maxWidth: "60%",
+                }}
+              >
+                {images.slice(1).map((img, idx) => (
+                  <Box
+                    key={idx}
+                    sx={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 1,
+                      overflow: "hidden",
+                      border: "2px solid #fff",
+                      opacity: 0.8,
+                    }}
+                  >
+                    <img
+                      src={URL.createObjectURL(img)}
+                      alt={`img-${idx + 2}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            )}
           </Box>
         )}
-
         {step === 2 && croppedImage && !isVideo && (
           <Box
             sx={{
@@ -557,11 +617,10 @@ export default function CreatePostModal({
               sx={{
                 position: "relative",
                 width: "100%",
-                height: "100%",
+                flexGrow: 1,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                flexGrow: 1,
               }}
             >
               <img
@@ -588,15 +647,11 @@ export default function CreatePostModal({
                 alignItems: "center",
               }}
             >
-              <FilterIcon sx={{ mx: 2, color: "#8e8e8e" }} />
+              <FilterIcon sx={{ mx: 2, color: "#8e8e8e", flexShrink: 0 }} />
               {FILTERS.map((f) => (
                 <Tooltip key={f.value} title={f.label} arrow>
                   <Box
-                    onClick={() => {
-                      if (f?.value) {
-                        setFilter(f.value as FilterType);
-                      }
-                    }}
+                    onClick={() => setFilter(f.value as FilterType)}
                     sx={{
                       display: "flex",
                       flexDirection: "column",
@@ -639,8 +694,7 @@ export default function CreatePostModal({
             </Box>
           </Box>
         )}
-
-        {step === 3 && image && (
+        {step === 3 && images.length > 0 && (
           <Box
             sx={{
               display: "flex",
@@ -655,6 +709,7 @@ export default function CreatePostModal({
                 width: { xs: "100%", sm: "65%" },
                 height: "100%",
                 bgcolor: "#000",
+                position: "relative",
               }}
             >
               {isVideo ? (
@@ -667,8 +722,8 @@ export default function CreatePostModal({
                 <img
                   src={
                     croppedImage
-                      ? URL.createObjectURL(croppedImage || null)
-                      : URL.createObjectURL(image)
+                      ? URL.createObjectURL(croppedImage)
+                      : URL.createObjectURL(images[0])
                   }
                   style={{
                     width: "100%",
@@ -678,19 +733,40 @@ export default function CreatePostModal({
                     transform: `${flipHorizontal ? "scaleX(-1)" : ""} ${
                       flipVertical ? "scaleY(-1)" : ""
                     }`,
-                    cursor: "crosshair",
                   }}
                   alt="Preview"
                 />
+              )}
+              {!isVideo && images.length > 1 && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    bottom: 12,
+                    left: 0,
+                    right: 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: 0.5,
+                  }}
+                >
+                  {images.map((_, idx) => (
+                    <Box
+                      key={idx}
+                      sx={{
+                        width: idx === 0 ? 8 : 6,
+                        height: idx === 0 ? 8 : 6,
+                        borderRadius: "50%",
+                        bgcolor: idx === 0 ? "#fff" : "rgba(255,255,255,0.5)",
+                      }}
+                    />
+                  ))}
+                </Box>
               )}
               {loadingLocal && (
                 <Box
                   sx={{
                     position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
+                    inset: 0,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -716,18 +792,17 @@ export default function CreatePostModal({
               <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                 <Avatar
                   src={myProfile ? imageProfile : defaultAvatar.src}
-                  sx={{ width: 32, height: 32, mr: 1 }}
+                  sx={{ width: 32, height: 32 }}
                 />
-                <Typography fontWeight={600} sx={{ ml: -0.8 }}>
-                  {myProfile?.userName}
-                </Typography>
+                <Typography fontWeight={600}>{myProfile?.userName}</Typography>
               </Box>
               <Box sx={{ width: "100%" }}>
                 <textarea
                   ref={captionRef}
-                  className="w-[100%] h-[140px] resize-none focus:outline-0"
+                  className="w-[100%] h-[140px] resize-none focus:outline-0 bg-transparent"
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
+                  style={{ color: theme === "dark" ? "white" : "inherit" }}
                 />
                 <Box
                   sx={{
@@ -745,7 +820,6 @@ export default function CreatePostModal({
                       onClick={() => setShowEmoji((prev) => !prev)}
                       sx={{ cursor: "pointer" }}
                     />
-
                     <Popper
                       open={showEmoji}
                       anchorEl={emojiRef.current}
@@ -765,7 +839,7 @@ export default function CreatePostModal({
                 </Box>
               </Box>
               {error && (
-                <Typography color="error" sx={{ mt: 2 }}>
+                <Typography color="error" sx={{ mt: 1 }}>
                   {error}
                 </Typography>
               )}
@@ -785,10 +859,10 @@ export default function CreatePostModal({
                     sx={{
                       ...inputStyle,
                       "& .MuiInputBase-input": {
-                        color: theme == "dark" ? "white" : "",
+                        color: theme === "dark" ? "white" : "",
                       },
                       "& input::placeholder": {
-                        color: theme === "dark" ? "white" : "",
+                        color: theme === "dark" ? "rgba(255,255,255,0.5)" : "",
                       },
                     }}
                     value={title}
@@ -809,10 +883,10 @@ export default function CreatePostModal({
                     sx={{
                       ...inputStyle,
                       "& .MuiInputBase-input": {
-                        color: theme == "dark" ? "white" : "",
+                        color: theme === "dark" ? "white" : "",
                       },
                       "& input::placeholder": {
-                        color: theme === "dark" ? "white" : "",
+                        color: theme === "dark" ? "rgba(255,255,255,0.5)" : "",
                       },
                     }}
                     placeholder={t("add_collaborators")}
@@ -820,106 +894,7 @@ export default function CreatePostModal({
                   <PersonAddAltIcon sx={{ cursor: "pointer" }} />
                 </Box>
               </Box>
-              <Accordion
-                type="multiple"
-                collapsible
-                defaultValue="shipping"
-                className="max-w-70"
-              >
-                <AccordionItem value="returns" className="pb-5">
-                  <AccordionTrigger className="text-lg">
-                    {t("setting.accessibility")}
-                  </AccordionTrigger>
-                  <AccordionContent className="flex flex-col gap-3">
-                    <Typography sx={{ color: "#A8A8A8" }} variant="body2">
-                      {t("accessibility_info")}
-                    </Typography>
-                    <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                      <Image
-                        width={50}
-                        height={45}
-                        src={URL.createObjectURL(image)}
-                        alt="image"
-                        style={{ borderRadius: 4 }}
-                      />
-                      <input
-                        type="text"
-                        placeholder={t("write_alt_text")}
-                        style={{
-                          width: "100%",
-                          background: "transparent",
-                          border: "none",
-                          outline: "none",
-                          borderBottom: "1px solid #2a2a2a",
-                          padding: "8px 4px",
-                          color: "#A8A8A8",
-                          fontSize: "14px",
-                        }}
-                      />
-                    </Box>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="support">
-                  <AccordionTrigger className="cursor-pointer text-lg">
-                    {t("advanced_settings")}
-                  </AccordionTrigger>
-                  <AccordionContent className="flex flex-col items-center gap-3 py-3 px-2 pb-5">
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 2,
-                      }}
-                    >
-                      <Typography>{t("hide_likes_views")}</Typography>
-                      <Switch className="scale-125 cursor-pointer" />
-                    </Box>
-                    <p className="text-[#6A717A] dark:text-[#A8A8A8]">
-                      {t("likes_views_info")}
-                      <span
-                        className="text-[#708DFF] underline-0 cursor-pointer hover:underline hover:text-[#708DFF]"
-                        onClick={() =>
-                          router.push(
-                            `https://help.instagram.com/113355287252104`,
-                          )
-                        }
-                      >
-                        {t("authentication.register.contactInfoMore")}
-                      </span>
-                    </p>
-                  </AccordionContent>
-                  <AccordionContent className="flex flex-col gap-3 py-3 px-2">
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 2,
-                      }}
-                    >
-                      <Typography>{t("turn_off_comments")}</Typography>
-                      <Switch className="scale-125 cursor-pointer" />
-                    </Box>
-                    <p className="text-[#6A717A] dark:text-[#A8A8A8]">
-                      {t("change_later_info")}
-                    </p>
-                  </AccordionContent>
-                  <AccordionContent className="flex flex-col items-center gap-3 py-3 px-2">
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 2,
-                      }}
-                    >
-                      <Typography>{t("threads_auto_post")}</Typography>
-                      <Switch className="scale-125 cursor-pointer" />
-                    </Box>
-                    <p className="text-[#6A717A] dark:text-[#A8A8A8]">
-                      {t("threads_share_info")}
-                    </p>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+              <DropDownMenu image={images[0]} />
             </Box>
           </Box>
         )}
@@ -939,7 +914,6 @@ export default function CreatePostModal({
           </Button>
         </DialogActions>
       )}
-
       {step === 2 && (
         <DialogActions
           sx={{ justifyContent: "center", borderTop: "1px solid #dbdbdb" }}
@@ -958,13 +932,7 @@ export default function CreatePostModal({
 }
 
 const inputStyle = {
-  "& .MuiOutlinedInput-notchedOutline": {
-    border: "none",
-  },
-  "&:hover .MuiOutlinedInput-notchedOutline": {
-    border: "none",
-  },
-  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    border: "none",
-  },
+  "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+  "&:hover .MuiOutlinedInput-notchedOutline": { border: "none" },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": { border: "none" },
 };

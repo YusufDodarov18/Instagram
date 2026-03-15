@@ -95,14 +95,12 @@ export default function page() {
     };
 
     container.addEventListener("scroll", handleScroll);
-
     return () => container.removeEventListener("scroll", handleScroll);
   }, [currentVideoIndex, isMuted]);
 
   const toggleMuted = () => {
     const currentVideo = videoRef.current[currentVideoIndex];
     if (!currentVideo) return;
-
     const newMuted = !currentVideo.muted;
     currentVideo.muted = newMuted;
     setIsMuted(newMuted);

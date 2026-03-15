@@ -9,10 +9,10 @@ import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 const page = () => {
     const {myProfile,getMyProfile}=useProfile()
 
-    useEffect(()=>{
+    useEffect(()=> {
         getMyProfile()
-    },[getMyProfile])
-    const {t}=useTranslation()
+    },[ getMyProfile ])
+    const {t}= useTranslation()
 
     return (
         <div className="flex flex-col gap-5 pt-18 px-3 pb-2 ">
