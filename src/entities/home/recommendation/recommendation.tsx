@@ -34,10 +34,8 @@ export const Recommendation = () => {
         if(!myId) return
         if(isFollowing(id)){    
             await unFollowing(id)
-            await getSubscribers(myId);
         }else{
             await addFollowing(id)
-            await getSubscribers(myId);
         }
     }
     return (
@@ -73,7 +71,7 @@ export const Recommendation = () => {
                         <p className='hover:underline cursor-pointer'>{t("See All")}</p>
                     </div>
                     {
-                        users.length===0||isLoading?(
+                        users.length==0||isLoading?(
                             Array.from({length:5}).map((_,i)=>(
                                 <RecommendationSkeleton key={i}/>
                             ))

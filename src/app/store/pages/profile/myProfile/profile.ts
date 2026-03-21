@@ -88,7 +88,9 @@ export const useProfile = create<ProfileStore>((set, get) => ({
   deleteImageProfile: async () => {
     try {
       set({ loading: true });
-      await axiosRequest.delete(`${API}/UserProfile/delete-user-image-profile`);
+      await axiosRequest.delete(`
+        ${API}/UserProfile/delete-user-image-profile
+      `);
       set({ myImageProfile: null, loading: false });
       get().getMyProfile();
     } catch (error) {

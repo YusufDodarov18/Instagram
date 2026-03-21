@@ -132,7 +132,7 @@ const CommentModal = ({open,handleClose,post}:{open:boolean,handleClose:()=>void
     const myId=getToken()?.sid
 
     if (!post) return null;
-    const currentPost = posts.find(p => p.postId === post?.postId);
+    let currentPost = posts.find(post=> post.postId== post?.postId);
     if (!currentPost) return null;
 
 // console.log(post)
@@ -143,7 +143,6 @@ const sendComment= async ()=> {
         commentText:textComment,
         postId:currentPost.postId
     }
-
 
     try {
         await addComment(comment)
@@ -282,7 +281,7 @@ const sendComment= async ()=> {
                                                                                  </div>
                                                                                </div>
                                                                                <div className="flex-shrink-0 ml-2">
-                                                                                 <Heart className="cursor-pointer w-[18px] hover:opacity-70" />
+                                                                                  <Heart className="cursor-pointer w-[18px] hover:opacity-70" />
                                                                                </div>
                                                                         </div>
                                                           })):(
@@ -316,7 +315,8 @@ const sendComment= async ()=> {
                                                                  <Typography variant="body1">{currentPost?.postLikeCount} <span className="font-bold">{t("likes")}</span></Typography>
                                                                  <p className="text-gray-500 text-sm">
                                                                      {currentPost?.datePublished
-                                                                       ? new Intl.DateTimeFormat(i18n.language, { day: "numeric", month: "long" }).format(new Date(post.datePublished)): ""}
+                                                                       ? new Intl.DateTimeFormat(i18n.language, 
+                                                                            {day:"numeric",month:"long"}).format(new Date(post.datePublished)): ""}
                                                                  </p>
                                                            </div>
                                                            <div className="border-t-2 flex justify-between py-3 px-4">
@@ -337,7 +337,7 @@ const sendComment= async ()=> {
                                                                      />
                                                                   </div>
                                                                   <button 
-                                                                         className="cursor-pointer disabled:cursor-default disabled:text-gray-300" 
+                                                                        className="cursor-pointer disabled:cursor-default disabled:text-gray-300" 
                                                                          disabled={textComment.length===0}
                                                                          onClick={sendComment}
                                                                      >

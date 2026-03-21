@@ -158,10 +158,7 @@ const MiniSideBar = ({ children }: { children: React.ReactNode }) => {
               </Link>
             </LightTooltip>
             <LightTooltip title={t("layout.more")} placement="right">
-              <div
-                className={miniItem}
-                onClick={() => setOpenSettingModal(true)}
-              >
+              <div className={miniItem} onClick={() => setOpenSettingModal(true)}>
                 {setting}
               </div>
             </LightTooltip>

@@ -11,12 +11,12 @@ export default function Instalations({ loginError }: { loginError?: string }) {
   return (
     <div>
       <div>
-        <p className="text-[gray] text-[16px] text-center mt-[10px]">
-          {t("authentication.login.download")}
-        </p>
         {loginError && (
           <p className="text-red-500 text-center mt-2">{loginError}</p>
         )}
+        <p className="text-[gray] text-[16px] text-center mt-[10px]">
+          {t("authentication.login.download")}
+        </p>
 
         <div className="w-[100%] flex items-center gap-[10px] mt-[20px] mb-[30px] justify-center m-auto">
           <Link

@@ -1,5 +1,5 @@
 'use client'
-import ModalChat from "@/entities/chats/modal/component"
+import CreateChat from "@/entities/chats/createChat/chat"
 import { Button, Typography } from "@mui/material"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -20,7 +20,7 @@ export default function EmptyChat() {
                 <p>{t("messages_description")}</p>
                 <Button onClick={()=>setOpen(true)} sx={{bgcolor:"#4A5df9"}} variant="contained">{t("Send a message")}</Button>
             </div>
-            <ModalChat onClose={() => setOpen(false)} open={ open}  />
+            <CreateChat onClose={() => setOpen(false)} open={ open}  />
         </>
     )
 }

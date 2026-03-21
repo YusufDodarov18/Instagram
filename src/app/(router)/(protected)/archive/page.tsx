@@ -27,7 +27,7 @@ const page = () => {
         }
     }
     getMyStories()
-  },[])
+  },[ ])
   return (
         <div className="sm:w-[100px] mx-[10px] pt-10 md:w-[1000px] w-[100%]">
               <div>

@@ -25,7 +25,7 @@ const Call = ( {open,onClose, user} :{open:boolean, onClose:()=>void,user:string
 
     useEffect(()=> { 
         getInfoById(user)
-    },[ user ])
+    },[ user, ])
 
     const startCall = async()=>{
         setCalling(true)

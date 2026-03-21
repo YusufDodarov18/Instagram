@@ -48,12 +48,11 @@ export const useCreatePost = create<CreatePostType>((set, get) => ({
 
     const formData = new FormData();
 
+    formData.append("Title", title);
+    formData.append("Content", caption);
     images.forEach((img) => {
       formData.append("Images", img);
     });
-
-    formData.append("Content", caption);
-    formData.append("Title", title);
 
     try {
       set({ loading: true, error: "", success: false });

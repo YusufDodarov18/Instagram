@@ -12,7 +12,7 @@ export const useStory=create<UseStoriesStore>((set,get)=>({
         try {
             set({loading:true})
             const {data}=await axiosRequest.get('/Story/get-stories')
-            set({loading:false, datas:data.data})
+            set({loading:false, datas:data})
         } catch (error) {
             set({loading:false})
         }
@@ -56,19 +56,27 @@ export const useStory=create<UseStoriesStore>((set,get)=>({
     },
 
     getStoryById:async id=>{
-        try {
+        try{
             set({loading:false})
-            const {data}=await axiosRequest.get(`/Story/GetStoryById?id=${id}`)
+            const {data}=await axiosRequest.get(`
+                /Story/GetStoryById?id=${id}
+            `)
             set({loading:true,storyById:data.data})
-        } catch (error) {
+        }catch{
             set({loading:false})
         }
     },
 
-    addStory:async (formData)=>{
+    addStory:async (file)=>{
         try {
-            set({loading:true})
-            await axiosRequest.post(`/Story/AddStories`, formData)
+            set({ loading: true })
+            const formData=new FormData()
+            formData.append("Image",file)
+            await axiosRequest.post(`/Story/AddStories`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
             set({loading:false})
         } catch{
           throw new Error("error to add stories!");
@@ -88,6 +96,12 @@ export const useStory=create<UseStoriesStore>((set,get)=>({
     deleteStory: async id=>{
         try {
             await axiosRequest.delete(`/Story/DeleteStory?id=${id}`)
+            set((state)=>({
+              datas:state.datas.map((user)=>({
+                ...user,
+                stories:user.stories.filter((story)=>story.id!==id),
+              })),
+            }));
         } catch (error) {
             console.error(error)
         }
@@ -96,6 +110,8 @@ export const useStory=create<UseStoriesStore>((set,get)=>({
     addStoryView:async storyId=>{
         try {
             await axiosRequest.post(`/Story/add-story-view?StoryId=${storyId}`)
-        }catch{}
+        }catch{
+            throw Error("error to view story!")
+        }
     }
 }))

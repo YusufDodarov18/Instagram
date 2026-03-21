@@ -29,8 +29,6 @@ export const useLocation=create<UseLocationStore>((set,get)=>({
             await axiosRequest.delete(
                     `/Location/delete-Location?id=${id}`
             )
-        } catch (error) {
-            
-        }
+        } catch{}
     }
 }))

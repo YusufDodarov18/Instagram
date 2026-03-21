@@ -45,9 +45,11 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   const handleSendMessage=async()=>{
      if (!messageText.trim() && !file) return;
      const formData=new FormData()
-     formData.append("ChatId",chatId)
+     formData.append("ChatId",String(chatId))
      formData.append("MessageText",messageText||"")
-     formData.append("File",file)
+     if(file){
+      formData.append("File",file)
+     }
      
      try {
        await sendMessage(formData)
@@ -122,8 +124,8 @@ if(!userChat) return
             <div className='flex h-[100%] flex-col bg-background mt-2 md:mt-0'>
                  <div className='flex items-center gap-3 border-b border-ig-separator px-4 py-[10px]'>
                       <button
-                          onClick={()=>router.back()}
                           className="mr-1 p-1 hover:opacity-60 transition-opacity lg:hidden"
+                          onClick={()=>router.back()}
                           >
                             <ArrowLeft className="h-6 w-6 text-foreground" />
                       </button>
@@ -277,7 +279,7 @@ if(!userChat) return
                                
                  <div className="px-4 py-3 border-t border-ig-separator">
                          <div className="flex items-center gap-3 rounded-full px-4 py-[6px] border border-ig-separator">
-                              <button onClick={()=>setShowEmojiPicker(true)} className="shrink-0 cursor-pointer">{stiker}</button>
+                              <button className="shrink-0 cursor-pointer" onClick={()=>setShowEmojiPicker(true)}>{stiker}</button>
                               <input 
                                   type="text" 
                                   placeholder={t("writemessage")}
@@ -305,7 +307,7 @@ if(!userChat) return
 		   									              />
 		   								            </div>
 		   							          )}
-                              {messageText.trim()?(
+                              {(messageText.trim()||file)?(
                                   <button onClick={handleSendMessage} className="text-[#6789f8] cursor-pointer font-semibold text-sm transition-colors">{t("send")}</button>
                               ):(
                                   <div className="flex items-center gap-3">
@@ -316,12 +318,12 @@ if(!userChat) return
                                               <Image onClick={()=>fileInputRef.current?.click()} className="h-6 w-6 text-foreground" />
                                           </button>
                                           <button className="cursor-pointer" onClick={
-                                          async()=>{
-                                                 const newFormData=new FormData()
-                                                 newFormData.append("ChatId",chatId)
-                                                 newFormData.append("MessageText",'❤️')
-                                                 await sendMessage(newFormData)
-                                          }}>
+                                             async()=>{
+                                                  const newFormData=new FormData()
+                                                   newFormData.append("ChatId",chatId)
+                                                   newFormData.append("MessageText",'❤️')
+                                                   await sendMessage(newFormData)
+                                            }}>
                                                <Heart className="h-6 w-6 text-foreground" />
                                           </button>
                                   </div>

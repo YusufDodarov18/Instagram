@@ -16,6 +16,7 @@ import getToken from "@/api/token";
 import { useTheme } from "next-themes";
 import { useDrawerNotification } from "@/app/store/notification/notification";
 import { useUser } from "@/app/store/pages/home/users/users";
+import profile from "../../app/(router)/(protected)/profile/profil-removebg-preview.png";
 
 export default function Notification() {
   const {
@@ -34,10 +35,10 @@ export default function Notification() {
       getUsers();
     }
   }, [notificationDrawer]);
-  const {theme}=useTheme()
+  const { theme } = useTheme();
 
   const DrawerList = (
-    <Box sx={{ width: 400}} role="presentation">
+    <Box sx={{ width: 400 }} role="presentation">
       <Box sx={{ p: 2 }}>
         <Box
           sx={{ display: "flex", justifyContent: "space-between", pt: "10px" }}
@@ -86,7 +87,11 @@ export default function Notification() {
                       onClick={() => closeDrawerNotification}
                     >
                       <Avatar
-                        src={`https://instagram-api.softclub.tj/images/${notif?.avatar}`}
+                        src={
+                          notif.avatar
+                            ? `https://instagram-api.softclub.tj/images/${notif?.avatar}`
+                            : profile.src
+                        }
                         sx={{
                           width: 40,
                           height: 40,
@@ -126,18 +131,13 @@ export default function Notification() {
                       size="small"
                       sx={{
                         textTransform: "none",
-                        // width: followedIds.includes(notif.id)
-                        //   ? "160px"
-                        //   : "175px",
+                        bgcolor: "rgb(74, 93, 249)",
                         px: 1,
                         py: 0.5,
                         fontSize: "0.75rem",
                         textAlign: "center",
                       }}
                     >
-                      {/* {followedIds.includes(notif.id)
-                          ? "Подписки"
-                          : "Подписаться в ответ"} */}
                       {t("Subscribe in response")}
                     </Button>
                   </Box>
@@ -162,7 +162,7 @@ export default function Notification() {
           position: "fixed",
           boxShadow: 3,
           bgcolor: theme === "dark" ? "#1c1b1b" : "",
-          color:theme=="dark"?"white":""
+          color: theme == "dark" ? "white" : "",
         },
       }}
       ModalProps={{
@@ -178,4 +178,3 @@ export default function Notification() {
     </Drawer>
   );
 }
-// rgb(74, 93, 249)

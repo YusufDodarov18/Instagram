@@ -99,7 +99,6 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
               label={t("layout.explore")}
               isActive={isActive}
             />
-
             <NavLink
               href="/reels"
               icon={videoActive}
@@ -107,7 +106,6 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
               label={t("layout.reels")}
               isActive={isActive}
             />
-
             <NavLink
               href="/chats"
               icon={messageActive}

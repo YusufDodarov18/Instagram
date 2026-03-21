@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { mute } from "@/app/widget/icons/svg";
 import { useProfileById } from "@/app/store/pages/profile/profile-by-id/profile-by-id";
 import { useChats } from "@/app/store/pages/chats/chat";
+import profile from "./profile.png"
 
 function DrawerInfo({
   open,
@@ -91,7 +92,7 @@ function DrawerInfo({
                   src={
                     info?.image
                       ? `${API}/images/${info.image}`
-                      : "https://scontent.fdyu3-1.fna.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c379.0.1290.1290a_dst-jpg_s200x200_tt6&_nc_cat=1&ccb=1-7&_nc_sid=7565cd&_nc_ohc=LOVKNL-ZY5kQ7kNvwEmhcRK&_nc_oc=AdkjY3y6ANMFTfq3Rkx0r2d8SYGyYg3DF5cvGGJuPAeV5wbGv1upAMyahhrZpSUX8yc&_nc_zt=24&_nc_ht=scontent.fdyu3-1.fna&_nc_ss=8&oh=00_Afz3T31JPKcu98aOagktqi2OvH4Ii3jIylOjX2GYAxraYA&oe=69ABB4D9"
+                      : profile.src
                   }
                   alt="profile"
                   onClick={() => router.push(`/profile/${id}`)}

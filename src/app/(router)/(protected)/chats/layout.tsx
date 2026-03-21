@@ -1,24 +1,26 @@
 'use client'
 import { API } from '@/shared/utils/config'
 import { ChevronDown, Edit, Search } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import defaultProfile from '../profile/profil-removebg-preview.png'
 import MenuRecomendation from '@/entities/home/recommendation/menu'
-import ModalChat from '@/entities/chats/modal/component'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 // import { menu } from '@/app/provider/icons/svg'
 import getToken from '@/api/token'
 import { Skeleton, Typography } from '@mui/material'
 import { useProfile } from '@/app/store/pages/profile/myProfile/profile'
 import { useChats } from '@/app/store/pages/chats/chat'
 import { MoreHorizontal } from "lucide-react";
+import { useDrawerStore } from '@/app/store/search/search'
+import CreateChat from '@/entities/chats/createChat/chat'
 
 function Layout({children}:{children:React.ReactNode}) {
-     const {chats,deleteChat,getChats, getChatById,createChat,chatById}=useChats()
+     const {chats,deleteChat,getChats, getChatById,createChat,chatById,datas,searchUsers}=useChats()
      const [openModal,setOpenModal]=useState(false)
      const [menu, setMenu]=useState<{x:number;y:number}|null>(null)
+     const [search,setSearch]=useState("")
      const [selectedChatId, setSelectedChatId] = useState<number | null>(null)
      const [openMessageModal,setOpenMessageModal]=useState(false)
      const [isLoading,setIsLoading]=useState(false)
@@ -41,7 +43,17 @@ function Layout({children}:{children:React.ReactNode}) {
              window.addEventListener("click", handleClick)
              return () => window.removeEventListener("click", handleClick)
        }, [])
-       
+
+       const handleSearch=(e:ChangeEvent<HTMLInputElement>)=>{
+            let v=e.target.value
+            setSearch(v)
+            if(v.trim()){
+                searchUsers(v)
+            }
+       }
+
+       const router=useRouter()
+
         return (
               <>
                    <div className="flex w-[100%] h-[100vh] bg-background">
@@ -55,7 +67,11 @@ function Layout({children}:{children:React.ReactNode}) {
                                         <div className="flex flex-col h-full bg-background">
                                                <div className='flex items-center justify-between px-5 py-[18px] border-b  border-ig-separator'>
                                                      <div className='flex items-center gap-1 cursor-pointer' onClick={()=>setOpenModal(true)}>
-                                                          {loading?(<Skeleton variant='text' width={120} height={28} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />):(<h1 className="text-[20px] font-bold text-foreground">{myProfile?.userName}</h1>)}
+                                                          {loading?(
+                                                            <Skeleton variant='text' width={120} height={28} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />)
+                                                            :(
+                                                <h1 className="text-[20px] font-bold text-foreground">{myProfile?.userName}</h1>
+                                            )}
                                                           <ChevronDown className="h-4 w-4 text-foreground" />
                                                      </div>
                                                      <button onClick={()=>setOpenMessageModal(true)} className="p-1 cursor-pointer duration-150 ">
@@ -69,6 +85,10 @@ function Layout({children}:{children:React.ReactNode}) {
                                                            <input type="text" 
                                                                placeholder={t("search1")}
                                                                className="w-full h-[40px] rounded-lg bg-input pl-10 pr-4 py-[7px] text-sm text-foreground placeholder:text-muted-foreground outline-none"
+                                                               value={search}
+                                                               onChange={(e)=>{
+                                                                    handleSearch(e)
+                                                               }}
                                                            />
                                                       </div>
                                                 </div>
@@ -76,9 +96,9 @@ function Layout({children}:{children:React.ReactNode}) {
                                                 <div className='flex flex-col px-4 py-3 gap-2'>
                                                       <div className='px-2'>
                                                          <img 
-                                                                 src={myProfile?.image?`${API}/images/${myProfile.image}`:defaultProfile.src}
-                                                                 alt='profile'
-                                                                 className="w-16 h-16 rounded-full cursor-pointer"
+                                                             src={myProfile?.image?`${API}/images/${myProfile.image}`:defaultProfile.src}
+                                                             alt='profile'
+                                                             className="w-16 h-16 rounded-full cursor-pointer"
                                                           />
                                                       </div>
                                                       <div className="flex justify-between gap-1 mt-2">
@@ -88,6 +108,7 @@ function Layout({children}:{children:React.ReactNode}) {
                                                 </div>
                                   
                                              <div className='flex-1 overflow-y-auto mt-1'>
+                                                
                                                  {isLoading?(
                                                      Array.from({length:5}).map((_,index)=>(
                                                          <div key={index} className="flex w-full items-center gap-3 px-5 py2">
@@ -99,13 +120,43 @@ function Layout({children}:{children:React.ReactNode}) {
                                                               <Skeleton variant="circular" width={20} height={20} sx={{ bgcolor: 'grey.300', dark: { bgcolor: 'grey.700' } }} />
                                                          </div>
                                                      )))
-                                                     
-                                                     :chats.length===0?<div className="text-center text-gray-500"><Typography>{t("Chats will appear here after you send or receive a message")}</Typography></div>
-                                                           :chats.map((chat)=>{
-                                                             const isMe=chat.sendUserId===myId
-                                                             const userName=isMe?chat.receiveUserName:chat.sendUserName
-                                                             const userImage = isMe ?chat.receiveUserImage :chat.sendUserImage
-                                                             return (
+                                                     :search.trim()?
+                                                         datas.map((user)=>(
+                                                            <div key={user.id} className="flex items-center gap-3 px-5 py-2 cursor-pointer hover:bg-accent/50" onClick={
+                                                                async()=>{
+                                                                    const response=await createChat(user.id);
+                                                                    if(response) {
+                                                                        router.push(`/chats/${response}`)
+                                                                        // console.log(response)
+                                                                    }
+                                                                }}>
+                                                                <img
+                                                                   src={user.avatar ? `${API}/images/${user.avatar}` : defaultProfile.src}
+                                                                   className="w-12 h-12 rounded-full"
+                                                                />
+                                                                <div>
+                                                                   <p className="font-semibold">{user.userName}</p>
+                                                                   <p className="text-sm text-muted-foreground">{user.fullName}</p>
+                                                                </div>
+                                                             </div>
+                                                        )):
+                                                        chats.length===0?
+                                                            <div className="text-center text-gray-500">
+                                                                <Typography>{t("Chats will appear here after you send or receive a message")}</Typography>
+                                                            </div>
+                                                           :chats.filter(chat=>{
+                                                                let isMe=chat.sendUserId==myId
+                                                                let userName=isMe?chat.receiveUserName:chat.sendUserName
+                                                                
+                                                               return userName.toLowerCase().includes(search.toLowerCase())
+                                                           }).map((chat)=>{
+                                                            
+                                                             let isMe=chat.sendUserId===myId
+                                                             let userName=isMe?chat.receiveUserName:chat.sendUserName
+                                                             let userImage = isMe ?chat.receiveUserImage :chat.sendUserImage
+                                                             
+                                                             
+                                                               return (
                                                                  <Link href={`/chats/${chat.chatId}`}>
                                                                        <div key={chat.chatId} className={`flex group  w-[100%] items-center gap-3 px-5 py-2 transition-colors cursor-pointer ${Number(activeChatId) === chat.chatId ? "bg-accent" : "hover:bg-accent/50"}`} key={chat.chatId}>
                                                                            <div className="relative shrink-0">
@@ -185,8 +236,14 @@ function Layout({children}:{children:React.ReactNode}) {
                           </div>
                    )}
                    
-                   <MenuRecomendation open={openModal} onClose={() => setOpenModal(false)} userName={myProfile?.userName}/>
-                   <ModalChat onClose={() => setOpenMessageModal(false)} open={ openMessageModal}  />
+                   {myProfile?.userName&&(
+                        <MenuRecomendation 
+                            open={openModal} 
+                            onClose={() => setOpenModal(false)} 
+                            userName={myProfile?.userName}
+                        />
+                   )}
+                   <CreateChat onClose={() => setOpenMessageModal(false)} open={ openMessageModal}  />
               </>
     )
 }

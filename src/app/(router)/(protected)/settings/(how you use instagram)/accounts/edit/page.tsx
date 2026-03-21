@@ -13,11 +13,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useProfile } from "@/app/store/pages/profile/myProfile/profile";
 
 function page() {
-  const {getMyProfile,myProfile,updateProfile,
-    deleteImageProfile,
-    updateImageProfile,
-    loading,
-  } = useProfile();
+  const {getMyProfile,myProfile,updateProfile,deleteImageProfile,updateImageProfile,loading,} = useProfile();
   const [aboutText, setAboutText] = useState("");
   const [gender, setGender] = useState("male");
   const [customGender, setCustomGender] = useState("");
@@ -131,8 +127,7 @@ function page() {
           <div className="w-[100%] flex justify-between items-center px-9 py-6 rounded-2xl bg-[#F3F5F7] dark:bg-[#262626]">
             <div className="flex items-center gap-3">
               <div className="relative w-[47px] h-[47px]">
-                <img
-                  className="w-[47px] h-[47px] rounded-full object-cover cursor-pointer"
+                <img className="w-[47px] h-[47px] rounded-full object-cover cursor-pointer"
                   src={myProfile?.image
                       ?`${API}/images/${myProfile.image}`:defaultProfile.src
                   }

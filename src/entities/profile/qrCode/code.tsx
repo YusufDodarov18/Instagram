@@ -79,9 +79,7 @@ function QrCode({
 
   if (!open || !mounted) return null;
   return (
-    <div
-      className={`min-h-screen fixed inset-0 z-[1000] w-full flex flex-col text-white bg-gradient-to-br ${theme.body}`}
-    >
+    <div className={`min-h-screen fixed inset-0 z-[1000] w-full flex flex-col text-white bg-gradient-to-br ${theme.body}`}>
       <header className="flex justify-end p-4">
         <CloseIcon onClick={onClose} sx={{ cursor: "pointer" }} />
       </header>

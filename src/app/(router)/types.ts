@@ -440,6 +440,8 @@ export interface ChatsStore {
   sendMessage: (formData: formData) => Promise<void>;
   deleteMessage: (chatId: number, messageId: string) => Promise<void>;
   deleteChat: (chatId: number) => Promise<void>;
+  searchUsers:(userId:string)=>Promise<void>
+  datas:searchUser[]
 }
 
 export interface formData {
@@ -460,7 +462,7 @@ export interface chatById {
 
 export interface story {
   id: number;
-  fileName: string;
+  fileName: string|null;
   postId: null;
   createAt: string;
   liked: boolean;
@@ -470,7 +472,7 @@ export interface story {
 export interface stories {
   userId: string;
   userName: string;
-  userImage: string;
+  userImage: string|null;
   stories: story[];
 }
 
@@ -499,9 +501,10 @@ export interface UseStoriesStore {
   getStories: () => Promise<void>;
   getStoryById: (id: number) => Promise<void>;
   storyById: storyById[];
-  addStory: (formData: string) => Promise<void>;
+  addStory: (file: File) => Promise<void>;
   addStoriesPost: (postId: number) => Promise<void>;
   deleteStory: (id: number) => Promise<void>;
+  getMyStories:()=>Promise<void>
   addStoryView: (storyId: number) => Promise<void>;
 }
 

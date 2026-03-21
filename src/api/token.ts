@@ -7,7 +7,7 @@ export function saveToken(token:string){
     localStorage.setItem("access_token",token)
 }
 
-export default function getToken(){
+export default function getToken() {
     try {
         return jwtDecode<DecodedToken>(localStorage.getItem("access_token")||"")
     } catch (err)

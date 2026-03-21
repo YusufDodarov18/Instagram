@@ -10,7 +10,6 @@ export default function InitialLoading() {
           <div className="flex flex-1 items-center">
             <Image src={logo} alt="Instagram" width={90} priority />
           </div>
-
           <div className="flex flex-col items-center mb-8">
             {/* <p className="text-sm text-gray-400 dark:text-gray-500 mb-1">
               from

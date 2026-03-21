@@ -35,7 +35,7 @@ function Followers({ open, onClose }: {
     }, [ ])
 
     useEffect(()=> {
-        if(open&&myFollowers){
+        if(open&& myFollowers){
             const followingId=new Set(myFollowing?.map((follower)=>follower.userShortInfo?.userId))
             setFollowers(myFollowers.map((follower)=>({
                 ...follower,

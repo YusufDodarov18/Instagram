@@ -1,8 +1,7 @@
 "use client";
-
+import "swiper/css";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
 import { API } from "@/shared/utils/config";
 import Video from "../videos/video";
 

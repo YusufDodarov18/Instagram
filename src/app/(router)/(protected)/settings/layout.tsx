@@ -19,7 +19,7 @@ export default function Setting({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-background pb-10 md:pb-0">
       {(!isMobile || mobile) && (
-        <aside className={`${isMobile ? "w-[100%]" : "w-[340px] min-w-[340px] border-r border-border"} h-screen sticky top-0 overflow-hidden`}>
+        <aside className={`${isMobile?"w-[100%]":"w-[340px] min-w-[340px] border-r border-border"} h-screen sticky top-0 overflow-hidden`}>
           <nav className="h-[100%] flex flex-col px-5 overflow-y-auto pb-8">
             <div className="px-4 pt-6 pb-4">
               <h1 className="text-xl font-bold text-foreground">{t("layout.mores.setting")}</h1>
@@ -53,7 +53,7 @@ export default function Setting({ children }: { children: React.ReactNode }) {
                                             <path d="M18.44 1H5.56A4.565 4.565 0 0 0 1 5.561v12.878A4.565 4.565 0 0 0 5.56 23h12.88A4.566 4.566 0 0 0 23 18.44V5.56A4.566 4.566 0 0 0 18.44 1ZM21 18.44A2.564 2.564 0 0 1 18.44 21H5.56A2.563 2.563 0 0 1 3 18.44V5.56A2.563 2.563 0 0 1 5.56 3h12.88A2.564 2.564 0 0 1 21 5.561Z"></path>
                                             <path d="M12 16H6a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Zm6-10H6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Zm-1 6H7V8h10Zm1 4h-2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2Z"></path>
                                         </svg>
-                                        <p>{t("setting.Ad Preference")}</p>
+                                        <p>{t("setting.Ad Preferences")}</p>
                                   </div>
                             </div>
                             <h5 className="text-[#4150F7] dark:text-[#708DFF]">{t("setting.More settings in Account Center")}</h5>
@@ -285,9 +285,12 @@ export default function Setting({ children }: { children: React.ReactNode }) {
       {(!isMobile || !mobile) && (
         <main className="flex-1 min-h-screen">
           {isMobile && !mobile && (
-            <button className="flex items-center gap-1 px-4 py-3 w-[100%] border-b text-sm font-medium text-primary border-border hover:bg-ig-hover" onClick={() => router.push("/settings")}>
-              <ChevronLeft className="h-5 w-5" />
-            </button>
+            <div className="flex">
+                <button className="flex items-center gap-1 px-4 py-3 border-b text-sm font-medium text-primary border-border hover:bg-ig-hover" onClick={() => router.push("/settings")}>
+                  <ChevronLeft className="h-5 w-5 cursor-pointer" />
+                </button>
+                <h2 className="text-xl mt-[8px] font-bold">{t("layout.mores.setting")}</h2>
+            </div> 
           )}
           <div className="max-w-2xl mx-auto">{children}</div>
         </main>

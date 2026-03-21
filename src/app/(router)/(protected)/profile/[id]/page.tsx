@@ -49,9 +49,9 @@ export default function page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("access_token");
+      const token:DecodedToken = localStorage.getItem("access_token");
       if (token) {
-        const decoded = jwtDecode<DecodedToken>(token);
+        const decoded = jwtDecode(token);
         setDecode(decoded);
       }
     }
@@ -129,56 +129,33 @@ export default function page({ params }: { params: { id: string } }) {
             </div>
             <div className="flex-1">
               <div className="hidden sm:flex gap-4 items-center">
-                <h2 className="text-3xl font-semibold cursor-pointer">
-                  {info?.userName}
-                </h2>
-                <div className="cursor-pointer" onClick={handleClickOpenMenu}>
-                  {menu3}
-                </div>
+                <h2 className="text-3xl font-semibold cursor-pointer">{info?.userName}</h2>
+                <div className="cursor-pointer" onClick={handleClickOpenMenu}>{menu3}</div>
               </div>
-              <p className="text-lg mt-3">
-                {info?.firstName + " " + info?.lastName}
-              </p>
+              <p className="text-lg mt-3">{info?.firstName + " " + info?.lastName}</p>
               <div className="flex gap-3 md:gap-8 mt-2 text-[12px] sm:text-sm">
                 <div className="cursor-pointer flex gap-1">
                   <span className="font-semibold">{info?.postCount}</span>
                   {t("posts")}
                 </div>
-                <div
-                  className="cursor-pointer flex gap-1"
-                  onClick={showFollowers}
-                >
-                  <span className="font-semibold">
-                    {info?.subscribersCount}
-                  </span>
+                <div className="cursor-pointer flex gap-1" onClick={showFollowers}>
+                  <span className="font-semibold">{info?.subscribersCount}</span>
                   {t("followers")}
                 </div>
-                <div
-                  className="cursor-pointer flex gap-1"
-                  onClick={showFollowing}
-                >
-                  <span className="font-semibold">
-                    {info?.subscriptionsCount}
-                  </span>
+                <div className="cursor-pointer flex gap-1" onClick={showFollowing}>
+                  <span className="font-semibold">{info?.subscriptionsCount}</span>
                   {t("following")}
                 </div>
               </div>
-              <p className="mt-2 hidden sm:block text-sm leading-relaxed max-w-sm">
-                {info?.about ? info.about : ""}
-              </p>
+              <p className="mt-2 hidden sm:block text-sm leading-relaxed max-w-sm">{info?.about ? info.about : ""}</p>
             </div>
           </div>
-          <p className="block sm:hidden text-sm leading-relaxed max-w-sm">
-            {info?.about ? info.about : ""}
-          </p>
+          <p className="block sm:hidden text-sm leading-relaxed max-w-sm">{info?.about ? info.about : ""}</p>
           <div className="flex gap-4 w-full">
-            <Button
-              onClick={toggleFollow}
-              className={`flex-1 h-9 cursor-pointer text-[12px] ${info?.isSubscriber ? (theme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black] hover:bg-[#F0F2F5]]") : `text-white bg-[#4A5dF9] hover:bg-[#324afa] hover:text-white`} md:text-sm font-semibold `}
-            >
+            <Button className={`flex-1 h-9 cursor-pointer text-[12px] ${info?.isSubscriber ? (theme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black] hover:bg-[#F0F2F5]]") : `text-white bg-[#4A5dF9] hover:bg-[#324afa] hover:text-white`} md:text-sm font-semibold `} onClick={toggleFollow}>
               {info?.isSubscriber ? t("unFollow") : t("Follow")}
             </Button>
-            <Button
+            <Button className={`flex-1 h-9 text-[12px] md:text-sm cursor-pointer font-semibold ${theme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"}`}
               onClick={async () => {
                 const response = await createChat(id);
                 if (response) {
@@ -186,7 +163,6 @@ export default function page({ params }: { params: { id: string } }) {
                 }
               }}
               variant={"ghost"}
-              className={`flex-1 h-9 text-[12px] md:text-sm cursor-pointer font-semibold ${theme === "dark" ? "bg-[#25292E] text-white" : "bg-[#F0F2F5] text-[black]"}`}
             >
               {t("Message")}
             </Button>

@@ -23,14 +23,18 @@ import CommentModal from "@/entities/home/comments/comment";
 import { post } from "../../types";
 import { usePosts } from '@/app/store/pages/home/posts/posts';
 import { comment, menu, messageActive } from '@/app/widget/icons/svg';
+import Story from '@/entities/home/stories/story/story';
+import SharePost from '@/entities/share/sharePost';
 
 
 
 function page() {
   const {addComment,addFavoritePost,addFollowingRelationship,subscribtions,getSubscribtions,formatShortTime,deleteFollowingRelationship, getPosts,likePosts, loading, posts}=usePosts()
   const [openModal,setOpenModal]=useState(false)
+  const [openShareModal,setOpenShareModal]=useState(false)
   const [openModalComment,setOpenModalComment]=useState(false)
   const [expandedPostId,setExpandedPostId]=useState<number|null>(null)
+  const [file ,setFile]=useState<string|null>(null)
   const [idx,setIdx]=useState<null|post>(null)
   const {t,i18n}=useTranslation()
   const {theme}=useTheme()
@@ -51,16 +55,15 @@ function page() {
     if(text.length<=CHARACTER_LIMIT)return text
     return text.slice(0,CHARACTER_LIMIT)+"..."
 }
+
  const handleFollow=async(userId:string)=>await addFollowingRelationship(userId)
   return (
         <>
              <section className="flex justify-between py-0 md:justify-center pb-20 md:py-10">
-                  
                   <section className="flex flex-col gap-10 px-5 w-full">
-                      <header className="flex">
-                        {/* stories */}
+                      <header className="max-w-[470px] w-[100%]">
+                         <Story/>
                       </header>
-
                       <main className="flex justify-center flex-col gap-4 pr-0 md:pr-6">
                           {posts.length===0||loading?(
                             Array.from({length:5}).map((_,i)=>(
@@ -69,105 +72,108 @@ function page() {
                           )
                           :posts.map((el)=>{
                               const isFollowing=subscribtions?.includes(el?.userId)
-                             return <div key={el.postId} className="w-[100%] sm:w-[470px]">
-                                  <header className="flex justify-between gap-1">
-                                      <div>
-                                        <div className="flex gap-2 items-center">
-                                           <Link href={`/profile/${el.userId}`}>
-                                              <img 
-                                               src={el.userImage?
-                                               `${API}/images/${el.userImage}`:profile.src} 
-                                               alt="profile"
-                                               className="w-[40px] h-[40px] rounded-[50%] object-cover"
-                                              />
-                                           </Link>
-                                          <Link href={`/profile/${el.userId}`}><h5 className="font-bold">{el.userName}</h5></Link>
-                                          <div className="flex gap-1 items-center">
-                                              <p className="text-[20px] text-gray-500 cursor-pointer font-bold">•</p>
-                                              <p className="tracking-wider text-[14px] text-[#737373] font-medium">{formatShortTime(el.datePublished)}</p>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div className="flex gap-2 items-center">
-                                         {!isFollowing&&(
-                                            <Button onClick={()=>handleFollow(el.userId)} sx={{color:theme=="dark"?"#85A1FF":"#3143E3"}}>{t("follow")}</Button>
-                                         )}
-                                         <p className="cursor-pointer" onClick={()=>setOpenModal(true)}>{menu}</p>
-                                      </div>
-                                  </header>
-
-                                 <main className="w-full mt-2 relative">
-                                    <div className="relative w-full overflow-hidden">
-                                      <InstaSlider images={el?.images} />
-                                    </div>
-                                  </main>
-
-                                  <main className="pt-2">
-                                        <div className='flex flex-col'>
-                                              <div className='flex justify-between px-1 text-lg font-bold'>
-                                                {/* *  <div className='flex gap-4 text-black font-bold dark:text-white'>
-                                                                    <div className='cursor-pointer flex gap-1 items-start'>
-                                                                        {isLiked?
-                                                                            <FavoriteIcon color='error' onClick={()=>likePosts(postId)}/>:
-                                                                            <FavoriteBorderIcon onClick={()=>likePosts(postId)}/>
-                                                                        }
-                                                                        <Typography>{likeCount}</Typography>
-                                                                    </div>
-                                                                    <div className='cursor-pointer flex gap-1 items-start'>
-                                                                        <Typography>{comment}</Typography>
-                                                                        <Typography>{commentCount}</Typography>
-                                                                        <Typography>{messageActive}</Typography>
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <Typography onClick={()=>addFavoritePost(postId)}>
-                                                                        {isPostFavorited?
-                                                                            <BookmarkIcon fontSize="small" />
-                                                                        :
-                                                                    <TurnedInNotIcon fontSize="small" />
-                                                                        }
-                                                                    </Typography>
-                                                    </div> */}
-                                                  <div className='flex gap-2 items-center'>
-                                                       <div className='cursor-pointer'>
+                                  return (
+                                     <div className="w-[100%] sm:w-[470px]">
+                                       <header className="flex justify-between gap-1">
+                                           <div>
+                                             <div className="flex gap-2 items-center">
+                                               <Link href={`/profile/${el.userId}`}>
+                                                   <img 
+                                                   src={el.userImage?
+                                                   `${API}/images/${el.userImage}`:profile.src} 
+                                                   alt="profile"
+                                                   className="w-[40px] h-[40px] rounded-[50%] object-cover"
+                                                   />
+                                               </Link>
+                                               <Link href={`/profile/${el.userId}`}><h5 className="font-bold">{el.userName}</h5></Link>
+                                               <div className="flex gap-1 items-center">
+                                                   <p className="text-[20px] text-gray-500 cursor-pointer font-bold">•</p>
+                                                   <p className="tracking-wider text-[14px] text-[#737373] font-medium">{formatShortTime(el.datePublished)}</p>
+                                               </div>
+                                             </div>
+                                           </div>
+                                           <div className="flex gap-2 items-center">
+                                             {!isFollowing&&(
+                                                 <Button onClick={()=>handleFollow(el.userId)} sx={{color:theme=="dark"?"#85A1FF":"#3143E3"}}>{t("follow")}</Button>
+                                             )}
+                                             <p className="cursor-pointer" onClick={()=>setOpenModal(true)}>{menu}</p>
+                                           </div>
+                                       </header>
+   
+                                     <main className="w-full mt-2 relative">
+                                         <div className="relative w-full overflow-hidden">
+                                           <InstaSlider images={el?.images} />
+                                         </div>
+                                       </main>
+   
+                                       <main className="pt-2">
+                                             <div className='flex flex-col'>
+                                                   <div className='flex justify-between px-1 text-lg font-bold'>
+                                                     {/* *  <div className='flex gap-4 text-black font-bold dark:text-white'>
+                                                                         <div className='cursor-pointer flex gap-1 items-start'>
+                                                                             {isLiked?
+                                                                                 <FavoriteIcon color='error' onClick={()=>likePosts(postId)}/>:
+                                                                                 <FavoriteBorderIcon onClick={()=>likePosts(postId)}/>
+                                                                             }
+                                                                             <Typography>{likeCount}</Typography>
+                                                                         </div>
+                                                                         <div className='cursor-pointer flex gap-1 items-start'>
+                                                                             <Typography>{comment}</Typography>
+                                                                             <Typography>{commentCount}</Typography>
+                                                                             <Typography>{messageActive}</Typography>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div>
+                                                                         <Typography onClick={()=>addFavoritePost(postId)}>
+                                                                             {isPostFavorited?
+                                                                                 <BookmarkIcon fontSize="small" />
+                                                                             :
+                                                                         <TurnedInNotIcon fontSize="small" />
+                                                                             }
+                                                                         </Typography>
+                                                         </div> */}
+                                                       <div className='flex gap-2 items-center'>
+                                                           <div className='cursor-pointer'>
+                                                               {
+                                                                   el.postLike?
+                                                                       <FavoriteIcon color='error' onClick={()=>likePosts(el.postId)}/>:
+                                                                       <FavoriteBorderIcon onClick={()=>likePosts(el.postId)}/>
+                                                               }
+                                                           </div>
+                                                           <div>{el.postLikeCount}</div>
+                                                           <div className='cursor-pointer' onClick={()=>{setOpenModalComment(true),setIdx(el)}}>{comment}</div>
+                                                           <div>{el.commentCount}</div>
+                                                           <div className='cursor-pointer' onClick={()=>{
+                                                              setOpenShareModal(true)
+                                                              setFile(el.images[0])
+                                                           }}>{messageActive}</div>
+                                                       </div>
+                                                       <div className='cursor-pointer' onClick={()=>addFavoritePost(el.postId)}>
                                                            {
-                                                               el.postLike?
-                                                                   <FavoriteIcon color='error' onClick={()=>likePosts(el.postId)}/>:
-                                                                   <FavoriteBorderIcon onClick={()=>likePosts(el.postId)}/>
+                                                               el.postFavorite ?<BookmarkIcon />:<TurnedInNotIcon />
                                                            }
                                                        </div>
-                                                       <div>{el.postLikeCount}</div>
-                                                       <div className='cursor-pointer' onClick={()=>{setOpenModalComment(true),setIdx(el)}}>{comment}</div>
-                                                       <div>{el.commentCount}</div>
-                                                       <div className='cursor-pointer'>{messageActive}</div>
-                                                  </div>
-                                                  <div className='cursor-pointer' onClick={()=>addFavoritePost(el.postId)}>
-                                                       {
-                                                           el.postFavorite ?<BookmarkIcon />:<TurnedInNotIcon />
-                                                       }
-                                                  </div>
+                                                 </div>
+                                                 <div className='px-2 py-3'>
+                                                     <Typography>{el?.title}</Typography>
+                                                     <p className='mt-[3px] text-gray-400 break-words whitespace-pre-wrap'>{truncateText(el?.content||"",el.postId)}</p>
+                                                         {el?.content?.length>CHARACTER_LIMIT&&(
+                                                           <button
+                                                             onClick={()=>
+                                                               setExpandedPostId(
+                                                                 expandedPostId===el.postId?null:el.postId
+                                                               )
+                                                             } 
+                                                             className="text-[#737373] text-sm font-medium ml-1 cursor-pointer hover:underline"
+                                                           >
+                                                             {expandedPostId===el.postId ? t("less") : t("layout.more")}
+                                                           </button>
+                                                         )}
+                                                 </div>
                                              </div>
-                                             <div className='px-2 py-3'>
-                                                <Typography>{el?.title}</Typography>
-                                                <p className='mt-[3px] text-gray-400 break-words whitespace-pre-wrap'>{truncateText(el?.content||"",el.postId)}</p>
-                                                    {el?.content?.length>CHARACTER_LIMIT&&(
-                                                      <button
-                                                        onClick={()=>
-                                                          setExpandedPostId(
-                                                            expandedPostId===el.postId?null:el.postId
-                                                          )
-                                                        } 
-                                                        className="text-[#737373] text-sm font-medium ml-1 cursor-pointer hover:underline"
-                                                      >
-                                                        {expandedPostId===el.postId ? t("less") : t("layout.more")}
-                                                      </button>
-                                                    )}
-                                             </div>
-                                        </div>
-                                  </main>
-                              </div>
-                        })}
+                                       </main>
+                                </div>
+                        )})}
                       </main>
                   </section>
 
@@ -177,7 +183,16 @@ function page() {
              </section>
              
             <Menu open={ openModal} onClose={()=>setOpenModal(false)} />
-            <CommentModal open={openModalComment} handleClose={()=>setOpenModalComment(false)} post={idx}/>
+            <CommentModal 
+                        open={openModalComment}
+                       handleClose={()=>setOpenModalComment(false)} 
+                       post={idx}
+              />
+            <SharePost 
+                open={openShareModal} 
+                onClose={()=>setOpenShareModal(false)}
+                file={file}
+            />            
         </>
     )
 }

@@ -6,6 +6,7 @@ const PostSkeleton = () => {
   const isDark = theme === "dark"
   const bg = isDark ? "#2c2c2c" : "#e0e0e0"
   const highlight = isDark ? "#3c3c3c" : "#f5f5f5"
+
     return (
         <div className="w-[100%] sm:w-[450px]">
             <div className="flex justify-between items-center mb-2">
@@ -32,6 +33,7 @@ const PostSkeleton = () => {
               </div>
         </div>
     )
+    
 }
 
 export default PostSkeleton

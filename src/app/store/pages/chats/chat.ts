@@ -1,6 +1,5 @@
 import axiosRequest from "@/api/axiosRequest";
 import { ChatsStore } from "@/app/(router)/types";
-import axios from "axios";
 import { create } from "zustand";
 
 export const useChats=create<ChatsStore>((set,get)=>({
@@ -8,6 +7,7 @@ export const useChats=create<ChatsStore>((set,get)=>({
     loading:false,
     chatById:[],
     lastMessage:[],
+    datas:[],
 
     getChats:async ()=>{
         try {
@@ -43,12 +43,10 @@ export const useChats=create<ChatsStore>((set,get)=>({
 
     sendMessage: async (formData)=>{
         try {
-            await axiosRequest.put('/Chat/send-message',formData,{
-                 headers: { 'Content-Type': 'multipart/form-data' }
-            })
-            get().getChatById(formData.get('ChatId'))
+            await axiosRequest.put('/Chat/send-message',formData)
+            get().getChatById(Number(formData.get('ChatId')))
         } catch (error) {
-            console.error(error)
+            console.error("SEND ERROR:", error)
         }
     },
 
@@ -66,4 +64,15 @@ export const useChats=create<ChatsStore>((set,get)=>({
         }
         catch{}
     },
+
+    searchUsers:async userId=>{
+        try {
+            const {data}=await axiosRequest.get(
+                `/User/get-users?UserName=${userId}`
+            )
+            set({datas:data.data})
+        } catch (error) {
+            console.error(error)
+        }
+    }
 }))

@@ -31,21 +31,21 @@ export default function Following({open,onClose}:{open:boolean,onClose:()=>void}
     }, [])
     
    useEffect(() =>{
-    if (open) {
-        setFollowing(
-            myFollowing?.map(user => ({
-                ...user,
-                isFollowing: true
-            }))
-        )
-    }
-}, [open, myFollowing])
+       if (open) {
+           setFollowing(
+               myFollowing?.map(user => ({
+                   ...user,
+                   isFollowing: true
+               }))
+           )
+       }
+    }, [open, myFollowing])
 
 
     const toggleFollow= async(userId:string, isCurrentlyFollowing:boolean) =>{
         if(decode){
             setFollowing((prev)=>prev.map(user=>
-                user.userShortInfo.userId==userId?{...user,isFollowing:!isCurrentlyFollowing}:user)
+                user.userShortInfo.userId==userId?{...user, isFollowing:!isCurrentlyFollowing}:user)
             )
             try {
                 if(isCurrentlyFollowing){
@@ -77,7 +77,7 @@ export default function Following({open,onClose}:{open:boolean,onClose:()=>void}
                              value={search}
                              onChange={e=>setSearch(e.target.value)}
                              placeholder={t("search1")}
-                             className="w-[100%] outline-[0] bg-[#F3F5F7] dark:bg-[#25292E] py-2 indent-3 rounded-4xl"
+                             className="w-[100%] outline-[0] py-2 indent-3 rounded-4xl bg-[#F3F5F7] dark:bg-[#25292E]"
                          />
                     </section>
 
