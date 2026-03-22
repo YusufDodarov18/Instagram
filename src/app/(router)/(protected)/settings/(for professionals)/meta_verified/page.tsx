@@ -154,5 +154,5 @@ import React from 'react'
 import { redirect } from 'next/navigation'
 
 export default function Page() {
- redirect("https://accountscenter.instagram.com/meta_verified/?entrypoint=nme_ig_standard_settings_entrypoint_web")
+    redirect("https://accountscenter.instagram.com/meta_verified/?entrypoint=nme_ig_standard_settings_entrypoint_web")
 }

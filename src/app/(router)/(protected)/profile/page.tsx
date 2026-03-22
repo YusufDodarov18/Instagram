@@ -64,7 +64,7 @@ const page = () => {
       <div className="flex justify-center items-center flex-col">
         <div className="w-[100%] max-w-[650px] p-6 flex flex-col gap-5">
           <div className="flex gap-3 md:gap-8 items-center md:items-start">
-            <div onClick={()=>fileRef.current?.click()} className="relative cursor-pointer flex items-center md:items-start w-[56px] h-[70px] sm:w-36 sm:h-36 flex-shrink-0">
+            <div className="relative cursor-pointer flex items-center md:items-start w-[56px] h-[70px] sm:w-36 sm:h-36 flex-shrink-0" onClick={()=>fileRef.current?.click()}>
               <Image
                 src={
                   myProfile?.image

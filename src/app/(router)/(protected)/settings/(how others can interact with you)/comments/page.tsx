@@ -43,7 +43,7 @@ const page = () => {
                 </RadioGroup>
                 <div className="flex justify-between w-[90%] mt-[12px]">
                     <h1 className="text-lg">{t("allow_gif_comments")} GIF</h1>
-                    <Switch/>
+                    <Switch className="scale-125"/>
                 </div>
                 <p className="text-gray-500 mt-[5px]">{t("allow_gif_comments_description")}</p>
             </div>

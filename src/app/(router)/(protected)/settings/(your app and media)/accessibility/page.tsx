@@ -9,7 +9,7 @@ export default function Page() {
             <div className="w-[90%] py-[22px] rounded-[17px] px-[18px] flex flex-col gap-4 items-center justify-center border-2">
               <div className="w-[100%] flex justify-between items-center text-[#0C1014] dark:text-white">
                  <p>{t("reduce_motion")}</p>
-                 <Switch />
+                 <Switch className="scale-125" />
                </div>
             </div>
             <div className="pt-[12px]">

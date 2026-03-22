@@ -35,6 +35,7 @@ import { comment } from "@/app/widget/icons/svg";
 import { useTheme as useNextTheme } from "next-themes";
 import EmojiPicker from "emoji-picker-react";
 import { useExplore } from "@/app/store/pages/explore/explore";
+import ShareModal from "@/entities/share/sharePost";
 
 export default function ModalExplore({
   open,
@@ -60,6 +61,8 @@ export default function ModalExplore({
   const [isLiked, setIsLiked] = React.useState(selectedPost?.postLike ?? false);
   const [isMuted, setIsMuted] = React.useState(false);
   const [isFollowed, setIsFollowed] = React.useState(false);
+  const [sharePost, setSharePost] = React.useState(false);
+  const [file, setFile] = React.useState<string | null>(null);
   const [showEmojis, setShowEmojies] = React.useState(false);
   const [likedComments, setLikedComments] = React.useState<object>(new Set());
   const [isFavorited, setIsFavorited] = React.useState(false);
@@ -326,7 +329,14 @@ export default function ModalExplore({
                     <IconButton size="small" onClick={handleOpenComment}>
                       <ChatBubbleOutline />
                     </IconButton>
-                    <IconButton size="small">
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        setSharePost(true);
+                        setFile(selectedPost.images[0]);
+                        onClose();
+                      }}
+                    >
                       <Send />
                     </IconButton>
                   </Box>
@@ -615,353 +625,379 @@ export default function ModalExplore({
   }
 
   return (
-    <Modal
-      sx={{ color: resolvedTheme === "dark" ? "#fff" : "#121212" }}
-      open={open}
-      onClose={onClose}
-      aria-labelledby="post-modal"
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          maxWidth: 1200,
-          width: "90vw",
-          height: "90vh",
-          borderRadius: 2,
-          boxShadow: 2,
-          display: "flex",
-          overflow: "hidden",
-          bgcolor: theme.palette.background.paper,
-        }}
+    <>
+      <Modal
+        sx={{ color: resolvedTheme === "dark" ? "#fff" : "#121212" }}
+        open={open}
+        onClose={onClose}
+        aria-labelledby="post-modal"
       >
         <Box
           sx={{
-            flex: 1,
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: 1200,
+            width: "90vw",
+            height: "90vh",
+            borderRadius: 2,
+            boxShadow: 2,
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "relative",
-            backgroundColor: "#000",
-          }}
-        >
-          {selectedPost?.images?.map((fileName) => {
-            const isVideo =
-              fileName.endsWith(".mp4") || fileName.endsWith(".webm");
-            const src = `${API}/images/${fileName}`;
-
-            if (isVideo) {
-              return (
-                <Box
-                  key={selectedPost.postId}
-                  sx={{ position: "relative", width: "100%", height: "100%" }}
-                >
-                  <video
-                    id="post-video"
-                    src={src}
-                    className="w-full h-full object-center"
-                    onClick={(e) => {
-                      const video = e.currentTarget;
-                      if (video.paused) {
-                        video.play();
-                      } else {
-                        video.pause();
-                      }
-                    }}
-                    autoPlay
-                    playsInline
-                    muted={isMuted}
-                  />
-                  <IconButton
-                    size="small"
-                    onClick={() => {
-                      const video = document.getElementById("post-video");
-                      if (video && video instanceof HTMLVideoElement) {
-                        video.muted = !video.muted;
-                        setIsMuted(video.muted);
-                      }
-                    }}
-                    sx={{
-                      position: "absolute",
-                      bottom: 16,
-                      right: 16,
-                      backgroundColor: "rgba(0,0,0,0.5)",
-                      color: "white",
-                      zIndex: 2,
-                      "&:hover": {
-                        backgroundColor: "rgba(0,0,0,0.7)",
-                      },
-                    }}
-                  >
-                    {isMuted ? (
-                      <VolumeOff fontSize="small" />
-                    ) : (
-                      <VolumeUp fontSize="small" />
-                    )}
-                  </IconButton>
-                </Box>
-              );
-            }
-            return (
-              <img
-                key={selectedPost.postId}
-                src={src}
-                className="w-full h-full object-cover"
-              />
-            );
-          })}
-        </Box>
-        <Box
-          sx={{
-            width: 400,
-            display: "flex",
-            flexDirection: "column",
-            bgcolor: resolvedTheme === "dark" ? "#121212" : "#fff",
+            overflow: "hidden",
+            bgcolor: theme.palette.background.paper,
           }}
         >
           <Box
             sx={{
-              p: 2,
-              borderBottom: "1px solid",
+              flex: 1,
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
-              bgcolor: resolvedTheme === "dark" ? "#121212" : "#fff",
-              color: resolvedTheme === "dark" ? "white" : "#121212",
+              justifyContent: "center",
+              position: "relative",
+              backgroundColor: "#000",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <Link href={`/profile/${selectedPost.userId}`}>
-                <Avatar
-                  src={
-                    selectedPost?.userImage
-                      ? `${selectedPost.userImage}`
-                      : `${defaultProfile.src}`
-                  }
-                  sx={{ width: 32, height: 32 }}
-                />
-              </Link>
-              <Box>
-                <Link href={`/profile/${selectedPost?.userId}`}>
-                  <Typography variant="body2" fontWeight="bold">
-                    {selectedPost?.userName}
-                  </Typography>
-                </Link>
-                <Typography variant="caption">{t("Original audio")}</Typography>
-              </Box>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <Button
-                size="small"
-                variant="text"
-                color="primary"
-                sx={{
-                  color: "#708DFF",
-                  "&:hover": {
-                    bgcolor: "transparent",
-                  },
-                }}
-                onClick={handleFollow}
-              >
-                {isFollowed ? t("follow") : t("unFollow")}
-              </Button>
-              <IconButton size="small">
-                <MoreHoriz />
-              </IconButton>
-            </Box>
-          </Box>
-          <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
-            {comments.length > 0 ? (
-              comments.map((elem, i) => (
-                <Box key={i} sx={{ mb: 2 }}>
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <Avatar
-                      src={
-                        selectedPost.userImage
-                          ? `${API}/images/${selectedPost.userImage}`
-                          : `${defaultProfile.src}`
-                      }
-                      sx={{ width: 32, height: 32 }}
+            {selectedPost?.images?.map((fileName) => {
+              const isVideo =
+                fileName.endsWith(".mp4") || fileName.endsWith(".webm");
+              const src = `${API}/images/${fileName}`;
+
+              if (isVideo) {
+                return (
+                  <Box
+                    key={selectedPost.postId}
+                    sx={{ position: "relative", width: "100%", height: "100%" }}
+                  >
+                    <video
+                      id="post-video"
+                      src={src}
+                      className="w-full h-full object-center"
+                      onClick={(e) => {
+                        const video = e.currentTarget;
+                        if (video.paused) {
+                          video.play();
+                        } else {
+                          video.pause();
+                        }
+                      }}
+                      autoPlay
+                      playsInline
+                      muted={isMuted}
                     />
-                    <Box sx={{ flex: 1 }}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                          mb: 0.5,
-                        }}
-                      >
-                        <Typography variant="body2" fontWeight="bold">
-                          {elem.userName}
-                        </Typography>
-                        <Typography variant="body2">{elem.comment}</Typography>
-                      </Box>
-                    </Box>
                     <IconButton
                       size="small"
-                      onClick={() => handleLikeToComments(i)}
+                      onClick={() => {
+                        const video = document.getElementById("post-video");
+                        if (video && video instanceof HTMLVideoElement) {
+                          video.muted = !video.muted;
+                          setIsMuted(video.muted);
+                        }
+                      }}
+                      sx={{
+                        position: "absolute",
+                        bottom: 16,
+                        right: 16,
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                        color: "white",
+                        zIndex: 2,
+                        "&:hover": {
+                          backgroundColor: "rgba(0,0,0,0.7)",
+                        },
+                      }}
                     >
-                      {likedComments.has(i) ? (
-                        <Favorite fontSize="small" sx={{ color: "red" }} />
+                      {isMuted ? (
+                        <VolumeOff fontSize="small" />
                       ) : (
-                        <FavoriteBorder fontSize="small" />
+                        <VolumeUp fontSize="small" />
                       )}
                     </IconButton>
                   </Box>
-                </Box>
-              ))
-            ) : (
-              <Box
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography color="text.secondary" align="center">
-                  {t("No comments yet.")} <br />
-                  {t("Start the conversation.")}
-                </Typography>
-              </Box>
-            )}
+                );
+              }
+              return (
+                <img
+                  key={selectedPost.postId}
+                  src={src}
+                  className="w-full h-full object-cover"
+                />
+              );
+            })}
           </Box>
-          <Box sx={{ borderTop: "1px solid" }}>
-            <Box sx={{ p: 2, pb: 2 }}>
-              <Box
-                sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
-              >
-                <Box sx={{ display: "flex", gap: 1 }}>
-                  <IconButton
-                    size="small"
-                    onClick={handleLike}
-                    sx={{
-                      color: isLiked
-                        ? "red"
-                        : resolvedTheme == "dark"
-                          ? "white"
-                          : "black",
-                    }}
-                  >
-                    {isLiked ? (
-                      <Favorite sx={{ color: "red" }} />
-                    ) : (
-                      <FavoriteBorder />
-                    )}
-                  </IconButton>
-                  <IconButton
-                    sx={{ color: resolvedTheme == "dark" ? "white" : "black" }}
-                    size="small"
-                  >
-                    {comment}
-                  </IconButton>
-                  <IconButton
-                    sx={{ color: resolvedTheme == "dark" ? "white" : "black" }}
-                    size="small"
-                  >
-                    <Send />
-                  </IconButton>
+          <Box
+            sx={{
+              width: 400,
+              display: "flex",
+              flexDirection: "column",
+              bgcolor: resolvedTheme === "dark" ? "#121212" : "#fff",
+            }}
+          >
+            <Box
+              sx={{
+                p: 2,
+                borderBottom: "1px solid",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                bgcolor: resolvedTheme === "dark" ? "#121212" : "#fff",
+                color: resolvedTheme === "dark" ? "white" : "#121212",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Link href={`/profile/${selectedPost.userId}`}>
+                  <Avatar
+                    src={
+                      selectedPost?.userImage
+                        ? `${selectedPost.userImage}`
+                        : `${defaultProfile.src}`
+                    }
+                    sx={{ width: 32, height: 32 }}
+                  />
+                </Link>
+                <Box>
+                  <Link href={`/profile/${selectedPost?.userId}`}>
+                    <Typography variant="body2" fontWeight="bold">
+                      {selectedPost?.userName}
+                    </Typography>
+                  </Link>
+                  <Typography variant="caption">
+                    {t("Original audio")}
+                  </Typography>
                 </Box>
-                <IconButton
-                  sx={{ color: resolvedTheme == "dark" ? "white" : "black" }}
-                  onClick={handleFavorite}
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Button
                   size="small"
+                  variant="text"
+                  color="primary"
+                  sx={{
+                    color: "#708DFF",
+                    "&:hover": {
+                      bgcolor: "transparent",
+                    },
+                  }}
+                  onClick={handleFollow}
                 >
-                  {isFavorited ? <Bookmark /> : <BookmarkBorder />}
+                  {isFollowed ? t("follow") : t("unFollow")}
+                </Button>
+                <IconButton size="small">
+                  <MoreHoriz />
                 </IconButton>
               </Box>
-              {selectedPost?.postLikeCount === 0 ? (
-                <Typography sx={{ textAlign: "start" }} variant="body2">
-                  {t("Be the first to like this!")}
-                </Typography>
-              ) : (
-                <Typography variant="body2" fontWeight="bold">
-                  {selectedPost?.postLikeCount +
-                    (isLiked !== selectedPost?.postLike
-                      ? isLiked
-                        ? 1
-                        : -1
-                      : 0)}
-                  <span> {t("likes")}</span>
-                </Typography>
-              )}
-              <Typography variant="caption">
-                {selectedPost?.datePublished
-                  ? new Date(selectedPost.datePublished).toLocaleDateString(
-                      i18n.language,
-                      {
-                        day: "numeric",
-                        month: "long",
-                      },
-                    )
-                  : ""}
-              </Typography>
             </Box>
-            <Divider />
-            <Box sx={{ p: 2 }}>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (textComment.trim() !== "") sendComment();
-                }}
-              >
-                <TextField
-                  value={textComment}
-                  onChange={(e) => setTextComment(e.target.value)}
-                  fullWidth
-                  variant="standard"
-                  placeholder={t("Add a comment...")}
-                  onFocus={() => setShowEmojies(false)}
-                  InputProps={{
-                    disableUnderline: true,
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IconButton size="small">
-                          <EmojiEmotions
-                            onClick={() => setShowEmojies((prev) => !prev)}
-                            sx={{ cursor: "pointer", color: "gray" }}
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Button type="submit" size="small" color="primary">
-                          {t("Post")}
-                        </Button>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                {showEmojis && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      bottom: "60px",
-                      left: "600px",
-                      width: "100%",
-                      zIndex: 10,
-                    }}
-                  >
-                    <EmojiPicker
-                      onEmojiClick={(em) => {
-                        setTextComment((prev) => prev + em.emoji);
-                        setShowEmojies(false);
-                      }}
-                      searchDisabled
-                      skinTonesDisabled
-                      height={350}
-                    />
+            <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
+              {comments.length > 0 ? (
+                comments.map((elem, i) => (
+                  <Box key={i} sx={{ mb: 2 }}>
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Avatar
+                        src={
+                          selectedPost.userImage
+                            ? `${API}/images/${selectedPost.userImage}`
+                            : `${defaultProfile.src}`
+                        }
+                        sx={{ width: 32, height: 32 }}
+                      />
+                      <Box sx={{ flex: 1 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mb: 0.5,
+                          }}
+                        >
+                          <Typography variant="body2" fontWeight="bold">
+                            {elem.userName}
+                          </Typography>
+                          <Typography variant="body2">
+                            {elem.comment}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <IconButton
+                        size="small"
+                        onClick={() => handleLikeToComments(i)}
+                      >
+                        {likedComments.has(i) ? (
+                          <Favorite fontSize="small" sx={{ color: "red" }} />
+                        ) : (
+                          <FavoriteBorder fontSize="small" />
+                        )}
+                      </IconButton>
+                    </Box>
                   </Box>
+                ))
+              ) : (
+                <Box
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography color="text.secondary" align="center">
+                    {t("No comments yet.")} <br />
+                    {t("Start the conversation.")}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+            <Box sx={{ borderTop: "1px solid" }}>
+              <Box sx={{ p: 2, pb: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    mb: 1,
+                  }}
+                >
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <IconButton
+                      size="small"
+                      onClick={handleLike}
+                      sx={{
+                        color: isLiked
+                          ? "red"
+                          : resolvedTheme == "dark"
+                            ? "white"
+                            : "black",
+                      }}
+                    >
+                      {isLiked ? (
+                        <Favorite sx={{ color: "red" }} />
+                      ) : (
+                        <FavoriteBorder />
+                      )}
+                    </IconButton>
+                    <IconButton
+                      sx={{
+                        color: resolvedTheme == "dark" ? "white" : "black",
+                      }}
+                      size="small"
+                    >
+                      {comment}
+                    </IconButton>
+                    <IconButton
+                      sx={{
+                        color: resolvedTheme == "dark" ? "white" : "black",
+                      }}
+                      size="small"
+                      onClick={() => {
+                        setSharePost(true);
+                        setFile(selectedPost.images[0]);
+                        onClose();
+                      }}
+                    >
+                      <Send />
+                    </IconButton>
+                  </Box>
+                  <IconButton
+                    sx={{ color: resolvedTheme == "dark" ? "white" : "black" }}
+                    onClick={handleFavorite}
+                    size="small"
+                  >
+                    {isFavorited ? <Bookmark /> : <BookmarkBorder />}
+                  </IconButton>
+                </Box>
+                {selectedPost?.postLikeCount === 0 ? (
+                  <Typography sx={{ textAlign: "start" }} variant="body2">
+                    {t("Be the first to like this!")}
+                  </Typography>
+                ) : (
+                  <Typography variant="body2" fontWeight="bold">
+                    {selectedPost?.postLikeCount +
+                      (isLiked !== selectedPost?.postLike
+                        ? isLiked
+                          ? 1
+                          : -1
+                        : 0)}
+                    <span> {t("likes")}</span>
+                  </Typography>
                 )}
-              </form>
+                <Typography variant="caption">
+                  {selectedPost?.datePublished
+                    ? new Date(selectedPost.datePublished).toLocaleDateString(
+                        i18n.language,
+                        {
+                          day: "numeric",
+                          month: "long",
+                        },
+                      )
+                    : ""}
+                </Typography>
+              </Box>
+              <Divider />
+              <Box sx={{ p: 2 }}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (textComment.trim() !== "") sendComment();
+                  }}
+                >
+                  <TextField
+                    value={textComment}
+                    onChange={(e) => setTextComment(e.target.value)}
+                    fullWidth
+                    variant="standard"
+                    placeholder={t("Add a comment...")}
+                    onFocus={() => setShowEmojies(false)}
+                    InputProps={{
+                      disableUnderline: true,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IconButton size="small">
+                            <EmojiEmotions
+                              onClick={() => setShowEmojies((prev) => !prev)}
+                              sx={{ cursor: "pointer", color: "gray" }}
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Button type="submit" size="small" color="primary">
+                            {t("Post")}
+                          </Button>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  {showEmojis && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        bottom: "60px",
+                        left: "600px",
+                        width: "100%",
+                        zIndex: 10,
+                      }}
+                    >
+                      <EmojiPicker
+                        onEmojiClick={(em) => {
+                          setTextComment((prev) => prev + em.emoji);
+                          setShowEmojies(false);
+                        }}
+                        searchDisabled
+                        skinTonesDisabled
+                        height={350}
+                      />
+                    </Box>
+                  )}
+                </form>
+              </Box>
             </Box>
           </Box>
         </Box>
-      </Box>
-    </Modal>
+      </Modal>
+      {file && (
+        <ShareModal
+          file={file}
+          onClose={() => setSharePost(false)}
+          open={sharePost}
+        />
+      )}
+    </>
   );
 }

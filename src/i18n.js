@@ -22,7 +22,7 @@ i18n
     },
     ns: ["translation"],
     defaultNS: "translation",
-    lng: "ru",
+    // lng: "ru",
   });
 
 export default i18n;

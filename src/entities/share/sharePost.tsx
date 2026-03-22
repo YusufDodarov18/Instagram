@@ -119,7 +119,7 @@
 //                      </div>
 //                   </div>
 //                 </header>
-
+// 
 //                 <main className="flex-1 max-h-[40vh] overflow-y-auto flex gap-3 flex-wrap px-5">
 //                      {
 //                         search.trim()?
@@ -137,7 +137,7 @@
 //                           </div>
 //                            ))
 //                         ):(
-//                           ""
+//                           <Typography>Not Found: ${search}</Typography>
 //                         ):
 //                         chats?.map((user)=>(
 //                           <div key={user.chatId} className="w-20 h-25 flex justify-center items-center relative flex-col rounded-lg hover:dark:bg-[#343435] cursor-pointer" onClick={()=>handleSelect(user.chatId)}>
@@ -261,6 +261,7 @@ import { API } from "@/shared/utils/config";
 import { useChats } from "@/app/store/pages/chats/chat";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
+import { TextField } from "@mui/material";
 
 const FacebookIcon = () => (
   <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor">
@@ -310,13 +311,15 @@ const links: SharePlatform[] = [
 ];
 
 
-export default function ShareModal({ open, onClose }: {
+export default function ShareModal({ open, onClose,file }: {
   open: boolean;
   onClose: () => void;
+  file:null|string
 }) {
   const {getUsers,users,loading} = useUser()
   const {chats,createChat,chatById,datas,deleteChat,getChatById,getChats,searchUsers,sendMessage}=useChats()
   const [search, setSearch] = useState("");
+  const [message,setMessage]=useState("")
   const [selectedUsers, setSelectedUsers] = useState<string|null>(null);
   const [scroll, setScroll] = useState(0);
   const {t}=useTranslation()
@@ -341,18 +344,56 @@ useEffect(() => {
 
   const router=useRouter()
 
-
   function handleSelectUser(userId:string){
     if(selectedUsers==userId){
       setSelectedUsers(null)
     }else{
       setSelectedUsers(userId)
-      console.log("userId: ", userId, "selected!" )
+      // console.log("userId: ", userId, "selected!" )
     }
   }
+
+  async function handleMessage(){
+    if(selectedUsers){
+      const user=await createChat(selectedUsers)
+      const formData=new FormData()
+      if(user){
+        if(file){
+          formData.append("ChatId",user)
+          formData.append("MessageText",file)
+          formData.append("File",null)
+          await sendMessage(formData)
+          router.push(`/chats/${user}`)
+          setSelectedUsers(null)
+          onClose()
+        }
+      }
+    }
+  }
+  
+//     async function handleMessage() {
+//   if (!selectedUsers) return;
+
+//   const user = await createChat(selectedUsers);
+//   if (!user) return;
+
+//   const formData = new FormData();
+//   formData.append("ChatId", user);
+//   formData.append("MessageText", message);
+
+//   if (file) {
+//     const byteCharacters = new TextEncoder().encode(file); 
+//     const blob = new Blob([byteCharacters], { type: "application/octet-stream" });
+//     formData.append("File", blob, file); 
+//   }
+
+//   await sendMessage(formData);
+//   router.push(`/chats/${user}`);
+//   onClose();
+// }
   return (
       <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="gap-0 overflow-hidden rounded-xl border-0 p-0 shadow-2xl sm:max-w-[548px] [&>button]:hidden">
+        <DialogContent className="gap-0 fixed z-[9999] overflow-hidden rounded-xl border-0 p-0 shadow-2xl dark:bg-[#1f1f1f] sm:max-w-[520px] [&>button]:hidden">
           {/* Header */}
           <Stack direction="row" alignItems="center" justifyContent="center" sx={{ position: "relative", borderBottom: "1px solid hsl(var(--border))", px: 2, py: 1.5 }}>
             <DialogClose asChild>
@@ -393,9 +434,7 @@ useEffect(() => {
               )}
             </Box>
             {isSearching && (
-              <Typography className="shrink-0 text-sm text-muted-foreground cursor-pointer" variant="body2" size="sm" onClick={handleCancel}>
-                {t("cancel")}
-              </Typography>
+              <Typography className="shrink-0 text-sm text-muted-foreground cursor-pointer" variant="body2" size="sm" onClick={handleCancel}>{t("cancel")}</Typography>
             )}
           </Stack>
 
@@ -417,7 +456,7 @@ useEffect(() => {
                       <Button
                         variant="ghost"
                         onClick={()=>handleSelectUser(user.id)}
-                        className="flex h-auto flex-col items-center gap-1.5 p-1 cursor-pointer hover:bg-transparent"
+                        className="flex h-auto flex-col items-center gap-1.5 p-1 cursor-pointer hover:bg-[#e8e6e6]"
                       >
                         <Box sx={{ position: "relative" }}>
                           <Avatar className="h-16 w-16 border border-border/50">
@@ -591,9 +630,19 @@ useEffect(() => {
               )}
             </Stack>
             ):(
-              <Box>
-                <Input />
-                <Button className="w-full">{t("chat")}</Button>
+              <Box sx={{display:"flex",flexDirection:"column",gap:2}}>
+                <input 
+                  type="text" 
+                  placeholder={t("Write a message...")} 
+                  className="outline-0 ml-2" 
+                  onChange={(e)=>setMessage(e.target.value)}
+                  value={message}
+                />
+                <Button className="w-full bg-[#4A5dF9] cursor-pointer hover:bg-[#3043d6] text-white"
+                  onClick={handleMessage}
+                >
+                  {t("send")}
+                </Button>
               </Box>
             )}
           </Box>

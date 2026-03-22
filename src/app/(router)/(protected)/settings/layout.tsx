@@ -1,6 +1,7 @@
 "use client";
 
 import { meta } from "@/app/widget/icons/svg";
+import SettingFooter from "@/entities/setting/settingFooter";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
 import { ChevronLeft } from "@mui/icons-material";
 import { Typography } from "@mui/material";
@@ -235,7 +236,7 @@ export default function Setting({ children }: { children: React.ReactNode }) {
                   </div>
                   <div className="flex flex-col gap-2 mt-2">
                         <Typography sx={{color:"gray",fontWeight:500}} variant="body2">{t("for_professional_accounts")}</Typography>
-                        <Link href={`/settings/account_type_and_tools`} className={`w-[100%] flex items-center py-3 gap-3 px-3 rounded-lg hover:bg-[#ececec] dark:hover:bg-[#282828] ${pathname==="/settings/"?"bg-[#f3f2f2] hover:bg-[#f3f2f2] dark:bg-[#2d2c2c] hover:dark:bg-[#2d2c2c]":""}`}>
+                        <Link href={`/settings/account_type_and_tools`} className={`w-[100%] flex items-center py-3 gap-3 px-3 rounded-lg hover:bg-[#ececec] dark:hover:bg-[#282828] ${pathname==="/settings/account_type_and_tools"?"bg-[#f3f2f2] hover:bg-[#f3f2f2] dark:bg-[#2d2c2c] hover:dark:bg-[#2d2c2c]":""}`}>
                               <svg className="x1lliihq x1n2onr6 x5n08af" aria-label="icon" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24">
                                     <title>Тип аккаунта и инструменты</title>
                                     <path d="M8 12a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0v-3a1 1 0 0 0-1-1Zm8-3a1 1 0 0 0-1 1v6a1 1 0 1 0 2 0v-6a1 1 0 0 0-1-1Zm-4-2a1 1 0 0 0-1 1v8a1 1 0 1 0 2 0V8a1 1 0 0 0-1-1Z"></path>
@@ -283,7 +284,7 @@ export default function Setting({ children }: { children: React.ReactNode }) {
       )}
 
       {(!isMobile || !mobile) && (
-        <main className="flex-1 min-h-screen">
+        <main className="flex-1 min-h-screen flex flex-col">
           {isMobile && !mobile && (
             <div className="flex">
                 <button className="flex items-center gap-1 px-4 py-3 border-b text-sm font-medium text-primary border-border hover:bg-ig-hover" onClick={() => router.push("/settings")}>
@@ -292,7 +293,10 @@ export default function Setting({ children }: { children: React.ReactNode }) {
                 <h2 className="text-xl mt-[8px] font-bold">{t("layout.mores.setting")}</h2>
             </div> 
           )}
-          <div className="max-w-2xl mx-auto">{children}</div>
+          <div className="max-w-2xl mx-auto w-[100%] flex-1">{children}</div>
+          <div className="pb-3 hidden md:block">
+            <SettingFooter/>
+          </div>
         </main>
       )}
     </div>

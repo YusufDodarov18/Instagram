@@ -99,7 +99,7 @@ export default function Story() {
   const hasStory = (user: any) => user.stories && user.stories.length > 0;
   return (
     <>
-      <div className="w-[100%] flex justify-around gap-3 relative group border-b border-border">
+      <div className="w-[100%] flex justify-start gap-3 relative group border-b border-border">
         {arrowLeft && (
           <button className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-card shadow-md border border-border items-center justify-center text-foreground/70 hover:text-foreground hover:shadow-lg transition-all cursor-pointer" onClick={() => handleScroll("left")}>
             <ChevronLeft className="w-5 h-5" />

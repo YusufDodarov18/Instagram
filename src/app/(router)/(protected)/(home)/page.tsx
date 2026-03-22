@@ -64,6 +64,7 @@ function page() {
                       <header className="max-w-[470px] w-[100%]">
                          <Story/>
                       </header>
+                      
                       <main className="flex justify-center flex-col gap-4 pr-0 md:pr-6">
                           {posts.length===0||loading?(
                             Array.from({length:5}).map((_,i)=>(
@@ -184,15 +185,17 @@ function page() {
              
             <Menu open={ openModal} onClose={()=>setOpenModal(false)} />
             <CommentModal 
-                        open={openModalComment}
-                       handleClose={()=>setOpenModalComment(false)} 
-                       post={idx}
+                  open={openModalComment}
+                  handleClose={()=>setOpenModalComment(false)} 
+                  post={idx}
               />
-            <SharePost 
+            {file&&(
+              <SharePost 
                 open={openShareModal} 
                 onClose={()=>setOpenShareModal(false)}
                 file={file}
-            />            
+               />    
+            )}        
         </>
     )
 }

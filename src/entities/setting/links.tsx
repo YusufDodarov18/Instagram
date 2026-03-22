@@ -1,0 +1,16 @@
+export const links = [
+      {name: "other.information",link: "https://l.instagram.com/?u=https%3A%2F%2Fabout.instagram.com%2F&e=AT6tUaQvjNjVoDNUq11cQDLGP02SbJhZ_mcLkMa8Slia64ohoAMQiyl3nX8TeUNjAQEccoFh3AdaI_Xzm1_324ijik8cVgtT2rD0VPhmlw&s=1"},
+      {name:  "other.meta",link: "https://l.instagram.com/?u=https%3A%2F%2Fabout.meta.com%2F&e=AT47pcKqTwXyGvFGXNN7DX6rRUGWxgeJeev5vKm2UAonNkrchOhFhKuH5fjT4egLWvayISQESEYosZNMEPowv8Mxu-2QUtgnnG1HMqUlIQ&s=1"},
+      {name: "other.blog",link: "https://l.instagram.com/?u=https%3A%2F%2Fabout.instagram.com%2Fblog%2F&e=AT5p0PWzEcJBtMHy_mavPmSCuONZjVC2F8uhDn6w8lUqz9OpfA4Tsoplg8pJcWtqRpnNCUdCE2PgUtQKZX7kozyWt1w7yxxujCTVia8aDQ&s=1"},
+      {name: "other.vacancy",link: "https://l.instagram.com/?u=https%3A%2F%2Fabout.instagram.com%2Fabout-us%2Fcareers&e=AT6mvY5KiuaOkpT2_2irSRdIY2ofWowZzNb3GaeGqvoAoBSCO6iciilBJ1NmU28cNQHVnnOf4ISORH3cWepeTALVwDtB5alNfuu53Kt3sw&s=1",},
+      {name: "other.help",link: "https://help.instagram.com/",},
+      {name: "other.api",link: "https://developers.facebook.com/docs/instagram-platform",},
+      {name: "other.confidentiality",link: "https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect",},
+      {name: "other.conditions",link: "https://help.instagram.com/581066165581870/",},
+      {name: "other.places",link: "https://www.instagram.com/explore/locations/",},
+      {name: "other.instagramLite",link: "https://www.instagram.com/web/lite/",},
+      {name: "other.meta",link: "l.instagram.com/?u=https%3A%2F%2Fwww.threads.com%2F&e=AT7sMIvqrJS5VO_DLl-l6-WbhbO9ID30gQ4dEB1YbztX7W9kX4QCWwnrI13nKvYRsG88ODSPuamE_LNoSQ9-1ZK5hPtT_A1Sc5x0scbhjQ&s=1",},
+      {name: "other.threads",link: "https://www.threads.com/",},
+      {name: "other.download",link: "https://www.facebook.com/help/instagram/261704639352628",},
+      {name: "other.metaVerified",link: "https://accountscenter.instagram.com/meta_verified/?entrypoint=web_footer"},
+  ];

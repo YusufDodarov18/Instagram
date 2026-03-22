@@ -11,6 +11,7 @@ import { useChats } from '@/app/store/pages/chats/chat'
 import { menu, stiker } from '@/app/widget/icons/svg'
 import DrawerInfo from '@/entities/chats/info/info'
 import Call from '@/entities/chats/callModal/call'
+import useVoiceRecorder from '@/shared/hooks/use-vois-recorder'
 
 export default function page({params}:{params:{'chat-by-id':string}}) {
   const {chatById,deleteChat,getChatById,loading,sendMessage,deleteMessage,getChats,chats}=useChats()
@@ -23,11 +24,15 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   const [open, setOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<null | number>(null)
   const [callModal,setCallModal]=useState(false)
+  const [audio,setAudio]=useState<string|null>(null)
   const router=useRouter()
+  const [recordTime, setRecordTime] = useState(0)
+  const timerRef = useRef<NodeJS.Timer | null>(null)
   const userChat=chats.find(c=>c.chatId.toString()===chatId)
   const {t}=useTranslation()
   const fileInputRef=useRef<HTMLInputElement|null>(null)
   const menuRef=useRef<null|HTMLDivElement>(null)
+  const {isRecording,startRecording,stopRecording}=useVoiceRecorder()
   
   useEffect(()=> {
       getChatById(chatId)
@@ -45,7 +50,7 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   const handleSendMessage=async()=>{
      if (!messageText.trim() && !file) return;
      const formData=new FormData()
-     formData.append("ChatId",String(chatId))
+     formData.append("ChatId",chatId)
      formData.append("MessageText",messageText||"")
      if(file){
       formData.append("File",file)
@@ -89,7 +94,7 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
   }
 
      function openCallModal(){
-      setCallModal(true)
+        setCallModal(true)
      }
 
 
@@ -118,10 +123,40 @@ export default function page({params}:{params:{'chat-by-id':string}}) {
     }
 }, [])
 
+const handleStartRecording = () => {
+  startRecording()
+  setRecordTime(0)
+  timerRef.current = setInterval(() => {
+    setRecordTime(prev => prev + 1)
+  }, 1000)
+}
+
+const handleStopRecording = async () => {
+  if(timerRef.current){
+    clearInterval(timerRef.current);
+  }
+  stopRecording(async(audioBlob) =>{
+    try {
+      const formData = new FormData()
+      formData.append("ChatId",chatId)
+      formData.append("MessageText", "")
+      formData.append("File", audioBlob, "voice.ogg")
+      await sendMessage(formData)
+    } catch (err) {
+      console.log(`Ошибка при отправке голоса: ${err}`)
+    }
+  })
+}
+      // useEffect(() => {
+      //   if(!userChat) {
+      //     router.push("/chats");
+      //   }
+      // },[userChat]);
+
 if(!userChat) return
      return (
        <>
-            <div className='flex h-[100%] flex-col bg-background mt-2 md:mt-0'>
+            <div className='flex h-[100%] flex-col mt-2 md:mt-0 bg-background'>
                  <div className='flex items-center gap-3 border-b border-ig-separator px-4 py-[10px]'>
                       <button
                           className="mr-1 p-1 hover:opacity-60 transition-opacity lg:hidden"
@@ -183,12 +218,28 @@ if(!userChat) return
                                                      />
                                                   )}
    
-                                                  <div className="flex flex-col items-center relative" >
-                                                       {chat.messageText&&!isFileName(chat.messageText)&&(
+                                                  <div className={`flex flex-col ${isMe ? "items-end" : "items-start"} relative`}>
+                                                       {chat.messageText&&(
                                                           <div className='flex gap-0.5 relative'>
-                                                               <div className={`px-4 py-2 text-sm rounded-2xl ${isMe ? "bg-blue-500 text-white dark:bg-[#4A5DF9] rounded-br-none" : "bg-gray-100 text-gray-900 dark:bg-[#25292E] dark:text-white rounded-bl-none"}`}>
-                                                                  {chat.messageText}
-                                                               </div>
+                                                               {!isFileName(chat.messageText)?(
+                                                                  <div className={`px-4 py-2 text-sm rounded-2xl ${isMe ? "bg-blue-500 text-white dark:bg-[#4A5DF9] rounded-br-none" : "bg-gray-100 text-gray-900 dark:bg-[#25292E] dark:text-white rounded-bl-none"}`}>
+                                                                     {chat.messageText}
+                                                                  </div>
+                                                               ): (
+                                                                 chat.messageText.endsWith(".mp4")||chat.messageText.endsWith(".webm")?(
+                                                                   <video 
+                                                                      src={`${API}/images/${chat.messageText}`} 
+                                                                      className="max-w-[250px] rounded-xl" 
+                                                                      controls 
+                                                                    />
+                                                                 ):(
+                                                                    <img 
+                                                                      src={`${API}/images/${chat.messageText}`} 
+                                                                      alt="message"
+                                                                      className="max-w-[250px] mt-1" 
+                                                                    />
+                                                                 )
+                                                               )}
                                                                <span onClick={(e)=>openMessageMenu(e,chat.messageId)}>{menu}</span>
                                                        
                                                                {selectedMessage === chat.messageId && (
@@ -222,12 +273,28 @@ if(!userChat) return
                                                        {chat.file &&(
                                                           <div className="mt-2 relative">
                                                               <div className="flex gap-1 items-start">
-                                                                    {chat.file.endsWith(".mp4")?(
-                                                                        <video src={`${API}/images/${chat.file}`} className='max-w-[250px] rounded-xl' controls />
-                                                                    ):(
-                                                                        <img src={`${API}/images/${chat.file}`} alt="file" className="max-w-[250px] rounded-xl" />
-                                                                    )}
-   
+                                                                    {chat.file&& (
+                                                                          chat.file.endsWith(".mp4") || chat.file.endsWith(".webm") ? (
+                                                                              <video 
+                                                                                  src={`${API}/images/${chat.file}`} 
+                                                                                  className="max-w-[250px] rounded-xl" 
+                                                                                  controls 
+                                                                              />
+                                                                          ): chat.file.endsWith(".ogg") || chat.file.endsWith(".mp3") ? (
+                                                                              <audio 
+                                                                                  src={`${API}/images/${chat.file}`} 
+                                                                                  controls 
+                                                                                  className="mt-2 max-w-[250px]"
+                                                                              />
+                                                                          ) :(
+                                                                              <img 
+                                                                                  src={`${API}/images/${chat.file}`} 
+                                                                                  alt="file" 
+                                                                                  className="max-w-[250px] rounded-xl"
+                                                                              />
+                                                                          )
+                                                                      )}
+
                                                                     <span onClick={(e)=>openMessageMenu(e,chat.messageId)}>{menu}</span>
                                                                    
                                                                      {selectedMessage === chat.messageId && (
@@ -311,8 +378,15 @@ if(!userChat) return
                                   <button onClick={handleSendMessage} className="text-[#6789f8] cursor-pointer font-semibold text-sm transition-colors">{t("send")}</button>
                               ):(
                                   <div className="flex items-center gap-3">
-                                          <button className="cursor-pointer">
-                                              <Mic className="h-6 w-6 text-foreground" />
+                                          <button 
+                                                className="flex cursor-pointer"
+                                                onMouseDown={handleStartRecording}
+                                                onMouseUp={handleStopRecording}
+                                              >
+                                                <Mic className={`h-6 w-6 ${isRecording ? 'text-[#3781f7] animate-pulse' : 'text-foreground'}`} />
+                                                {isRecording && (
+                                                  <span className="text-sm text-gray-500">{recordTime}s</span>
+                                                )}
                                           </button>
                                           <button className="cursor-pointer">
                                               <Image onClick={()=>fileInputRef.current?.click()} className="h-6 w-6 text-foreground" />

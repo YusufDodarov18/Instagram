@@ -14,7 +14,7 @@ export const usePosts = create<PostsStore>((set,get) => ({
     getPosts: async ()=>{
         try {
             set({loading:true})
-            const { data }=await axiosRequest.get(`/Post/get-posts?PageSize=10`)
+            const { data }=await axiosRequest.get(`/Post/get-posts?PageSize=90`)
             set({
                 posts:data?.data,
                 loading:false

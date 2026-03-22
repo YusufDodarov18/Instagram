@@ -37,12 +37,6 @@ export type CreatePostType = {
   uploadPost: () => Promise<void>;
 };
 
-export interface MenuCompProps {
-  anchorEl: HTMLElement | null;
-  open: boolean;
-  onClose: () => void;
-}
-
 export interface DrawerStoreType {
   datas: searchUser[];
   history: history[];
@@ -428,6 +422,7 @@ export interface chat {
   receiveUserId: string;
   receiveUserName: string;
   receiveUserImage: string;
+  lastMessage?: string;
 }
 
 export interface ChatsStore {
@@ -443,12 +438,6 @@ export interface ChatsStore {
   searchUsers:(userId:string)=>Promise<void>
   datas:searchUser[]
 }
-
-export interface formData {
-  ChatId: number;
-  MessageText: string;
-  File: string | null;
-}
 export interface chatById {
   userId: string;
   userName: string;
@@ -458,6 +447,12 @@ export interface chatById {
   messageText: string;
   sendMassageDate: string;
   file: string | null;
+}
+
+export interface formData {
+  ChatId: number;
+  MessageText: string;
+  File: string | null;
 }
 
 export interface story {
