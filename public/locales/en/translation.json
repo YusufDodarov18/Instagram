@@ -589,5 +589,13 @@
   "Creating a relevant": "Creating",
   "The title is relevant": "Title",
   "Nothing found": "Nothing found",
-  "More Users": "More accounts"
+  "More Users": "More accounts",
+  "lastSeen": {
+    "online": "Online",
+    "wasOnline": "last seen",
+    "minutesAgo": "{{count}} min. ago",
+    "hoursAgo": "{{count}} h. ago",
+    "daysAgo": "{{count}} d. ago",
+    "longAgo": "a long time ago"
+  }
 }
