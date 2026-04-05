@@ -12,6 +12,7 @@ import { menu, stiker } from '@/app/widget/icons/svg'
 import DrawerInfo from '@/entities/chats/info/info'
 import Call from '@/entities/chats/callModal/call'
 import useVoiceRecorder from '@/shared/hooks/use-vois-recorder'
+import { OnlineText } from '@/shared/hooks/use-onlineStatus'
 
 export default function page({params}:{params:{'chat-by-id':string}}) {
   const {chatById,deleteChat,getChatById,loading,sendMessage,deleteMessage,getChats,chats}=useChats()
@@ -177,7 +178,7 @@ if(!userChat) return
                       </div>
                       <div className="flex-1 min-w-0">
                             <h3 className="text-base cursor-pointer font-semibold text-foreground leading-tight" onClick={()=>router.push("/profile/"+isMyId)}>{isMyName}</h3>
-                            <p className="text-gray-500">{isMyName}</p>
+                            <OnlineText userId={isMyId??""} />
                       </div>
                       <div className='flex items-center gap-4'>
                           <button className='cursor-pointer' onClick={openCallModal}><Phone className="h-6 w-6 text-foreground" /></button>
