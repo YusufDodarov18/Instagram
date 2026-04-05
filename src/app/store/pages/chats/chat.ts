@@ -7,6 +7,19 @@ export const useChats=create<ChatsStore>((set,get)=>({
     loading:false,
     chatById:[],
     datas:[],
+    onlineUsers: {},
+  
+    setStatus: (userId, isOnline, lastSeen) =>
+      set((s) => ({
+          onlineUsers: {
+              ...s.onlineUsers,
+              [String(userId)]: { isOnline, lastSeen },
+          },
+      })),
+
+    isOnline: (userId) => !!get().onlineUsers[String(userId)]?.isOnline,
+
+    getLastSeen: (userId) => get().onlineUsers[String(userId)]?.lastSeen ?? null,
 
     getChats:async ()=>{
         try {
@@ -23,17 +36,17 @@ export const useChats=create<ChatsStore>((set,get)=>({
                         let message=messages.data.at(0)
                         let lastMsg=null
 
-                        if (message) {
-                            if (message.messageText) {
+                        if(message){
+                            if(message.messageText) {
                                 if(message.messageText.endsWith(".mp4")){
                                     lastMsg = "🎥 Sent a video";
-                                } else if (message.messageText.endsWith(".png") || message.messageText.endsWith(".jpg")) {
+                                } else if(message.messageText.endsWith(".png") || message.messageText.endsWith(".jpg")) {
                                     lastMsg = "📷 Sent a photo";
-                                } else {
+                                } else{
                                     lastMsg = message.messageText; 
                                 }
                             } else if (message.file) {
-                                if (Array.isArray(message.file)) {
+                                if(Array.isArray(message.file)) {
                                     const firstFile = message.file[0];
                                     if (firstFile.endsWith(".mp4") || firstFile.endsWith(".webm")) {
                                         lastMsg = "🎥 Sent a video";
@@ -43,11 +56,11 @@ export const useChats=create<ChatsStore>((set,get)=>({
                                         lastMsg = "📷 Sent a photo";
                                     }
                                 } else {
-                                    if (message.file.endsWith(".mp4") || message.file.endsWith(".webm")) {
+                                    if(message.file.endsWith(".mp4") || message.file.endsWith(".webm")) {
                                         lastMsg = "🎥 Sent a video";
-                                    } else if (message.file.endsWith(".ogg")) {
+                                    } else if(message.file.endsWith(".ogg")) {
                                         lastMsg = "🎤 Voice message";
-                                    } else {
+                                    }else{
                                         lastMsg = "📷 Sent a photo";
                                     }
                                 }
