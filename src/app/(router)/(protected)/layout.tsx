@@ -9,6 +9,7 @@ import Notification from "../../../entities/notification/notification";
 import BottomNavigation from "@/components/layout/bottom-navigation/bottom-navigation";
 import { useDrawerStore } from "@/app/store/search/search";
 import { useDrawerNotification } from "@/app/store/notification/notification";
+import { useOnlineStatus } from "@/shared/hooks/use-onlineStatus";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { isOpen } = useDrawerStore();
@@ -56,6 +57,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         return <SideBar>{children}</SideBar>;
     }
   };
+
+  useOnlineStatus();
 
   return (
     <>
