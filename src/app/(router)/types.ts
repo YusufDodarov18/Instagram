@@ -425,6 +425,11 @@ export interface chat {
   lastMessage?: string;
 }
 
+export interface OnlineUser {
+  isOnline: boolean;
+  lastSeen: string | null;
+}
+
 export interface ChatsStore {
   loading: boolean;
   chats: chat[];
@@ -432,11 +437,19 @@ export interface ChatsStore {
   chatById: chatById[];
   getChatById: (id: number) => Promise<void>;
   createChat: (id: string) => Promise<void>;
+  onlineUsers: Record<string, OnlineUser>;
+  setStatus: (
+    userId: string,
+    isOnline: boolean,
+    lastSeen: string | null,
+  ) => void;
+  isOnline: (userId: string | number) => boolean;
+  getLastSeen: (userId: string | number) => string | null;
   sendMessage: (formData: formData) => Promise<void>;
   deleteMessage: (chatId: number, messageId: string) => Promise<void>;
   deleteChat: (chatId: number) => Promise<void>;
-  searchUsers:(userId:string)=>Promise<void>
-  datas:searchUser[]
+  searchUsers: (userId: string) => Promise<void>;
+  datas: searchUser[];
 }
 export interface chatById {
   userId: string;
@@ -457,7 +470,7 @@ export interface formData {
 
 export interface story {
   id: number;
-  fileName: string|null;
+  fileName: string | null;
   postId: null;
   createAt: string;
   liked: boolean;
@@ -467,7 +480,7 @@ export interface story {
 export interface stories {
   userId: string;
   userName: string;
-  userImage: string|null;
+  userImage: string | null;
   stories: story[];
 }
 
@@ -499,7 +512,7 @@ export interface UseStoriesStore {
   addStory: (file: File) => Promise<void>;
   addStoriesPost: (postId: number) => Promise<void>;
   deleteStory: (id: number) => Promise<void>;
-  getMyStories:()=>Promise<void>
+  getMyStories: () => Promise<void>;
   addStoryView: (storyId: number) => Promise<void>;
 }
 
