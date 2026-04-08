@@ -60,8 +60,8 @@ function page() {
   return (
         <>
              <section className="flex justify-between py-0 md:justify-center pb-20 md:py-10">
-                  <section className="flex flex-col gap-10 px-5 w-full">
-                      <header className="max-w-[470px] w-[100%]">
+                  <section className="flex flex-col gap-10 px-5 w-[100%] md:max-w-[520px] max-w-[100%]">
+                      <header className="max-w-[470px] md:w-[470px] w-[100%]">
                          <Story/>
                       </header>
                       
@@ -74,7 +74,7 @@ function page() {
                           :posts.map((el)=>{
                               const isFollowing=subscribtions?.includes(el?.userId)
                                   return (
-                                     <div className="w-[100%] sm:w-[470px]">
+                                     <div className="w-[100%] md:w-[470px]">
                                        <header className="flex justify-between gap-1">
                                            <div>
                                              <div className="flex gap-2 items-center">
@@ -101,8 +101,8 @@ function page() {
                                            </div>
                                        </header>
    
-                                     <main className="w-full mt-2 relative">
-                                         <div className="relative w-full overflow-hidden">
+                                     <main className="w-[100%] mt-2 relative">
+                                         <div className="relative w-[100%] overflow-hidden">
                                            <InstaSlider images={el?.images} />
                                          </div>
                                        </main>
