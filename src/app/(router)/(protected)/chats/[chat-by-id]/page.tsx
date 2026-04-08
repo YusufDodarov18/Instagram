@@ -1,7 +1,7 @@
 'use client'
 import { API } from '@/shared/utils/config'
 import { ArrowLeft, Copy, Download, Heart, Image, Info, Mic, Phone, Share2, Trash, Video } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import profile from '../../profile/profil-removebg-preview.png'
 import { useTranslation } from 'react-i18next'
@@ -14,8 +14,9 @@ import Call from '@/entities/chats/callModal/call'
 import useVoiceRecorder from '@/shared/hooks/use-vois-recorder'
 import { OnlineText } from '@/shared/hooks/use-onlineStatus'
 
-export default function page({params}:{params:{'chat-by-id':string}}) {
+export default function page() {
   const {chatById,deleteChat,getChatById,loading,sendMessage,deleteMessage,getChats,chats}=useChats()
+  const params = useParams()
   const chatId = params['chat-by-id']
   const myId=getToken()?.sid
   const [file,setFile]=useState<File|null>(null)
