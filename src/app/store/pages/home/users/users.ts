@@ -6,32 +6,35 @@ export const useUser = create<getUsersType>((set, get) => ({
   users: [],
   loading: false,
   subscribers: [],
+  subscriptions: [],
 
   getUsers: async () => {
     try {
       set({ loading: true });
       const { data } = await axiosRequest.get(`/User/get-users?PageSize=${10}`);
-      set(() => ({ users: data.data, loading: false }));
+      set({ users: data.data, loading: false });
     } catch (error) {
       console.error(error);
     }
   },
 
-  deleteUser: async (userId) => {
-    try {
-      await axiosRequest.delete(`/User/delete-user?userId=${userId}`);
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
   getSubscribers: async (userId) => {
     try {
-      set({ loading: true });
       const { data } = await axiosRequest.get(
         `/FollowingRelationShip/get-subscribers?UserId=${userId}`,
       );
-      set({ loading: false, subscribers: data.data });
+      set({ subscribers: data.data });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  getSubscriptions: async (userId) => {
+    try {
+      const { data } = await axiosRequest.get(
+        `/FollowingRelationShip/get-subscriptions?UserId=${userId}`,
+      );
+      set({ subscriptions: data.data });
     } catch (error) {
       console.error(error);
     }
@@ -43,14 +46,13 @@ export const useUser = create<getUsersType>((set, get) => ({
         `/FollowingRelationShip/add-following-relation-ship?followingUserId=${followingUserId}`,
       );
       set((state) => ({
-        subscribers: [
-          ...state.subscribers,
-          { userShortInfo: { userId: followingUserId } },
+        subscriptions: [
+          ...state.subscriptions,
+          { id: Date.now(), userShortInfo: { userId: followingUserId } },
         ],
       }));
     } catch (error) {
       console.error(error);
-      // throw new Error("Error to follow by user!");
     }
   },
 
@@ -60,10 +62,19 @@ export const useUser = create<getUsersType>((set, get) => ({
         `/FollowingRelationShip/delete-following-relation-ship?followingUserId=${followingUserId}`,
       );
       set((state) => ({
-        subscribers: state.subscribers.filter(
+        subscriptions: state.subscriptions.filter(
           (user) => user.userShortInfo.userId !== followingUserId,
         ),
       }));
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  deleteUser: async (userId) => {
+    try {
+      await axiosRequest.delete(`/User/delete-user?userId=${userId}`);
+      get().getUsers();
     } catch (error) {
       console.error(error);
     }
