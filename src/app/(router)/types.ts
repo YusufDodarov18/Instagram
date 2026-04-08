@@ -74,6 +74,7 @@ export interface getUserType {
   date?: string;
 }
 
+
 export interface getUsersType {
   users: getUserType[];
   getUsers: () => Promise<void>;
@@ -83,6 +84,8 @@ export interface getUsersType {
   getSubscribers: (userId: string) => Promise<void>;
   addFollowing: (followingUserId: string) => Promise<void>;
   unFollowing: (followingUserId: string) => Promise<void>;
+  subscriptions: getUserShortInfo[];
+  getSubscriptions: (userId: string) => Promise<void>;
 }
 
 export interface getUserShortInfo {
