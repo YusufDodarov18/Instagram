@@ -23,6 +23,7 @@ function FollowersById({
   onClose: () => void;
 }) {
   const { followers, followings, followersLoading } = useProfileById();
+  const { getMyFollowing, myFollowing } = useProfile();
   const [search, setSearch] = useState("");
   const [decode, setDecode] = useState<DecodedToken | null>(null);
   const [subscribed, setSubscribed] = useState<MyFollowers[]>([]);
@@ -44,9 +45,15 @@ function FollowersById({
   }, []);
 
   useEffect(() => {
+    if (open && decode) {
+      getMyFollowing(decode?.sid);
+    }
+  }, [open, decode]);
+
+  useEffect(() => {
     if (open && followers) {
       const followingId = new Set(
-        followings.map((f) => f.userShortInfo.userId),
+        myFollowing?.map((f) => f.userShortInfo?.userId),
       );
       setSubscribed(
         followers.map((follower) => ({
@@ -55,7 +62,7 @@ function FollowersById({
         })),
       );
     }
-  }, [open, followers, followings]);
+  }, [open, followers, myFollowing]);
 
   const toggleFollow = async (
     userId: string,
@@ -76,6 +83,7 @@ function FollowersById({
       } else {
         await addFollowing(userId, decode?.sid);
       }
+      await getMyFollowing(decode.sid);
     } catch (error) {
       console.error("Ошибка при смене подписки:", error);
     }
