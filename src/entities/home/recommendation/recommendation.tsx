@@ -12,23 +12,28 @@ import { useUser } from '@/app/store/pages/home/users/users'
 
 export const Recommendation = () => {
     const {myProfile,loading}=useProfile()
-    const {getUsers,users,addFollowing,subscribers,unFollowing,getSubscribers}=useUser()
+    const {getUsers,users,addFollowing,subscribers, subscriptions,getSubscriptions,unFollowing,getSubscribers}=useUser()
     const [openModal,setOpenModal]=useState(false)
     const [isLoading,setIsloading]=useState(false)
     const {t}=useTranslation()
     const myId=getToken()?.sid
     
+    // console.log("myId:", myId);
+    // console.log("token:", getToken());
+    // console.log(subscriptions);
+
     useEffect(()=> {
         async function getData(){
              if(!myId) return
              setIsloading(true)
-             await getUsers().then(() => getSubscribers(myId)).finally(() => setIsloading(false))
+             await getUsers()
              setIsloading(false)
+             await getSubscriptions(myId);
          }
          getData()
     },[getUsers,myId])
 
-    const isFollowing=(id:string)=>subscribers.some(user=>user.userShortInfo.userId==id)
+    const isFollowing=(id:string)=>subscriptions.some(user => user.userShortInfo.userId == id)
     
     const handleFollow = async (id: string) => {
         if(!myId) return
