@@ -27,12 +27,9 @@ export default function FollowingById({
   const [decode, setDecode] = useState<DecodedToken | null>(null);
   const [search, setSearch] = useState("");
   const { t } = useTranslation();
-  const {
-    followingLoading,
-    followings,
-    loading,
-  } = useProfileById();
-  const { addFollowing, unFollowing } = useProfile();
+  const { followingLoading, followings } = useProfileById();
+  const { addFollowing, unFollowing, myFollowing, getMyFollowing } =
+    useProfile();
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -47,15 +44,24 @@ export default function FollowingById({
   }, []);
 
   useEffect(() => {
-    if (open) {
+    if (open && decode) {
+      getMyFollowing(decode.sid);
+    }
+  }, [open, decode]);
+
+  useEffect(() => {
+    if (open && followings) {
+      const myFollowingIds = new Set(
+        myFollowing?.map((f) => f.userShortInfo?.userId),
+      );
       setSubscribers(
-        followings?.map((user) => ({
+        followings.map((user) => ({
           ...user,
-          isFollowing: true,
+          isFollowing: myFollowingIds.has(user.userShortInfo.userId),
         })),
       );
     }
-  }, [open, followings]);
+  }, [open, followings, myFollowing]);
 
   const toggleFollow = async (
     userId: string,
@@ -76,6 +82,7 @@ export default function FollowingById({
       } else {
         await addFollowing(userId, decode.sid);
       }
+      await getMyFollowing(decode?.sid);
     } catch (e) {
       console.error(e);
     }
