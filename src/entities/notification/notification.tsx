@@ -24,7 +24,16 @@ export default function Notification() {
     notificationDrawer,
     toggleDrawerNotification,
   } = useDrawerNotification();
-  const { getUsers, deleteUser, users, loading } = useUser();
+  const {
+    getUsers,
+    deleteUser,
+    users,
+    loading,
+    unFollowing,
+    addFollowing,
+    subscriptions,
+    getSubscriptions,
+  } = useUser();
   const [followeds, setFolloweds] = useState([]);
   const { t } = useTranslation();
   const [decode, setDecode] = useState(null);
@@ -33,9 +42,21 @@ export default function Notification() {
   useEffect(() => {
     if (notificationDrawer) {
       getUsers();
+      getSubscriptions(myId);
     }
   }, [notificationDrawer]);
   const { theme } = useTheme();
+
+  const handleFollow = async (id: string) => {
+    const isFollowed = subscriptions.some(
+      (elem) => elem.userShortInfo.userId === id,
+    );
+    if (isFollowed) {
+      await unFollowing(id);
+    } else {
+      await addFollowing(id);
+    }
+  };
 
   const DrawerList = (
     <Box sx={{ width: 400 }} role="presentation">
@@ -129,16 +150,34 @@ export default function Notification() {
                       variant="contained"
                       color="primary"
                       size="small"
+                      onClick={() => handleFollow(notif.id)}
                       sx={{
                         textTransform: "none",
-                        bgcolor: "rgb(74, 93, 249)",
+                        bgcolor: subscriptions.some(
+                          (u) => u.userShortInfo.userId === notif.id,
+                        )
+                          ? theme == "dark"
+                            ? "#25292E"
+                            : "#F0f2F5"
+                          : "rgb(74, 93, 249)",
+                        color: subscriptions.some(
+                          (u) => u.userShortInfo.userId === notif.id,
+                        )
+                          ? theme === "dark"
+                            ? "white"
+                            : "black"
+                          : "white",
                         px: 1,
                         py: 0.5,
                         fontSize: "0.75rem",
                         textAlign: "center",
                       }}
                     >
-                      {t("Subscribe in response")}
+                      {subscriptions.some(
+                        (user) => user.userShortInfo.userId === notif.id,
+                      )
+                        ? t("Subscriptions")
+                        : t("Subscribe in response")}
                     </Button>
                   </Box>
                 </ListItem>
